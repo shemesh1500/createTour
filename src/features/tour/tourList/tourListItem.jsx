@@ -39,7 +39,8 @@ class tourListItem extends Component {
                       </List>
                     </Segment>
                     <Segment clearing>
-                      <Button as="a" color="teal" floated="right" content="View" />
+                      <Button onClick={() => this.props.selectTour(tour)} as="a" color="teal" floated="right" content="View" />
+                      <Button onClick={() => this.props.deleteTour(tour.id)} as="a" color="red" floated="right" content="Delete" />
                     </Segment>
                   </Segment.Group>
         )

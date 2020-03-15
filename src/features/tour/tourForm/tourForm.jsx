@@ -18,11 +18,23 @@ class tourForm extends Component {
     stops:[],
   }  
 
+  componentDidMount(){
+    if(this.props.selectedTour !== null){
+      this.setState({
+        ...this.props.selectedTour
+      })
+    }
+  }
+
   handleFormSubmit = evt =>{
     evt.preventDefault();
-    this.props.createTour(this.state)
+    if (this.state.id){
+      this.props.updateTour(this.state)
+    }else{
+      this.props.createTour(this.state)
+    }
   };
-
+  
   handleForm = (evt) =>{
     this.setState({
       [evt.target.name]:evt.target.value
@@ -90,7 +102,7 @@ class tourForm extends Component {
                      <Button positive type="submit">
                        Submit
                      </Button>
-                     <Button type="button">Cancel</Button>
+                     <Button onClick={this.props.cancelFormOpen} type="button">Cancel</Button>
                    </Form>
                  </Segment>
         )
