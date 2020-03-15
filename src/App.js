@@ -1,11 +1,17 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+import TourDashboard from './features/tour/tourDashboard/TourDashboard';
+import NavBar from './features/nav/navBar/NavBar';
+import { Container } from 'semantic-ui-react';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h1>Create Tour</h1>
-      </div>
+      <Fragment>
+        <NavBar />
+        <Container className='main'>
+          <TourDashboard  />
+        </Container>
+      </Fragment>
     );
   } 
 }
