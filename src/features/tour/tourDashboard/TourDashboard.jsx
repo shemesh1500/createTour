@@ -1,67 +1,26 @@
 import React, { Component } from 'react'
-import { Grid, Button } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
+import {connect} from 'react-redux';
 import TourList from '../tourList/tourList';
-import TourForm from '../tourForm/tourForm';
+import {createTour, updateTour, deleteTour} from '../tourAction';
 import cuid from 'cuid';
-import demoData from './demoData';
 
+const mapState = (state) => ({
+    tours : state.tours
+})
+
+const actions = {
+    createTour,
+    updateTour,
+    deleteTour
+}
 
 class TourDashboard extends Component {
     
-    state = {
-        tours: demoData,
-        isOpen : false,
-        selectedTour: null
-    }
+
     
-    // setOpen = () => {
-    //     this.setState(({isOpen}) => ({
-    //         isOpen : !isOpen
-    //     }))
-    // }
-    handleCreateFormOpen = () => {
-        this.setState({
-            isOpen : true,
-            selectedTour : null
-        })
-    }
-
-    handleFormCancle = () =>{
-        this.setState({
-            isOpen:false
-        })
-    }
-
-    handleCreateTour = (newTour) => {
-        newTour.id = cuid();
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        newTour.c_date = date+' '+time;
-        this.setState(({tours}) => ({
-            tours:[...tours, newTour],
-            isOpen:false
-        }))
-    }
-
-    handaleUpdateTour = (updatedTour) =>{
-        this.setState(({tours}) => ({
-            tours: tours.map(tour => {
-                if (tour.id === updatedTour.id){
-                    return {...updatedTour} 
-                } else {
-                    return tour
-                }
-            }),
-            isOpen : false,
-            selectedTour : null
-        }))
-    }
-
     handleDeleteTour = (id) =>{
-        this.setState(({tours}) => ({
-          tours : tours.filter(t => t.id !== id)
-        }))
+        this.props.deleteTour(id)
       }
     
     handleSelectTour = (tour) => {
@@ -75,21 +34,15 @@ class TourDashboard extends Component {
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <TourList tours={this.state.tours} 
-                              selectTour={this.handleSelectTour}
+                    <TourList tours={this.props.tours} 
                               deleteTour={this.handleDeleteTour}/>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <Button positive content='Create Tour' onClick={this.handleCreateFormOpen}></Button>
-                    {this.state.isOpen && <TourForm key={this.state.selectedTour ? this.state.selectedTour.id : 0}
-                                                    createTour={this.handleCreateTour} 
-                                                    cancelFormOpen={this.handleFormCancle}
-                                                    selectedTour={this.state.selectedTour}
-                                                    updateTour={this.handaleUpdateTour}/> }
+                    
                 </Grid.Column>
             </Grid>
         )
     }
 }
 
-export default TourDashboard;
+export default connect(mapState, actions)(TourDashboard);

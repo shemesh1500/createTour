@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Segment, List, Icon, Item } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class tourListItem extends Component {
     render() {
@@ -39,8 +40,17 @@ class tourListItem extends Component {
                       </List>
                     </Segment>
                     <Segment clearing>
-                      <Button onClick={() => this.props.selectTour(tour)} as="a" color="teal" floated="right" content="View" />
-                      <Button onClick={() => this.props.deleteTour(tour.id)} as="a" color="red" floated="right" content="Delete" />
+                      <Button onClick={() => this.props.deleteTour(tour.id)} 
+                              as="a" 
+                              color="red" 
+                              floated="right" 
+                              content="Delete" />
+                      <Button  
+                              as={Link}
+                              to={`/tours/${tour.id}`} 
+                              color="teal" 
+                              floated="right" 
+                              content="View" />
                     </Segment>
                   </Segment.Group>
         )

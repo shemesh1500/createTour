@@ -8,8 +8,7 @@ class tourList extends Component {
                 {this.props.tours.map(tour => (
                     <TourListItem 
                       key={tour.id} 
-                      tour={tour} 
-                      selectTour={this.props.selectTour} 
+                      tour={tour}  
                       deleteTour={this.props.deleteTour}/>
                 ))}
             </Fragment>

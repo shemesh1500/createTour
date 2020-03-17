@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux';
 import { Button, Form, Segment, Checkbox, TextArea } from 'semantic-ui-react';
+import { createTour, updateTour} from '../tourAction';
+import cuid from 'cuid';
 
-class tourForm extends Component {
-  state = {
+
+const mapState = (state, ownProps) => {
+  const tourId = ownProps.match.params.id;
+
+  let tour = {
     id:'',
     title:'',
     language: '',
@@ -15,8 +21,26 @@ class tourForm extends Component {
     description:'',
     city: '',
     theGuide: '',
-    stops:[],
-  }  
+    profile_pic:'',
+    stops:[]
+  }
+
+  if( tourId && state.tours.length > 0){
+    tour = state.tours.filter(tour => tour.id === tourId)[0]
+  }
+
+  return {
+    tour
+  }
+}
+
+const actions = {
+  createTour,
+  updateTour
+}
+
+class tourForm extends Component {
+  state = {...this.props.tour}
 
   componentDidMount(){
     if(this.props.selectedTour !== null){
@@ -30,8 +54,20 @@ class tourForm extends Component {
     evt.preventDefault();
     if (this.state.id){
       this.props.updateTour(this.state)
+      this.props.history.push(`/tours/${this.state.id}`)
     }else{
-      this.props.createTour(this.state)
+      //update the creation date to current
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const newTour = {
+        ...this.state,
+        id:cuid(),
+        profile_pic: '/assets/user.png',
+        c_date : date+' '+time
+      }
+      this.props.createTour(newTour);
+      this.props.history.push(`/tours/${newTour.id}`);
     }
   };
   
@@ -94,19 +130,19 @@ class tourForm extends Component {
                      </Form.Field>
                      <Form.Field>
                        <label>City</label>
-                       <input name='description'
+                       <input name='city'
                         onChange={this.handleForm} 
-                        value={this.state.description}
+                        value={this.state.city}
                         placeholder="City event is taking place" />
                      </Form.Field>
                      <Button positive type="submit">
                        Submit
                      </Button>
-                     <Button onClick={this.props.cancelFormOpen} type="button">Cancel</Button>
+                     <Button onClick={this.props.history.goBack} type="button">Cancel</Button>
                    </Form>
                  </Segment>
         )
     }
 }
 
-export default tourForm;
+export default connect(mapState, actions)(tourForm);
