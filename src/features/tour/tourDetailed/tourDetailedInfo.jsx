@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Grid, Icon, Segment, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { format } from 'date-fns'
 
 const tourDetailedInfo = ({ tour }) => {
     return (
@@ -32,7 +33,7 @@ const tourDetailedInfo = ({ tour }) => {
                         <Popup content='Recommended hours' trigger={<Icon size="large" color="teal" name="clock outline" />} />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>{tour.rec_start_h} - {tour.rec_end_h}</p>
+                        <p>{tour.rec_start_h && format(tour.rec_start_h, 'h:mm a')} - {tour.rec_end_h && format(tour.rec_end_h, 'h:mm a')}</p>
                     </Grid.Column>
                 </Grid>
             </Segment>

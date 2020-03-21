@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Segment, List, Icon, Item } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 class tourListItem extends Component {
     render() {
@@ -21,15 +22,17 @@ class tourListItem extends Component {
                       </Item.Group>
                     </Segment>
                     <Segment>
+                      <Item.Group>
                       <List horizontal>
-                       {tour.audience.map((aud,i) => (
-                          <List.Item key={i} >{aud}</List.Item> 
-                       ))}
+                      {tour.audience.map((aud,i) => (
+                          <Item key={i} >{aud}</Item> 
+                      ))}
                       </List>
+                      </Item.Group>
                     </Segment>
                     <Segment>
                       <span>
-                        <Icon name="clock" /> {tour.rec_start_h} - {tour.rec_end_h} |
+                        <Icon name="clock" /> {tour.rec_start_h && format(tour.rec_start_h, 'h:mm a') } - {tour.rec_end_h && format(tour.rec_end_h, 'h:mm a') } |
                         <Icon name="marker" /> {tour.city} | 
                         <Icon name="marker" /> Num of stops: {tour.stops.length}
                       </span>

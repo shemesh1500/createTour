@@ -3,7 +3,6 @@ import { Grid } from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import TourList from '../tourList/tourList';
 import {createTour, updateTour, deleteTour} from '../tourAction';
-import cuid from 'cuid';
 
 const mapState = (state) => ({
     tours : state.tours
