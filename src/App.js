@@ -7,11 +7,13 @@ import homePage from './features/home/homePage';
 import tourForm from './features/tour/tourForm/tourForm';
 import TestComponent from './features/testerea/testComponent';
 import TourDetailedPage from './features/tour/tourDetailed/tourDetailedPage';
+import ModalManager from './features/modals/modalManager';
 
 class App extends Component {
   render() {
     return (
       <Fragment>
+        <ModalManager />
         <Route exact path='/' component={homePage} />
         <Route path='/(.+)' render={() => (
              <Fragment>

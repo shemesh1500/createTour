@@ -1,3 +1,4 @@
+/*global google*/
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
@@ -9,7 +10,8 @@ import TextAreaInput from '../../../app/common/form/textAreaInput';
 import CheckboxInput from '../../../app/common/form/checkboxInput';
 import DateInput from '../../../app/common/form/dateInput';
 import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan } from 'revalidate';
-
+import PlaceInput from '../../../app/common/form/placeInput';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 
 const mapState = (state, ownProps) => {
@@ -45,15 +47,20 @@ const validate = combineValidators({
     isRequired({ message: 'The tour "Description" is required' }),
     hasLengthGreaterThan(5)({ message: 'Description must have at least 5 chars' })
   )(),
-  city: isRequired({ message: 'The tour "City" is required' }),
   Address: isRequired('Starting point tour'),
   rec_start_h: isRequired('Starting hour'),
   rec_end_h: isRequired('Until hour'),
-
+  city: isRequired({ message: 'The tour "City" is required' }),
+  street: isRequired('Street'),
+  house_number: isRequired('House number'),
 })
 
 
 class tourForm extends Component {
+
+  state = {
+    cityLatlng: {}
+  }
 
   onFormSubmit = values => {
     if (this.props.initialValues.id) {
@@ -64,9 +71,11 @@ class tourForm extends Component {
       var today = new Date();
       var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      console.log("audience", this.props.initialValues.audience)
       var audience = this.props.initialValues.audience;
       const newTour = {
         ...values,
+        address_lanlng: this.state.cityLanlng,
         id: cuid(),
         audience,
         profile_pic: '/assets/user.png',
@@ -90,8 +99,26 @@ class tourForm extends Component {
     }
   }
 
+  handleCitySelect = (selctedCity) => {
+    geocodeByAddress(selctedCity)
+      .then(result => getLatLng(result[0]))
+      .then(latlng => this.setState({
+        cityLatlng: latlng
+      }))
+      .then(() => this.props.change('city', selctedCity))
+  }
+
+  handleSelect = (selctedCity) => {
+    geocodeByAddress(selctedCity)
+      .then(result => getLatLng(result[0]))
+      .then(latlng => this.setState({
+        cityLatlng: latlng
+      }))
+      .then(() => this.props.change('city', selctedCity))
+  }
+
   render() {
-    const { submitting, pristine, invalide } = this.props;
+    const { invalid, submitting, pristine } = this.props;
     let singles;
     let couples;
     let Kfriendly;
@@ -104,7 +131,7 @@ class tourForm extends Component {
       Above18 = this.props.initialValues.audience.indexOf('Above 18') > -1 ? 'defaultChecked' : null;
       Pfriendly = this.props.initialValues.audience.indexOf('Pet friendly') > -1 ? 'defaultChecked' : null;
     }
-
+    console.log("state r", this.state.cityLatlng)
     return (
       <Segment>
         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
@@ -112,6 +139,32 @@ class tourForm extends Component {
           <Field name="title" component={TextInput} placeholder="Tour title" />
           <Field name="language" component={TextInput} placeholder="Language of the tour" />
           <Header sub color='teal' content="Recommended hours to take that tour" />
+
+          <Field name="main_sentense" component={TextInput} placeholder="Kicking sentence about your tour" />
+          <Field name="description" component={TextAreaInput} placeholder="Tell us more, what to expect?" rows={3} />
+          <Field
+            name="city"
+            component={PlaceInput}
+            options={{ types: ['(cities)'] }}
+            placeholder="City"
+            onSelect={this.handleCitySelect} />
+          <Field
+            name="street"
+            options={{
+              location: new google.maps.LatLng(this.state.cityLatlng),
+              radius: 1000,
+              types: ['address'],
+            }}
+            component={PlaceInput}
+            //onSelect={this.handleCitySelect}
+            placeholder="Street"
+          />
+          <Field
+            name="house_number"
+            component={TextInput}
+            placeholder="Address number"
+            required
+          />
           <Field name="rec_start_h" component={DateInput} placeholder="From..."
             showTimeSelect
             showTimeSelectOnly
@@ -134,10 +187,7 @@ class tourForm extends Component {
             <Field name='Above 18' component={CheckboxInput} label='Above 18' defaultChecked={Above18} onChange={this.onChecked} />
             <Field name='Pet friendly' component={CheckboxInput} label='Pet friendly' defaultChecked={Pfriendly} onChange={this.onChecked} />
           </Form.Field>
-          <Field name="main_sentense" component={TextInput} placeholder="Kicking sentence about your tour" />
-          <Field name="description" component={TextAreaInput} placeholder="Tell us more, what to expect?" rows={3} />
-          <Field name="Address" component={TextInput} placeholder="Where do you take us today?" />
-          <Button disable={invalide || submitting || pristine} positive type="submit">
+          <Button disabled={invalid || submitting || pristine} positive type="submit">
             Submit
           </Button>
           <Button onClick={this.props.initialValues.id
