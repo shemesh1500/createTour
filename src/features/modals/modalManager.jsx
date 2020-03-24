@@ -18,7 +18,6 @@ const modalManager = ({currentModel}) => {
     let renderdModal; 
 
     if (currentModel) {
-        console.log(currentModel);
         const {modalType, modalProps} = currentModel;
         const ModalCompomamet = modalLookup[modalType]
 

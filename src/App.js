@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import TourDashboard from './features/tour/tourDashboard/TourDashboard';
 import NavBar from './features/nav/navBar/NavBar';
 import { Container } from 'semantic-ui-react';
@@ -8,6 +8,7 @@ import tourForm from './features/tour/tourForm/tourForm';
 import TestComponent from './features/testerea/testComponent';
 import TourDetailedPage from './features/tour/tourDetailed/tourDetailedPage';
 import ModalManager from './features/modals/modalManager';
+import AcountPage from './features/user/AcountPage';
 
 class App extends Component {
   render() {
@@ -16,22 +17,23 @@ class App extends Component {
         <ModalManager />
         <Route exact path='/' component={homePage} />
         <Route path='/(.+)' render={() => (
-             <Fragment>
-              <NavBar />
-              <Container className='main'>
-                <Switch key={this.props.location.key}>  
-                  <Route exact path='/tours' component={TourDashboard} />
-                  <Route path='/tours/:id' component={TourDetailedPage} />
-                  <Route path={['/createTour', '/manage/:id']} component={tourForm} />
-                  <Route path='/test' component={TestComponent} />
-                </Switch> 
-              </Container>
-            </Fragment>
-          )}
+          <Fragment>
+            <NavBar />
+            <Container className='main'>
+              <Switch key={this.props.location.key}>
+                <Route exact path='/tours' component={TourDashboard} />
+                <Route path='/tours/:id' component={TourDetailedPage} />
+                <Route path={['/createTour', '/manage/:id']} component={tourForm} />
+                <Route path={'/user'} component={AcountPage} />
+                <Route path='/test' component={TestComponent} />
+              </Switch>
+            </Container>
+          </Fragment>
+        )}
         />
       </Fragment>
     );
-  } 
+  }
 }
 
 export default withRouter(App);

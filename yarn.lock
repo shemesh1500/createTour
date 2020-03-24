@@ -1687,7 +1687,7 @@
     date-fns "^2.0.1"
     popper.js "^1.14.1"
 
-"@types/react-redux-toastr@^7.4.1":
+"@types/react-redux-toastr@^7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@types/react-redux-toastr/-/react-redux-toastr-7.6.0.tgz#ab4190df509515928e9d8d0da685a0ba3b4a3e70"
   integrity sha512-x3xue0nQl4JGbgtMAldv3zvBz7Wc6gnpazKcK1t8eLjLWszs6QOoVO+ayZIRqsLC8Bakg+Vrkryn2pO5WFV7Xg==

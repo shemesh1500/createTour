@@ -5,7 +5,7 @@ class tourList extends Component {
     render() {
         return (
             <Fragment>
-                {this.props.tours.map(tour => (
+                {this.props.tours && this.props.tours.map(tour => (
                     <TourListItem 
                       key={tour.id} 
                       tour={tour}  
