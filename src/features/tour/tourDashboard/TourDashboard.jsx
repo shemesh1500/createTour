@@ -9,7 +9,6 @@ import { firestoreConnect } from 'react-redux-firebase';
 const mapState = (state) => ({
     tours: state.tours,
     loading: state.async.loading
-
 })
 
 const actions = {

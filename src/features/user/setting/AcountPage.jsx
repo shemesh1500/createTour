@@ -1,9 +1,9 @@
 import React from 'react';
 import { Segment, Header, Form, Divider, Label, Button, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import TextInput from '../../app/common/form/textInput';
+import TextInput from '../../../app/common/form/textInput';
 import { combineValidators, matchesField, isRequired, composeValidators } from 'revalidate';
-import { updatePassword } from '../auth/authActions';
+import { updatePassword } from '../../auth/authActions';
 import { connect } from 'react-redux';
 
 const actions = {

@@ -118,6 +118,7 @@ class tourForm extends Component {
   }
 
   render() {
+    console.log("TOUR", this.props.initialValues)
     const { invalid, submitting, pristine } = this.props;
     let singles;
     let couples;
@@ -131,7 +132,6 @@ class tourForm extends Component {
       Above18 = this.props.initialValues.audience.indexOf('Above 18') > -1 ? 'defaultChecked' : null;
       Pfriendly = this.props.initialValues.audience.indexOf('Pet friendly') > -1 ? 'defaultChecked' : null;
     }
-    console.log("state r", this.state.cityLatlng)
     return (
       <Segment>
         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>

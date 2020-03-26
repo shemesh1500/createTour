@@ -45,7 +45,6 @@ class NavBar extends Component {
           <Menu.Item as={NavLink} exact to='/tours' name="tours" />
           {authenticated &&
             <Fragment>
-              <Menu.Item as={NavLink} to='/user' name='user' />
               <Menu.Item as={NavLink} to='/test' name="test" />
               <Menu.Item>
                 <Button as={Link} to='/createTour' floated="right" positive inverted content="Create Event" />

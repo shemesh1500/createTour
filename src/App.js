@@ -8,7 +8,7 @@ import tourForm from './features/tour/tourForm/tourForm';
 import TestComponent from './features/testerea/testComponent';
 import TourDetailedPage from './features/tour/tourDetailed/tourDetailedPage';
 import ModalManager from './features/modals/modalManager';
-import AcountPage from './features/user/AcountPage';
+import SettingDashboard from './features/user/setting/SettingDashboard'
 
 class App extends Component {
   render() {
@@ -23,8 +23,8 @@ class App extends Component {
               <Switch key={this.props.location.key}>
                 <Route exact path='/tours' component={TourDashboard} />
                 <Route path='/tours/:id' component={TourDetailedPage} />
+                <Route path='/settings' component={SettingDashboard} />
                 <Route path={['/createTour', '/manage/:id']} component={tourForm} />
-                <Route path={'/user'} component={AcountPage} />
                 <Route path='/test' component={TestComponent} />
               </Switch>
             </Container>
