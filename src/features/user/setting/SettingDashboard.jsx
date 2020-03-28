@@ -7,7 +7,8 @@ import AboutPage from './AboutPage'
 import AcountPage from './AcountPage'
 import { updatePassword } from '../../auth/authActions'
 import { connect } from 'react-redux'
-import { updateProfile } from '../../user/userDetailed/userActions'
+import { updateProfile } from '../userActions'
+import PhotosPage from './photos/PhotoPage'
 
 const actions = {
     updatePassword,
@@ -29,6 +30,7 @@ const SettingDashboard = ({ user, updateProfile }) => {
                     <Route path='/settings/basic' render={() => <BasicPage initialValues={user} updateProfile={updateProfile} />} />
                     <Route path='/settings/about' render={() => <AboutPage initialValues={user} updateProfile={updateProfile} />} />
                     <Route path='/settings/acount' component={AcountPage} />
+                    <Route path='/settings/photo' component={PhotosPage} />
                 </Switch>
             </Grid.Column>
             <Grid.Column width={4}>
