@@ -33,7 +33,9 @@ const tourDetailedInfo = ({ tour }) => {
                         <Popup content='Recommended hours' trigger={<Icon size="large" color="teal" name="clock outline" />} />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>{tour.rec_start_h && format(tour.rec_start_h, 'h:mm a')} - {tour.rec_end_h && format(tour.rec_end_h, 'h:mm a')}</p>
+                        <p>{tour.rec_start_h
+                            && format(tour.rec_start_h.toDate(), 'h:mm a')} - {tour.rec_end_h
+                                && format(tour.rec_end_h.toDate(), 'h:mm a')}</p>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -43,7 +45,7 @@ const tourDetailedInfo = ({ tour }) => {
                         <Popup content='Address' trigger={<Icon size="large" color="teal" name="point" />} />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>{tour.address}</p>
+                        <p>{tour.street}  {tour.house_number}</p>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -53,7 +55,9 @@ const tourDetailedInfo = ({ tour }) => {
                         <Popup content='Ideal Audience' trigger={<Icon size="large" color="teal" name="users" />} />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>{tour.audience.lenght > 0 && tour.audience.map(aud => <item>  {aud} ||</item>)}</p>
+                        {tour.audience
+                            && tour.audience.length > 0
+                            && tour.audience.map((aud, index) => <p key={index}>  {aud} ||</p>)}
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -72,7 +76,7 @@ const tourDetailedInfo = ({ tour }) => {
             <Segment attached>
                 <Grid verticalAlign="bottom" >
                     <Grid.Column width={7} />
-                    <Button as={Link} to={`/manage/${tour.id}`}color="orange" floated="right">
+                    <Button as={Link} to={`/manage/${tour.id}`} color="orange" floated="right">
                         Edir Tour
                 </Button>
                 </Grid>

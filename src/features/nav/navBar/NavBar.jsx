@@ -13,7 +13,7 @@ const actions = {
 
 const mapState = (state) => ({
   auth: state.firebase.auth,
-  profile : state.firebase.profile
+  profile: state.firebase.profile
 })
 
 class NavBar extends Component {
@@ -43,11 +43,22 @@ class NavBar extends Component {
                         D-Guide
            </Menu.Item >
           <Menu.Item as={NavLink} exact to='/tours' name="tours" />
+          <Menu.Item as={NavLink} exact to='/stops' name="stops" />
           {authenticated &&
             <Fragment>
               <Menu.Item as={NavLink} to='/test' name="test" />
               <Menu.Item>
                 <Button as={Link} to='/createTour' floated="right" positive inverted content="Create Event" />
+                <Button as={Link} to='/createStop' floated="right" inverted content="Create Stop" />
+              </Menu.Item>
+              <Menu.Item>
+                <Button
+                  as={Link}
+                  to='/tourCreation'
+                  content='Create Tour'
+                  positive
+                  inverted
+                />
               </Menu.Item>
             </Fragment>
           }

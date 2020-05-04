@@ -14,12 +14,30 @@ const tourImageTextStyle = {
     color: 'white'
 };
 
-const tourDetailedHeader = ({ tour }) => {
+const TourDetailedHeader =  tour  => {
+    
+   /* const [mediaName, setMedia] = useState([]);
+    
+    useEffect(() => {
+        return () => {
+            mediaName.forEach(file => URL.revokeObjectURL(file.preview))
+        }
+    }, [mediaName])
+
+    const handleUploadProfileMedia = async () => {
+        try {
+            //uploadImage = (file, fileName, basePath, options, docRefPath, collectionName)
+            console.log(mediaName)
+        } catch (error) {
+            console.log(error)
+            toastr.error('Oops', 'Something went wrong')
+        }
+    }*/
+
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: '0' }}>
-                <Image src={tour.profile_pic} fluid style={tourImageStyle} />
-
+                <Image src={tour.profile_pic} fluid style={tourImageStyle} /> 
                 <Segment basic style={tourImageTextStyle}>
                     <Item.Group>
                         <Item>
@@ -45,4 +63,4 @@ const tourDetailedHeader = ({ tour }) => {
     )
 }
 
-export default tourDetailedHeader;
+export default TourDetailedHeader;

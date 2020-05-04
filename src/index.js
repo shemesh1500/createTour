@@ -8,11 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configStore } from './app/store/configStore';
 import ScrollToTop from './app/common/util/toTop';
-import { loadTour } from './features/tour/tourAction';
 import ReduxToastr from 'react-redux-toastr';
 
 const store = configStore();
-store.dispatch(loadTour())
 const rootEl = document.getElementById('root');
 
 let render = () => {

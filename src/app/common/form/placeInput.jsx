@@ -2,7 +2,7 @@ import React from 'react'
 import PlacesAutocomplete from 'react-places-autocomplete'
 import { Form, Label, Segment, List } from 'semantic-ui-react'
 
-const placeInput = ({
+const placeInput = ({ 
     input: { value, onChange, onBlur },
     width,
     options,

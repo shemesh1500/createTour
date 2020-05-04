@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Menu, Header, Grid } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
-
+ 
 const SettingNav = () => {
     return (
         <Fragment>

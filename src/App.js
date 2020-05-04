@@ -9,6 +9,11 @@ import TestComponent from './features/testerea/testComponent';
 import TourDetailedPage from './features/tour/tourDetailed/tourDetailedPage';
 import ModalManager from './features/modals/modalManager';
 import SettingDashboard from './features/user/setting/SettingDashboard'
+import StopForm from './features/stop/stopForm/StopForm';
+import TourCreation from './features/tour/tourCreation/TourCreation';
+import StopCreation from './features/stop/StopCreation';
+import StopList from './features/stop/StopList';
+import TourControl from './features/tour/tourCreation/TourControl';
 
 class App extends Component {
   render() {
@@ -25,6 +30,10 @@ class App extends Component {
                 <Route path='/tours/:id' component={TourDetailedPage} />
                 <Route path='/settings' component={SettingDashboard} />
                 <Route path={['/createTour', '/manage/:id']} component={tourForm} />
+                <Route path={['/tourCreation/:tourId', '/tourCreation']} component={TourCreation} />
+                <Route path={['/createStop/:tourId/:stopId', '/createStop/:tourId', '/createStop']} component={StopCreation} /> 
+                <Route path={['/tourControl/:tourId', '/tourControl']} component={TourControl} />
+                <Route path={'/stops'} component={StopList} /> 
                 <Route path='/test' component={TestComponent} />
               </Switch>
             </Container>

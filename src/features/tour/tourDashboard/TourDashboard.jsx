@@ -6,8 +6,8 @@ import { createTour, updateTour, deleteTour } from '../tourAction';
 import LoadingCompanent from '../../layout/LoadingCompanent';
 import { firestoreConnect } from 'react-redux-firebase';
 
-const mapState = (state) => ({
-    tours: state.tours,
+const mapState = (state) => ({ 
+    tours: state.firestore.ordered.tours,
     loading: state.async.loading
 })
 
@@ -19,6 +19,9 @@ const actions = {
 
 class TourDashboard extends Component {
 
+    async componentDidMount() {
+        
+    }
 
 
     handleDeleteTour = (id) => {

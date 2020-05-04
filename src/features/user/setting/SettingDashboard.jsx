@@ -23,7 +23,7 @@ const mapState = (state) => ({
 
 const SettingDashboard = ({ user, updateProfile }) => {
     return (
-        <Grid>
+        <Grid> 
             <Grid.Column width={12}>
                 <Switch>
                     <Redirect exact from='/settings' to='/settings/basic' />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Image, Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
+import {  Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
 import { uploadProfileImage, deletePhoto, setMainPhoto } from '../../userActions'
