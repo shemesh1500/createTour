@@ -36,6 +36,7 @@ const AppMap = props => {
   let cast_place = []
   console.log("MAPCOMPONENT", places, cast_place)
   useEffect(() => {
+    console.log("places", places)
     places.sort((a,b) => a.order > b.order)
     places.map(stop => cast_place = [...cast_place, { location: stop.stop_location, order: stop.order }] ) 
   })

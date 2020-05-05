@@ -43,7 +43,7 @@ class tourListItem extends Component {
             {tour.rec_start_h && format(tour.rec_start_h.toDate(), 'h:mm a')} -
                         {tour.rec_end_h && format(tour.rec_end_h.toDate(), 'h:mm a')} |
                         <Icon name="marker" /> {tour.city} |
-                        <Icon name="marker" /> Num of stops: {tour.stops.length}
+                        <Icon name="marker" /> Num of stops: 
           </span>
         </Segment>
         <Segment secondary>

@@ -15,7 +15,7 @@ import TourMedia from './TourMedia';
 import CreateRoute from './CreateRoute';
 import { getAllStopsPoint } from '../../stop/stopAction';
 import { compose } from 'redux';
-import  Mapcomponent  from '../../../app/common/map/Mapcompomemtt'
+import Mapcomponent from '../../../app/common/map/Mapcompomemtt'
 
 const query = (props) => {
 
@@ -64,10 +64,10 @@ const mapState = (state, ownProps, props) => {
         tour = state.firestore.ordered.tours.filter(tour => tour.id === tourId)[0] || {}
         if (state.firestore.ordered.stops) {
             stops = state.firestore.ordered.stops
-            stops.sort((a,b) => a.order > b.order)
+            stops.sort((a, b) => a.order > b.order)
         }
     }
-
+    console.log("mapstateeeeeee")
     return {
         stops: stops,
         initialValues: tour,
@@ -129,18 +129,21 @@ const TourControl = (props) => {
     }
 
     useEffect(() => {
+        console.log("useEffect 111")
         const { firestore, match } = props
         if (tourId) {
-             setListener(firestore, {collection: 'tours', doc: tourId,subcollections: [{ collection: 'stops' }]   })
+            setListener(firestore, { collection: 'tours', doc: tourId, subcollections: [{ collection: 'stops' }] })
+
         }
 
         return () => {
-             unSetListener(firestore, { collection: 'tours', doc: tourId,subcollections: [{ collection: 'stops' }] })
+            unSetListener(firestore, { collection: 'tours', doc: tourId, subcollections: [{ collection: 'stops' }] })
         }
     })
 
 
     useEffect(() => {
+        console.log("useEffect 222")
         if (initialValues && initialValues.main_location) {
             setCenter(initialValues.main_location);
             setZoom(17);
@@ -153,14 +156,22 @@ const TourControl = (props) => {
 
         if (props.stops && props.stops.length !== markerList.length) {
             let all_stops = []
+
             props.stops.map(stop => all_stops = [...all_stops, { location: stop.stop_location, order: stop.order }])
-            all_stops.sort((a,b)=> a.order > b.order)
+            all_stops.sort((a, b) => a.order > b.order)
             setMarkerList(all_stops);
+
+
             //  getAllPoints();
+        }
+        if (all_stop.length !== 0) {
+            console.log("all_stop", props.stop)
+            setCenter(all_stops[0].stop.stop_location)
+            setZoom(7)
         }
 
 
-    }, [props, initialValues, props.currentPosition]);
+    }, [props, initialValues]);
 
 
     const addStopToTour = (all_stops, newStop) => {
@@ -285,20 +296,20 @@ const TourControl = (props) => {
                     setCenter={setCenter}
                     handleClickMap={handleClickMap}
                 />)
-            default: 
-            return (<Mapcomponent   
-                places={markerList}
-            />
-            )
-                      
-              /*  if (props.stops){
-                    console.log("new places", markerList, props.stops)
-                    return (<Mapcomponent   
-                        places={markerList}
-                    />
-                    )
-                }*/
-         
+            default:
+                return (<Mapcomponent
+                    places={markerList}
+                />
+                )
+
+            /*  if (props.stops){
+                  console.log("new places", markerList, props.stops)
+                  return (<Mapcomponent   
+                      places={markerList}
+                  />
+                  )
+              }*/
+
         }
 
     }
