@@ -1,15 +1,13 @@
 import React, { useState, Fragment } from 'react';
 import { Divider, Button, Card, Modal } from 'semantic-ui-react';
-import { setMainPhoto } from '../../tour/tourAction'
+import { uploadStopText } from '../../media/mediaActions'
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { uploadStopAudio } from '../../media/mediaActions';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 
 const actions = {
-    setMainPhoto,
-    uploadStopAudio
+    uploadStopText
 }
 
 const mapState = (state) => ({
@@ -19,28 +17,26 @@ const mapState = (state) => ({
 const TextComponent = (props) => {
 
     const {
-        setMainPhoto,
+        uploadStopText,
         loading,
         all_media,
         objectId,
         collectionName,
         handleDeleteFile,
-        uploadStopAudio,
         open,
         onClose,
-        tourId
+        tourId,
+        context
     } = props
 
-    const [files, setFiles] = useState([]);
-    const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
 
 
-    let all_audio = all_media ? all_media.filter(media => media.type.includes('text')) : []
+    let all_text = context ? context : "Write something"
 
-    const handleUploadAudio = async () => {
+    const handleUploadText = async () => {
         try {
-            console.log("objectId", objectId)
-            await uploadStopAudio(files[0].file, `${objectId}/${collectionName}Media/`, objectId, all_media, title, collectionName, tourId)
+            await uploadStopText(text, `${objectId}/${collectionName}Media/`, objectId, all_media,  collectionName, tourId)
             handleCancleCrop();
         } catch (error) {
             console.log(error)
@@ -49,26 +45,13 @@ const TextComponent = (props) => {
     }
 
     const handleCancleCrop = () => {
-        setFiles([]);
-        setTitle("")
+        setText("");
     }
 
     const handleChange = (html) => {
-        //this.setState({ editorHtml: html });
-        console.log(html)
+        setText(html)
     }
 
-    const handleTitle = (event) => {
-        setTitle(event.target.value)
-    }
-
-    const handleSetMainPhoto = async (photo, tour) => {
-        try {
-            await setMainPhoto(photo, tour);
-        } catch (error) {
-            toastr.error('Oops', error.message);
-        }
-    }
 
     /* 
  * Quill modules to attach to editor
@@ -113,16 +96,16 @@ const TextComponent = (props) => {
                     <ReactQuill
                         theme="snow"
                     onChange={handleChange}
-                    value={"Write something"}
+                    value={all_text}
                     modules={modules}
                     formats={formats}
                     bounds={'.Modal'}
-                    placeholder={"Write something"}
+                    //placeholder={"Write something"}
                     />
                 </div>
                 <Button
                     loading={loading}
-                    onClick={handleUploadAudio}
+                    onClick={handleUploadText}
                     style={{ width: '100px' }}
                     positive
                     icon='check'
@@ -134,22 +117,6 @@ const TextComponent = (props) => {
                     icon='close'
                 />
                 <Divider />
-                <Card.Group itemsPerRow={5}>
-                    {all_audio && all_audio.map(audio => (
-                        <Fragment>
-                            <Card key={audio.name}>
-                                <audio poster={audio.poster} width="260" hight="180" controls>
-                                    <source src={audio.url} type={audio.type} />
-                                </audio>
-                                <div className='ui two buttons'>
-                                    <Button onClick={() => handleSetMainPhoto(audio, objectId)} basic color='green'>Main</Button>
-                                    <Button onClick={() => handleDeleteFile(audio)} basic icon='trash' color='red' />
-                                </div>
-                            </Card>
-                        </Fragment>
-                    ))}
-
-                </Card.Group>
             </Modal.Content>
         </Modal>
     );

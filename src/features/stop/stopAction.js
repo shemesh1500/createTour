@@ -258,6 +258,7 @@ export const deleteAudio = (audio, stop) =>
 
     }
 
+    
 export const uploadAudio = (file, basePath, stopId, all_media, audioTitle) =>
     async (dispatch, setState, { getFirestore, getFirebase }) => {
         const firestore = getFirestore();
@@ -337,3 +338,5 @@ export const getAllStopsPoint = (tourId) =>
             console.log(error)
         }
     }
+
+

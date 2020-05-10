@@ -1,9 +1,9 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Image } from 'semantic-ui-react';
+import { Image, Button, Icon } from 'semantic-ui-react';
 
-const MediaList = ({ listItems, setMediaList }) => {
-    listItems.sort((a,b) => a.order - b.order);
+const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
+    listItems.sort((a, b) => a.order - b.order);
 
     const grid = 8;
     const getItemStyle = (isDragging, draggableStyle) => ({
@@ -25,7 +25,7 @@ const MediaList = ({ listItems, setMediaList }) => {
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
 
-        console.log("results",result)
+        console.log("results", result)
         return result;
     };
 
@@ -68,9 +68,8 @@ const MediaList = ({ listItems, setMediaList }) => {
 
     }
 
-    console.log("items", listItems);
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext  onDragEnd={onDragEnd} >
             <Droppable droppableId="droppable12">
                 {(provided, snapshot) => (
                     <div
@@ -90,6 +89,14 @@ const MediaList = ({ listItems, setMediaList }) => {
                                             provided.draggableProps.style
                                         )}
                                     >
+                                        <Button icon size='mini'
+                                            style={{
+                                                backgroundColor: 'lightgray', padding: '0',
+                                                float: 'right', marginLeft: '15px'
+                                            }}
+                                            onClick={() => deleteFuncSwitch(item)}>
+                                            <Icon name='close' />
+                                        </Button>
                                         {item.type}
                                         {tagByType(item)}
                                     </div>

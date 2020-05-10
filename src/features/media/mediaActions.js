@@ -339,3 +339,64 @@ export const uploadAudio = (file, basePath, objectId, all_media, audioTitle, col
             toastr.error("Oops", "Something went wrong, please try agian")
         }
     }    
+
+
+/************************ TEXT **********************/
+export const uploadStopText = (context, basePath, objectId, all_media, collectionName, tourId) =>
+    async (dispatch, setState, { getFirestore, getFirebase }) => {
+        const firestore = getFirestore();    
+        const fileName = cuid();
+        let stopQuery = `${collectionName}/${objectId}` 
+        if (tourId !== null){
+            stopQuery = {
+                collection : 'tours',
+                doc : tourId,
+                subcollections : [{collection : 'stops', doc: objectId}]
+            }
+        }
+        try {
+            dispatch(asyncActionStart)
+            let new_media = {
+                name: fileName,
+                context: context,
+                type: 'text', 
+                order: all_media.lenght + 1
+            }
+            let updated_media = [...all_media, new_media]
+            await firestore.set(stopQuery, { all_media: updated_media }, { merge: true });
+            dispatch(asyncActionFinish);
+        } catch (error) {
+            console.log(error)
+            dispatch(asyncActionError)
+            toastr.error("Oops", "Something went wrong, please try agian")
+        }
+    }
+
+    export const deleteStopText = (file, object, collection, tourId) =>
+    async (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firestore = getFirestore();
+        const updated_media = object.all_media.filter(media => media.name !== file.name)
+        let updated_object = {
+            ...object,
+            all_media: updated_media
+        }
+        let stopQuery = `${collection}/${object.id}` 
+        if (tourId !== null){
+            stopQuery = {
+                collection : 'tours',
+                doc : tourId,
+                subcollections : [{collection : 'stops', doc: object.id}]
+            }
+        }
+        try {
+            dispatch(asyncActionStart);
+            await firestore.update(stopQuery,
+                updated_object
+            );
+            toastr.success('Success', 'Delete has been success');
+        } catch (error) {
+            console.log(error)
+            dispatch(asyncActionError)
+            toastr.error("Oops", "Something went wrong, please try agian")
+        }
+    }    

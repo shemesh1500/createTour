@@ -5,18 +5,20 @@ import { reduxForm } from 'redux-form';
 import VideoComponent from '../media/VideoComponent';
 import PhotoComponent from '../media/PhotoComponent';
 import AudioComponent from '../media/AudioComponent';
-import { deleteStopFile, deleteStopVideo } from '../../media/mediaActions'
+import { deleteStopFile, deleteStopVideo, deleteStopText } from '../../media/mediaActions'
 import { setMainPhoto } from '../../tour/tourAction';
 import { toastr } from 'react-redux-toastr';
 import MediaList from '../../media/MediaList';
 import TextComponent from '../media/TextComponent';
+import QuestionComponent from '../media/QuestionComponent';
 
 //import MediaList from './media/MediaList';
 
 const actions = {
     deleteStopFile,
     deleteStopVideo,
-    setMainPhoto
+    setMainPhoto,
+    deleteStopText
 }
 
 const mapState = (state, props) => {
@@ -33,12 +35,23 @@ const mapState = (state, props) => {
 
 
 const StopMedia = (props) => {
-    const { initialValues, saveChanges, loading, deleteStopFile, deleteStopVideo, setMainPhoto, tourId, all_media } = props;
+    const {
+        initialValues,
+        saveChanges,
+        loading,
+        deleteStopFile,
+        deleteStopVideo,
+        setMainPhoto,
+        tourId,
+        all_media,
+        deleteStopText
+    } = props;
 
     const [photoOpen, setPhotoModal] = useState(false)
     const [videoOpen, setVideoModal] = useState(false)
     const [audioOpen, setAudioModal] = useState(false)
     const [textOpen, setTextModal] = useState(false)
+    const [questionOpen, setQuestionModal] = useState(false)
 
     //let all_media = initialValues.all_media ? initialValues.all_media : []
 
@@ -73,6 +86,23 @@ const StopMedia = (props) => {
     const confirmChanges = () => {
         saveChanges(initialValues);
     }
+
+    const deleteFuncSwitch = (file) => {
+        console.log("file", file)
+        switch (file.type) {
+            case 'photo':
+                return handleDeleteFile(file)
+            case 'video':
+                return handleDeleteVideo(file)
+            case 'audio':
+                return handleDeleteFile(file)
+            case 'text':
+                return deleteStopText(file, initialValues, 'stops', tourId)
+
+            default:
+                break;
+        }
+    }
     //console.log("all media in media", all_media)
     return (
         <Fragment>
@@ -80,6 +110,7 @@ const StopMedia = (props) => {
             <Button content='Video' onClick={() => setVideoModal(true)} />
             <Button content='Audio' onClick={() => setAudioModal(true)} />
             <Button content='Text' onClick={() => setTextModal(true)} />
+            <Button content='Question' onClick={() => setQuestionModal(true)} />
 
             <PhotoComponent
                 loading={loading}
@@ -121,8 +152,21 @@ const StopMedia = (props) => {
                 handleDeleteFile={handleDeleteFile}
             />
 
+            <QuestionComponent
+                open={questionOpen}
+                onClose={() => setQuestionModal(false)}
+                objectId={initialValues.id}
+                tourId={initialValues.tour_owner}
+                all_media={all_media}
+                collectionName={'stops'}
+            />
+
             <Button content="Save changes" onClick={() => saveChanges(initialValues)} />
-            {initialValues.all_media && <MediaList listItems={initialValues.all_media} setMediaList={setMediaList} />}
+            {initialValues.all_media &&
+                <MediaList
+                    listItems={initialValues.all_media}
+                    setMediaList={setMediaList}
+                    deleteFuncSwitch={deleteFuncSwitch} />}
         </Fragment >
     )
 }
