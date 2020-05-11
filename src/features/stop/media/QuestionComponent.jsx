@@ -1,10 +1,11 @@
 import React, { useState, Fragment } from 'react';
 import { Divider, Button, Card, Modal } from 'semantic-ui-react';
-import { uploadStopText } from '../../media/mediaActions'
+import { addQuestion } from '../../media/mediaActions'
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 
 const actions = {
+    addQuestion
 }
 
 const mapState = (state) => ({
@@ -17,28 +18,45 @@ const QuestionComponent = (props) => {
         loading,
         all_media,
         objectId,
-        collectionName,
         open,
         onClose,
         tourId,
+        addQuestion
     } = props
 
-    //const [question, setQuestion] = useState({question1 : ""})
-    let question = ""
-    const [answers, setAnswers] = useState([{ Option: '', isAnswer: false }])
+    const [question, setQuestion] = useState("")
+    const [answers, setAnswers] = useState([
+        { option: '', isAnswer: false }
+    ]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            console.log("Question", question, answers)
+            await addQuestion(question, answers, tourId,objectId,all_media)
+            onClose()
         } catch (error) {
             console.log(error)
             toastr.error('Oops', 'Something went wrong')
         }
     }
+    const handleQuestionChange = (e) => {
+        setQuestion(e.target.value)
+    }
+
+    const handleOptionChange = (e) => {
+        const updateOption = [...answers]
+        if(e.target.className === 'option'){
+            updateOption[e.target.dataset.idx][e.target.className] = e.target.value
+        }  else{
+            updateOption[e.target.dataset.idx][e.target.className] = e.target.checked
+        }
+        
+        setAnswers(updateOption)
+    }
+
     const handleAddFields = () => {
         const values = [...answers];
-        values.push({ Option: '', isAnswer: false });
+        values.push({ option: '', isAnswer: false });
         setAnswers(values);
     };
 
@@ -64,10 +82,11 @@ const QuestionComponent = (props) => {
                             <label htmlFor="qustion">Your Question</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className="question"
                                 id="question"
                                 name="question"
-                            //value={question}
+                                value={question}
+                                onChange={handleQuestionChange}
                             />
                         </Fragment>
                     </div>
@@ -76,17 +95,21 @@ const QuestionComponent = (props) => {
                             <label htmlFor="Answer1">Answer</label>
                             <input
                                 type="text"
-                                className="form-control"
-                                id="Answer1"
-                                name="Answer1"
-                                value={answers.Option}
+                                name={`option-${index}`}
+                                data-idx={index}
+                                id={`option-${index}`}
+                                className="option"
+                                value={answers[index].option}
+                                onChange={handleOptionChange}
                             />
                             <input
                                 type="checkbox"
-                                className="form-control"
-                                id="isAnswer1"
-                                name="isAnswer1"
-                                value={answers.isAnswer}
+                                name={`isAnswer-${index}`}
+                                data-idx={index}
+                                id={`isAnswer-${index}`}
+                                className="isAnswer"
+                                value={answers[index].isAnswer}
+                                onChange={handleOptionChange}
                             />
                             <button
                                 className="btn btn-link"

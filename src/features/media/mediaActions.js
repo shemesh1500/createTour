@@ -399,4 +399,48 @@ export const uploadStopText = (context, basePath, objectId, all_media, collectio
             dispatch(asyncActionError)
             toastr.error("Oops", "Something went wrong, please try agian")
         }
-    }    
+    }  
+    
+/************************ Question ***********************/
+export const addQuestion =(question, options, tourId, stopId, all_media) =>
+async (dispatch, setState, { getFirestore}) => {
+    const firestore = getFirestore()
+    const name = cuid()
+    const stopQuery = {
+        collection: 'tours',
+        doc : tourId,
+        subcollections : [{collection:'stops', doc: stopId}]
+    }
+    try {
+            const question_media = {
+                name : name,
+                qustion_text: question,
+                options : options, 
+                type: 'question'
+            }
+          const update_media = [...all_media, question_media]
+          await firestore.set(stopQuery, {all_media: update_media}, {merge : true})
+          toastr.success("Success", "Question added to stop")
+    } catch (error) {
+        console.log(error)
+        toastr.error("Oops", "Something went wrong, please try agian")
+    }
+}
+
+export const removeQuestion =(file, tourId, object) =>
+async (dispatch, setState, { getFirestore}) => {
+    const firestore = getFirestore()
+    const update_media = object.all_media.filter(media => media.name !== file.name)
+    const stopQuery = {
+        collection: 'tours',
+        doc : tourId,
+        subcollections : [{collection:'stops', doc: object.id}]
+    }
+    try {
+          await firestore.set(stopQuery, {all_media: update_media}, {merge : true})
+          toastr.success("Success", "Question remove from stop")
+    } catch (error) {
+        console.log(error)
+        toastr.error("Oops", "Something went wrong, please try agian")
+    }
+}

@@ -1,5 +1,6 @@
-body {
+html, body {
   background-color: rgb(234, 234, 234) !important;
+  width: 100%;  
 }
 
 /*timepicker style*/

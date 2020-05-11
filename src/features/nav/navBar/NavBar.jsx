@@ -31,7 +31,8 @@ class NavBar extends Component {
     const { auth, profile } = this.props;
     const authenticated = auth.isLoaded && !auth.isEmpty;
     return (
-      <Menu inverted fixed="top">
+      //<Menu inverted fixed="top">
+      <Menu inverted vertical fixed="left">
         <Container>
           <Menu.Item
             as={NavLink}

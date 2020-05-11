@@ -5,12 +5,17 @@ import { reduxForm } from 'redux-form';
 import VideoComponent from '../media/VideoComponent';
 import PhotoComponent from '../media/PhotoComponent';
 import AudioComponent from '../media/AudioComponent';
-import { deleteStopFile, deleteStopVideo, deleteStopText } from '../../media/mediaActions'
 import { setMainPhoto } from '../../tour/tourAction';
 import { toastr } from 'react-redux-toastr';
 import MediaList from '../../media/MediaList';
 import TextComponent from '../media/TextComponent';
 import QuestionComponent from '../media/QuestionComponent';
+import {
+    deleteStopFile,
+    deleteStopVideo,
+    deleteStopText,
+    removeQuestion
+} from '../../media/mediaActions'
 
 //import MediaList from './media/MediaList';
 
@@ -18,7 +23,8 @@ const actions = {
     deleteStopFile,
     deleteStopVideo,
     setMainPhoto,
-    deleteStopText
+    deleteStopText,
+    removeQuestion
 }
 
 const mapState = (state, props) => {
@@ -44,7 +50,8 @@ const StopMedia = (props) => {
         setMainPhoto,
         tourId,
         all_media,
-        deleteStopText
+        deleteStopText,
+        removeQuestion
     } = props;
 
     const [photoOpen, setPhotoModal] = useState(false)
@@ -98,6 +105,9 @@ const StopMedia = (props) => {
                 return handleDeleteFile(file)
             case 'text':
                 return deleteStopText(file, initialValues, 'stops', tourId)
+            case 'question':
+                return removeQuestion(file, tourId, initialValues)
+
 
             default:
                 break;
