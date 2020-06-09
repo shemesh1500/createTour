@@ -9,13 +9,12 @@ export function MapDirectionsRenderer(props) {
     let delayFactor = 0;
     useEffect(() => {
         const { places, travelMode } = props;
-        console.log("MapDirectionsRenderer PPPPP", places)
         places.sort((a,b) => a.order > b.order)
         const waypoints = places.map(p => ({
             location: { lat: p.location.lat, lng: p.location.lng },
             stopover: true
         }));
-        console.log("MapDirectionsRenderer BEFORE", waypoints)
+
         const origin = waypoints.shift().location;
         const destination = waypoints.pop().location;
         console.log("MapDirectionsRenderer", waypoints)

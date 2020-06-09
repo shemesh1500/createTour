@@ -11,16 +11,18 @@ const StopList = ({ listItems, setList, renderingFunc }) => {
     const getItemStyle = (isDragging, draggableStyle) => ({
         // some basic styles to make the items look a bit nicer
         userSelect: "none",
-        padding: grid * 2,
+        padding: grid * 0.5,
         margin: `0 0 ${grid}px 0`,
-
+        width: '30vw',
+        borderRadius: '5px',
+        boxShadow: '0 5px 10px 0 rgba(0, 0, 0, 0.15)',
         // change background colour if dragging
-        background: isDragging ? "lightgreen" : "grey",
+        background: isDragging ? "lightgreen" : "#f8f8f5",
 
         // styles we need to apply on draggables
         ...draggableStyle
     });
-
+ 
     // a little function to help us with reordering the result
     const reorder = (list, startIndex, endIndex) => {
         const result = Array.from(list);
@@ -32,9 +34,9 @@ const StopList = ({ listItems, setList, renderingFunc }) => {
 
 
     const getListStyle = isDraggingOver => ({
-        background: isDraggingOver ? "lightblue" : "lightgrey",
+        background: isDraggingOver ? "#eef5b3" : "#f8f8f5",
         padding: grid,
-        width: 250
+        width: '33vw'
     });
 
     const onDragEnd = (result) => {

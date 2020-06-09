@@ -46,52 +46,43 @@ const StopForm = (props) => {
     const { handleSubmit, pristine, reset, submitting, saveChanges, setRouteStatus } = props
     console.log("STOP FORM", props.initialValues)
 
-    /* const onFormSubmit = values => {
-        if (this.props.initValues.id) {
-            console.log("UPDATE STOP");
-            this.props.history.push(`tours/${this.props.tourId}`)
-        }
-        else {
-            console.log('CREATE STOP')
-            this.props.history.push(`tours/${this.props.tourId}`)
-        }
-    }
-
-   const handleAddressSelect = selectedCity => {
-        geocodeByAddress(selectedCity)
-            .then(res => getLatLng(res[0]))
-            .then(latlng => this.setState({
-                latlng: latlng
-            }))
-            .then(latlen => this.props.change('city', selectedCity))
-    }
-*/
-    //render() {
 
     return (
         <Segment>
             <Form onSubmit={handleSubmit(saveChanges)}>
-                <Header sub color='teal' content='General info' />
-                <Field name='s_title' component={TextInput} placeholder='Stop title' />
-                <Field
-                    name='tags'
-                    component={SelectInput}
-                    options={tags}
-                    value='tags.text'
-                    multiple={true}
-                    placeholder='Tag this stop'
-                />
-                <Field
-                    name='s_smallDesc'
-                    placeholder='Small description about this stop'
-                    component={TextAreaInput}
-                    rows={2}
-                />
+
+                <div className='formOne'>
+                    <Header size='small' content='Stop title' />
+                    <Field
+                        name='s_title'
+                        component={TextInput}
+                        placeholder='Stop title'
+                    />
+                </div>
+
+                <div className='formOne'>
+                    <Header size='small' content='Stop tags' />
+                    <Field
+                        name='tags'
+                        component={SelectInput}
+                        options={tags}
+                        value='tags.text'
+                        multiple={true}
+                        placeholder='Tag this stop'
+                    />
+                </div>
+                
+
+                <div className='formOne'>
+                    <Header size='small' content='Full description' />
+                    <Field name="s_smallDesc" type='textarea' component={TextAreaInput} placeholder="Small description about this stop" rows={2} />
+                </div>
+
                 <Button.Group>
-                <Button onClick={() => setRouteStatus('Stops List')}>Cancel</Button>
-                <Button.Or />
-                <Button disabled={props.invalid} positive type="submit">Save</Button>
-            </Button.Group>
+                    <Button onClick={() => setRouteStatus('Stops List')}>Cancel</Button>
+                    <Button.Or />
+                    <Button disabled={props.invalid} positive type="submit">Save</Button>
+                </Button.Group>
             </Form>
         </Segment>
     )

@@ -1,0 +1,67 @@
+.addButton {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15x;
+    padding-right: 15px;
+    margin: 2%;
+    width: 120px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #ff8738;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+.contentArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    padding: 2%;
+}
+
+.leftCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    flex-direction: column;
+    width: 9px;
+    height: 26px;
+    font-family: PloniDL1.1AAA;
+    font-size: 21.8px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #97a50f;
+}
+
+.mediaArea {
+    max-width: 180px;
+    max-height: 120px;
+    min-width: 100px;
+    min-height: 100px;
+}
+
+audio {
+    width: 150px;
+    display: block;
+    margin: 20px;
+}
+
+audio:nth-child(2) {
+    width: 250px;
+}
+
+audio:nth-child(3) {
+    width: 350px;
+}
+
+.saveButton {
+    width: 171px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #97a425;
+}

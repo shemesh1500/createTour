@@ -136,7 +136,7 @@ const PhotosComponenet = (props) => {
 
 }
 
-export default connect(mapState, actions)// compose(connect(mapState, actions), firestoreConnect((stop) => query(stop)))
+export default connect(mapState, actions)
     (reduxForm({
         form: 'stopForm',
         enableReinitialize: true,

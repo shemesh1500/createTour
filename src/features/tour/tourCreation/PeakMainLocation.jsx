@@ -58,15 +58,15 @@ const PeakMainLocation = (props) => {
     const handleAddressSelect = (selctedaddress) => {
         geocodeByAddress(selctedaddress)
             .then(result => getLatLng(result[0]))
-            .then(latlng => ( props.change('main_location', latlng), setCenter(latlng), setZoom(17), setSelectMarker(latlng)))
+            .then(latlng => (props.change('main_location', latlng), setCenter(latlng), setZoom(17), setSelectMarker(latlng)))
             .catch(error => console.log(error))
     }
 
     const handleNumberSelect = (selctedaddress) => {
         console.log("select number")
-        geocodeByAddress( props.initialValues.street +  selctedaddress)
+        geocodeByAddress(props.initialValues.street + selctedaddress)
             .then(result => getLatLng(result[0]))
-            .then(latlng => ( props.change('address_latlng', latlng) ))
+            .then(latlng => (props.change('address_latlng', latlng)))
             .catch(error => console.log(error))
     }
 
@@ -75,10 +75,10 @@ const PeakMainLocation = (props) => {
             console.log("lat , lng", props.initialValues.main_location)
             axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${props.initialValues.main_location.lat},${props.initialValues.main_location.lng}&key=AIzaSyBVQvaXJjGPf8vsfUG9NT_VdcBWNLbiGAg`)
                 .then(response => (
-                    props.change('house_number',response.data.results[0].address_components[0].long_name),
-                    props.change('street',response.data.results[0].address_components[1].long_name),
-                    props.change('city',response.data.results[0].address_components[2].long_name)
-                    ))
+                    props.change('house_number', response.data.results[0].address_components[0].long_name),
+                    props.change('street', response.data.results[0].address_components[1].long_name),
+                    props.change('city', response.data.results[0].address_components[2].long_name)
+                ))
         }
         return () => {
             //console.log("lat , lng", props.tourForm.values.mainLocation)
@@ -90,6 +90,30 @@ const PeakMainLocation = (props) => {
         // .then(response => console.log(response))
     }
     return (
+        <Fragment>
+            <Header sub color='teal' content="Type exact address OR Use the map" />
+            <Form onSubmit={handleSubmit(saveChanges)}>
+                <Field
+                    name="tour_name"
+                    component={TextInput}
+                    placeholder="Tour title" />
+                <Button disabled={props.invalid} positive type="submit" >
+                    Save & Continue
+            </Button>
+            </Form>
+        </Fragment>
+    )
+}
+
+export default connect(mapState)(reduxForm({
+    form: 'tourForm',
+    validate,
+    enableReinitialize: true,
+    destroyOnUnmount: false,
+    forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
+})(PeakMainLocation));
+
+/*return (
         <Fragment>
             <Header sub color='teal' content="Type exact address OR Use the map" />
             <Form onSubmit={handleSubmit(saveChanges)}>
@@ -117,13 +141,4 @@ const PeakMainLocation = (props) => {
             </Button>
             </Form>
         </Fragment>
-    )
-}
-
-export default connect(mapState)(reduxForm({
-    form: 'tourForm',
-    validate,
-    enableReinitialize: true,
-    destroyOnUnmount: false,
-    forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-})(PeakMainLocation));
+    )*/

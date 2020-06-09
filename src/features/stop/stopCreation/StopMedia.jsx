@@ -115,12 +115,12 @@ const StopMedia = (props) => {
     }
     //console.log("all media in media", all_media)
     return (
-        <Fragment>
-            <Button content='Photos' onClick={() => setPhotoModal(true)} />
-            <Button content='Video' onClick={() => setVideoModal(true)} />
-            <Button content='Audio' onClick={() => setAudioModal(true)} />
-            <Button content='Text' onClick={() => setTextModal(true)} />
-            <Button content='Question' onClick={() => setQuestionModal(true)} />
+        <Fragment> 
+            <button className='addButton' onClick={() => setPhotoModal(true)}>+  Photo</button>
+            <button className='addButton' onClick={() => setVideoModal(true)}>+  Video</button>
+            <button className='addButton' onClick={() => setAudioModal(true)}>+  Audio</button>
+            <button className='addButton' onClick={() => setTextModal(true)}>+  Text</button>
+            <button className='addButton' onClick={() => setQuestionModal(true)}>+  Question</button>
 
             <PhotoComponent
                 loading={loading}
@@ -171,12 +171,12 @@ const StopMedia = (props) => {
                 collectionName={'stops'}
             />
 
-            <Button content="Save changes" onClick={() => saveChanges(initialValues)} />
             {initialValues.all_media &&
                 <MediaList
                     listItems={initialValues.all_media}
                     setMediaList={setMediaList}
                     deleteFuncSwitch={deleteFuncSwitch} />}
+            <button className='saveButton' onClick={() => saveChanges(initialValues)}>Save changes</button>
         </Fragment >
     )
 }

@@ -6,8 +6,10 @@ export const login = (creds) => {
     return async (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
         try {
-            await firebase.auth().signInWithEmailAndPassword(creds.email, creds.password);
-            dispatch(closeModal());
+            console.log("LOGIN")
+            const login_stat = await firebase.auth().signInWithEmailAndPassword(creds.email, creds.password);
+
+            //dispatch(closeModal());
         } catch (error) {
             console.log(error);
             throw new SubmissionError({
@@ -49,11 +51,12 @@ export const socialLogin = (selectedProvider) =>
         const firebase = getFirebase();
         const firestore = getFirestore(); 
         try {
-            dispatch(closeModal());
+            //dispatch(closeModal());
             let user = await firebase.login({
                 provider: selectedProvider,
                 type: 'popup'
             })
+            console.log("social", user)
             if (user.additionalUserInfo.isNewUser){
                 await firestore.set(`users/${user.user.uid}`, {
                     displayName: user.displayName,
@@ -61,6 +64,7 @@ export const socialLogin = (selectedProvider) =>
                     createAt: firestore.FieldValue.serverTimestamp()
                 })
             }
+            
         } catch (error) {
             console.log(error);
         }

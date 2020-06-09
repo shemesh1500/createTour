@@ -7,7 +7,7 @@ const SettingNav = () => {
         <Fragment>
             <Menu vertical>
                 <Header icon="user" attached inverted color="grey" content="Profile" />
-                <Menu.Item as={NavLink} to='/settings/basic'>Basics</Menu.Item>
+                <Menu.Item as={NavLink} to='/settings/basic'>Basics info</Menu.Item>
                 <Menu.Item as={NavLink} to='/settings/about'>About Me</Menu.Item>
                 <Menu.Item as={NavLink} to='/settings/photo'>My Photos</Menu.Item>
             </Menu>

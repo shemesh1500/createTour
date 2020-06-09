@@ -1,21 +1,21 @@
 /*global google*/
-import React, { useState, useEffect, Fragment } from 'react'
-import { Grid, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { withFirestore, firestoreConnect } from 'react-redux-firebase';
+import React, { useState, useEffect } from 'react'
+import { Grid } from 'semantic-ui-react';
+import { firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { createTour, updateTour } from '../tourAction'
 import TourMainNav from './TourMainNav';
 import MapComponent from '../../../app/common/map/MapComponent';
 import PeakMainLocation from './PeakMainLocation';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import TourForm from './TourForm';
 import TourMedia from './TourMedia';
 import CreateRoute from './CreateRoute';
-import { getAllStopsPoint } from '../../stop/stopAction';
 import { compose } from 'redux';
 import Mapcomponent from '../../../app/common/map/Mapcompomemtt'
+import '../../../style/tourControl.css'
+import { toastr } from 'react-redux-toastr';
+import TourDetails from './TourDetails';
 
 const query = (props) => {
 
@@ -26,7 +26,6 @@ const query = (props) => {
     else if (props.initialValues && props.initialValues.tourId) {
         tourId = props.initialValues.tourId
     }
-    console.log("query", props, tourId)
     if (tourId) {
         return [
             {
@@ -46,11 +45,10 @@ const query = (props) => {
 
 const actions = {
     createTour,
-    updateTour,
-    getAllStopsPoint
+    updateTour
 }
 
-const mapState = (state, ownProps, props) => {
+const mapState = (state, ownProps) => {
     let tourId;
     let stops;
     if (ownProps.match.params.tourId) {
@@ -67,7 +65,6 @@ const mapState = (state, ownProps, props) => {
             stops.sort((a, b) => a.order > b.order)
         }
     }
-    console.log("mapstateeeeeee")
     return {
         stops: stops,
         initialValues: tour,
@@ -82,27 +79,20 @@ const TourControl = (props) => {
     const [markerList, setMarkerList] = useState([])
     const [clickMarker, setClickMarker] = useState(null)
     const [mapCenter, setCenter] = useState({ lat: 15.0, lng: 15.0 })
-    const [mapZoom, setZoom] = useState(0)
-    const { latitude, setLatitude } = useState(0);
-    const { longitude, setLongitude } = useState(0);
+    const [mapZoom, setZoom] = useState( 0)
     const [all_stops, setAllStops] = useState([]);
     let all_stop = initialValues.all_stops ? initialValues.all_stops : []
     let bounds;
 
-    //async function getAllPoints() {
-    //  props.getAllStopsPoint(tourId).then(response => {
-    // console.log("getAllStopsPoint Rensponse", response)
-    //    setMarkerList(response);
-    //  bounds = new google.maps.LatLngBounds();
-    //  console.log("before loop", response.length, response, bounds)
-    //  for (var i = 0; i < response.length; i++) {
-    //      console.log("point", response[i])
-    //      bounds.extend(response[i]);
-    //  }
-    //  console.log("after loop", bounds, bounds.getCenter())
-    //setCenter(bounds.getCenter())
-    //})
-    // }
+
+    const handleMainNavClick = (value) => {
+        if(tourId){
+            setMainNav(value)
+        }
+        else{
+            toastr.error('Enter tour name', 'Please enter your tour name')
+        }
+    }
 
     async function setListener(firestore, path) {
         await firestore.setListener(
@@ -129,8 +119,7 @@ const TourControl = (props) => {
     }
 
     useEffect(() => {
-        console.log("useEffect 111")
-        const { firestore, match } = props
+        const { firestore, } = props
         if (tourId) {
             setListener(firestore, { collection: 'tours', doc: tourId, subcollections: [{ collection: 'stops' }] })
 
@@ -143,7 +132,6 @@ const TourControl = (props) => {
 
 
     useEffect(() => {
-        console.log("useEffect 222")
         if (initialValues && initialValues.main_location) {
             setCenter(initialValues.main_location);
             setZoom(17);
@@ -186,6 +174,8 @@ const TourControl = (props) => {
             }
             else {
                 let tour = await props.createTour(values)
+                props.history.push(`/tourControl/${tour.id}`)
+                // setMarkerList({ location: values.main_location , order: 100 })
                 props.change('id', tour.id)
             }
         } catch (error) {
@@ -194,6 +184,8 @@ const TourControl = (props) => {
     }
 
     const onFormSubmit = async values => {
+        console.log("values on save", values);
+        
         try {
             if (props.initialValues.id) {
                 props.updateTour(values)
@@ -235,9 +227,6 @@ const TourControl = (props) => {
             let location = { lat: e.lat, lng: e.lng, color: 'red' }
             setClickMarker(location)
             setCenter(location)
-            // if (mapZoom < 12) {
-            //     setZoom(mapZoom + 3)
-            // }
             try {
                 props.change('main_location', location)
             } catch (error) {
@@ -249,7 +238,6 @@ const TourControl = (props) => {
     const renderMainNav = () => {
         switch (mainNavActive) {
             case 'Main Location':
-                //etMapClick(()=>handleClickMap() )
                 return (
                     <PeakMainLocation
                         saveChanges={onPeakAddSubmit}
@@ -258,10 +246,8 @@ const TourControl = (props) => {
                         setSelectMarker={setClickMarker}
                     />
                 );
-            case 'Tour Details':
-                return <TourForm onFormSubmit={onFormSubmit} />
-            case 'Tour Media':
-                return <TourMedia saveChanges={onFormSubmit} />
+            case 'Tour Editor':
+                return <TourDetails onFormSubmit={onFormSubmit} />
             case 'Create Route':
                 if (tourId) {
                     return <CreateRoute
@@ -270,6 +256,8 @@ const TourControl = (props) => {
                         markerList={markerList}
                         setMarkerList={setMarkerList}
                         //all_stops={all_stops} 
+                        defaultCenter={mapCenter}
+                        defaultZoom={mapZoom}
                         tourId={tourId}
                         addStopToTour={addStopToTour} />
                 } else {
@@ -301,30 +289,19 @@ const TourControl = (props) => {
                     places={markerList}
                 />
                 )
-
-            /*  if (props.stops){
-                  console.log("new places", markerList, props.stops)
-                  return (<Mapcomponent   
-                      places={markerList}
-                  />
-                  )
-              }*/
-
         }
 
     }
     return (
-        <Grid >
-            <Grid.Column width={2}>
-                <TourMainNav activeTab={mainNavActive} handleTabChange={setMainNav} />
-            </Grid.Column>
-            <Grid.Column width={5}>
+        <div className='controlArea'>
+            <div className='contextArea'>
+                <TourMainNav activeTab={mainNavActive} handleTabChange={handleMainNavClick} />
                 {renderMainNav()}
-            </Grid.Column>
-            <Grid.Column width={9}>
+            </div>
+            <div className='mapArea'>
                 {renderMainWorkZone()}
-            </Grid.Column>
-        </Grid>
+            </div>
+        </div>
     )
 }
 

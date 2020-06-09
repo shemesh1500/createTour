@@ -1,0 +1,76 @@
+.innerLocatioForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 55vh;
+    margin: 3%;
+}
+
+.allLocationForm {
+    margin: 3%;
+    height: 64vh;
+    width: 40vw;
+}
+
+.allCreation {
+    margin: 3%;
+    width: 36vw;
+}
+
+.locationInput {
+    width: 508px;
+    height: 55px;
+    border-radius: 3px !important;
+    background-color: #f6f6f6 !important;
+}
+
+.PlacesAutocompleteItem {
+    display: flex;
+    align-items: left;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.PlacesAutocompleteList {
+    width: 459px;
+    height: 19px;
+    font-family: PloniDL1.1AAA;
+    font-size: 16px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #ff6008
+}
+
+.suggestionHeader {
+    font-family: PloniDL1.1AAA;
+    font-size: 16px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #ff6008
+}
+
+.locationFooter{
+    display: flex;
+    align-items: left;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.cordInput {
+    width: 150px !important;
+    height: 55px;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+}
+.saveButton{
+    margin-top: 30px;
+    cursor: pointer;
+}

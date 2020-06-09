@@ -1,0 +1,179 @@
+/* Login Page */
+
+/*
+.ui.form {
+    border: solid 1.2px #ffffff;
+}
+*/
+
+.form-bg {
+    background-color: #bdcd31;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 25%;
+}
+
+.mainTitle {
+    width: 216px;
+    height: 38px;
+    font-family: PloniDL1.1AAA;
+    font-size: 31.6px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fefefe;
+    margin: 0 auto;
+}
+
+.ui.form.input {
+    width: 366px;
+    height: 38px;
+    border: solid 1.2px var(--white);
+    border-radius: 18px;
+}
+
+.ui.teal.button {
+    width: 171px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #fa6400;
+    margin: 0 auto;
+}
+
+.ui.facebook.button {
+    width: 304px;
+    height: 46px;
+    border-radius: 23px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
+    background-color: #97a425;
+}
+
+.ui.google.plus.button {
+    width: 304px;
+    height: 46px;
+    border-radius: 23px;
+    box-shadow: 0 1px 1px 0 var(--black-14);
+    background-color: #ffffff;
+}
+
+.allform {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.changRegister {
+    width: 304px;
+    height: 46px;
+    border-radius: 23px;
+    box-shadow: 0 1px 1px 0 var(--black-14);
+    background-color: #fa7979;
+}
+
+/* End Login Page */
+
+/* Start Tour Form */
+
+.ui.header {
+    margin: 2% !important;
+    width: 160px !important;
+}
+
+.formGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    margin:3%;
+}
+
+.formOne {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin:3%;
+}
+
+.langField {
+    padding: 5%;
+    width: 400px;
+}
+
+.ui.selection.dropdown{
+    padding: 5%;
+    width: 400px !important;
+    height: 55px;
+}
+
+.ui.form textarea {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 5%;
+    width: 400px;
+    height: 155px;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+}
+
+.ui.form input:not([type]), .ui.form input[type="number"], .ui.form input[type="textarea"] {
+    padding: 5%;
+    width: 400px;
+    height: 55px;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+    
+}
+
+.allForm{
+    padding: 3%;
+}
+
+.ui.selection.dropdown {
+    border-radius: 1px;
+    border: solid 1px #6e6d71;
+    background-color: #f6f6f6;
+}
+
+.ui.multiple.dropdown{
+    margin: inherit;
+}
+
+.input-range {
+    width: 182px !important;
+    height: 8px !important;
+}
+
+.input-range__track--active, .input-range__slider {
+    background: #8ac0c4 !important;
+    border-radius: 5px;
+    background-color: #bdcd31 !important;
+}
+
+.input-range__slider {
+    width: 20px !important;
+    height: 20px !important;
+    border: solid 2px #89c0c4 !important;
+    background-color: white !important;
+    margin-bottom: 6px !important;
+    margin-top: -10px !important;
+}
+
+.input-range__label-container {
+    width: 15px;
+    height: 26px;
+    font-family: PloniDL1.1AAA;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: normal;
+    color: #89c0c4;
+    margin-bottom: 2% !important;
+}
+
+/* End Tour Form */

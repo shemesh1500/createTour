@@ -1,0 +1,23 @@
+.formBG{
+    background-color: #bdcd31;
+    text-align: center;
+}
+
+.deadZone {
+    display: flex;
+    align-items: center;
+    background-image: url('/assets/mapBG.png');
+    height: 100vh;
+  }
+
+  .mainApp{
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    height: 100vh;
+  }
+
+  .switchContext{
+      margin-left: 15%;
+      width: 100vw;
+  }

@@ -5,10 +5,21 @@ import TourList from '../tourList/tourList';
 import { createTour, updateTour, deleteTour } from '../tourAction';
 import LoadingCompanent from '../../layout/LoadingCompanent';
 import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
-const mapState = (state) => ({ 
+const query = (props) => {
+
+    return [{
+        collection: 'tours',
+        where: ['tourOwner', '==', props.auth.uid]
+    }]
+}
+
+const mapState = (state) => ({
     tours: state.firestore.ordered.tours,
-    loading: state.async.loading
+    loading: state.async.loading,
+    profile: state.firebase.profile,
+    auth: state.firebase.auth
 })
 
 const actions = {
@@ -20,7 +31,7 @@ const actions = {
 class TourDashboard extends Component {
 
     async componentDidMount() {
-        
+
     }
 
 
@@ -52,7 +63,14 @@ class TourDashboard extends Component {
     }
 }
 
+
+export default compose(
+    connect(mapState, actions),
+    firestoreConnect(props => query(props)),
+)(TourDashboard);
+/*
 export default connect(
     mapState,
     actions
-)(firestoreConnect([{ collection: 'tours' }])(TourDashboard));
+)(firestoreConnect([{ collection: 'tours',  }])(TourDashboard));
+*/

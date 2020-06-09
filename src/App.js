@@ -2,42 +2,54 @@ import React, { Component, Fragment } from 'react';
 import TourDashboard from './features/tour/tourDashboard/TourDashboard';
 import NavBar from './features/nav/navBar/NavBar';
 import { Container } from 'semantic-ui-react';
-import { Route, withRouter, Switch } from 'react-router-dom';
-import homePage from './features/home/homePage';
-import tourForm from './features/tour/tourForm/tourForm';
+import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
+import HomePage from './features/home/HomePage';
 import TestComponent from './features/testerea/testComponent';
 import TourDetailedPage from './features/tour/tourDetailed/tourDetailedPage';
 import ModalManager from './features/modals/modalManager';
 import SettingDashboard from './features/user/setting/SettingDashboard'
-import StopForm from './features/stop/stopForm/StopForm';
 import TourCreation from './features/tour/tourCreation/TourCreation';
 import StopCreation from './features/stop/StopCreation';
 import StopList from './features/stop/StopList';
 import TourControl from './features/tour/tourCreation/TourControl';
+import { withFirebase } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import './style/homePage.css'
+import UserSettings from './features/user/setting/UserSettings';
+import MainPage from './features/home/MainPage';
+
+const mapState = (state) => ({
+  auth: state.firebase.auth
+})
 
 class App extends Component {
   render() {
+    const authenticated = this.props.auth.isLoaded && !this.props.auth.isEmpty
     return (
       <Fragment>
         <ModalManager />
-        <Route exact path='/' component={homePage} />
+        {!authenticated ? <Redirect to="/" /> : null}
+        <Route exact path='/' component={HomePage} />
         <Route path='/(.+)' render={() => (
-          <Fragment>
+          <div className='mainApp'>
+
             <NavBar />
-            <Container className='main'>
+            <div className='switchContext'>
               <Switch key={this.props.location.key}>
+                <Route path='/settings' component={UserSettings} />
+                <Route path='/settingss' component={SettingDashboard} />
+                <Route exact path="/main" component={MainPage} />
                 <Route exact path='/tours' component={TourDashboard} />
+                
                 <Route path='/tours/:id' component={TourDetailedPage} />
-                <Route path='/settings' component={SettingDashboard} />
-                <Route path={['/createTour', '/manage/:id']} component={tourForm} />
                 <Route path={['/tourCreation/:tourId', '/tourCreation']} component={TourCreation} />
-                <Route path={['/createStop/:tourId/:stopId', '/createStop/:tourId', '/createStop']} component={StopCreation} /> 
+                <Route path={['/createStop/:tourId/:stopId', '/createStop/:tourId', '/createStop']} component={StopCreation} />
                 <Route path={['/tourControl/:tourId', '/tourControl']} component={TourControl} />
-                <Route path={'/stops'} component={StopList} /> 
+                <Route path={'/stops'} component={StopList} />
                 <Route path='/test' component={TestComponent} />
               </Switch>
-            </Container>
-          </Fragment>
+            </div>
+          </div>
         )}
         />
       </Fragment>
@@ -45,4 +57,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default withRouter(withFirebase(connect(mapState)(App)));

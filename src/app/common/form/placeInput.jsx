@@ -1,12 +1,13 @@
 import React from 'react'
 import PlacesAutocomplete from 'react-places-autocomplete'
-import { Form, Label, Segment, List } from 'semantic-ui-react'
+import { Form, Label, Segment, List, Icon, Divider } from 'semantic-ui-react'
 
-const placeInput = ({ 
+const placeInput = ({
     input: { value, onChange, onBlur },
     width,
     options,
     placeholder,
+    className,
     onSelect,
     meta: { touched, error }
 }) => {
@@ -19,26 +20,33 @@ const placeInput = ({
         >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                 <Form.Field error={touched && !!error}>
-                    <input placeholder={placeholder} {...getInputProps({ placeholder, onBlur })} />
+                    <input className={className} placeholder={placeholder} {...getInputProps({ placeholder, onBlur })} />
                     {touched && error && <Label basic color='red'>{error}</Label>}
                     {suggestions.length > 0 && (
                         <Segment
                             style={{
                                 marginTop: 0,
                                 position: 'absolute',
-                                zIndex: 1000,
-                                width: '100%'
-                            }}>
+                                zIndex: 0,
+                                width: '100%',
+                            }}
+                            className='PlacesAutocompleteList'>
                             {loading && <div>Loading...</div>}
-                            <List selection>
+                            <List className='PlacesAutocompleteList' >
+
                                 {suggestions.map(suggestion => (
-                                    <List.Item {...getSuggestionItemProps(suggestion)}>
-                                        <List.Header>
-                                            {suggestion.formattedSuggestion.mainText}
-                                        </List.Header>
-                                        <List.Description>
-                                            {suggestion.formattedSuggestion.secondaryText}
-                                        </List.Description>
+                                    <List.Item {...getSuggestionItemProps(suggestion)} className='PlacesAutocompleteItem'>
+                                        <div className='PlacesAutocompleteItem'>
+                                            <div>
+                                                <Icon disabled name='point' />
+                                            </div>
+                                            <div>
+                                                <List.Header className='suggestionHeader'>
+                                                    {suggestion.formattedSuggestion.mainText}, {suggestion.formattedSuggestion.secondaryText}
+                                                </List.Header>
+                                            </div>
+                                        </div>
+                                        <Divider horizontal> </Divider>
                                     </List.Item>
                                 ))}
                             </List>
@@ -51,3 +59,7 @@ const placeInput = ({
 }
 
 export default placeInput
+
+/*<List.Description>
+                                            {suggestion.formattedSuggestion.secondaryText}
+                                        </List.Description>*/

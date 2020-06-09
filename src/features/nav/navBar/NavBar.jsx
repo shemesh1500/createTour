@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
-import { Menu, Container, Button } from 'semantic-ui-react';
+import React, { Component } from 'react'
+import { Menu, Container } from 'semantic-ui-react';
 import { withFirebase } from 'react-redux-firebase'
-import { NavLink, Link, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import SignedOutMenu from '../menu/signedOutMenu';
 import SignedInMenu from '../menu/signedInMenu';
 import { openModal } from '../../modals/modalActions';
@@ -12,7 +12,6 @@ const actions = {
 }
 
 const mapState = (state) => ({
-  auth: state.firebase.auth,
   profile: state.firebase.profile
 })
 
@@ -21,6 +20,8 @@ class NavBar extends Component {
   handleSignIn = () => this.props.openModal('LoginModal')
   handleRegister = () => this.props.openModal('RegisterModal')
 
+  state = { activeItem: 'Home page' }
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   handleSignOut = () => {
     this.props.firebase.logout();
@@ -28,10 +29,9 @@ class NavBar extends Component {
   }
 
   render() {
-    const { auth, profile } = this.props;
-    const authenticated = auth.isLoaded && !auth.isEmpty;
+    const { profile } = this.props;
+    const { activeItem } = this.state
     return (
-      //<Menu inverted fixed="top">
       <Menu inverted vertical fixed="left">
         <Container>
           <Menu.Item
@@ -41,31 +41,51 @@ class NavBar extends Component {
             header
           >
             <img src="assets/logo.png" alt="logo" />
-                        D-Guide
-           </Menu.Item >
-          <Menu.Item as={NavLink} exact to='/tours' name="tours" />
-          <Menu.Item as={NavLink} exact to='/stops' name="stops" />
-          {authenticated &&
-            <Fragment>
-              <Menu.Item as={NavLink} to='/test' name="test" />
-              <Menu.Item>
-                <Button as={Link} to='/createTour' floated="right" positive inverted content="Create Event" />
-                <Button as={Link} to='/createStop' floated="right" inverted content="Create Stop" />
-              </Menu.Item>
-              <Menu.Item>
-                <Button
-                  as={Link}
-                  to='/tourCreation'
-                  content='Create Tour'
-                  positive
-                  inverted
-                />
-              </Menu.Item>
-            </Fragment>
-          }
-          {authenticated ?
-            <SignedInMenu signOut={this.handleSignOut} profile={profile} /> :
-            <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister} />}
+
+          </Menu.Item >
+          <Menu.Item
+            as={NavLink}
+            exact
+            to='/main'
+            name="Home page"
+            active={activeItem === 'Home page'}
+            onClick={this.handleItemClick} />
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to='/tours'
+            name="My tours"
+            active={activeItem === 'My tours'}
+            onClick={this.handleItemClick} />
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to='/tourControl'
+            name="Create tour"
+            active={activeItem === 'Create tour'}
+            onClick={this.handleItemClick} />
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to='/tours'
+            name="Create Business point"
+            active={activeItem === 'Create Business point'}
+            onClick={this.handleItemClick} />
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to='/tours'
+            name="My balance"
+            active={activeItem === 'My balance'}
+            onClick={this.handleItemClick} />
+
+          <footer>
+            <SignedInMenu floated="button" signOut={this.handleSignOut} profile={profile} />
+          </footer>
         </Container>
       </Menu>
     )

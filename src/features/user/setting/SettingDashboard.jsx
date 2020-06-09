@@ -30,7 +30,7 @@ const SettingDashboard = ({ user, updateProfile }) => {
                     <Route path='/settings/basic' render={() => <BasicPage initialValues={user} updateProfile={updateProfile} />} />
                     <Route path='/settings/about' render={() => <AboutPage initialValues={user} updateProfile={updateProfile} />} />
                     <Route path='/settings/acount' component={AcountPage} />
-                    <Route path='/settings/photo' component={PhotosPage} />
+                    <Route path='/settingss/photo' component={PhotosPage} />
                 </Switch>
             </Grid.Column>
             <Grid.Column width={4}>

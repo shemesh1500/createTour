@@ -4,8 +4,8 @@ import { Menu } from 'semantic-ui-react'
 const StopCreationNav = ({activeTab, handleTabChange}) => {
 
         return (
-            <Fragment>
-                <Menu tabularl="true">
+            <div>
+               <Menu attached='top' tabular>
                     <Menu.Item
                         name='Location'
                         active={activeTab === 'Location'}
@@ -22,7 +22,7 @@ const StopCreationNav = ({activeTab, handleTabChange}) => {
                         onClick={() => handleTabChange("Media")}
                     />
                 </Menu>
-            </Fragment>
+            </div>
         )
   //  }
 }

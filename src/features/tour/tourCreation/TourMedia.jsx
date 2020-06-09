@@ -10,7 +10,7 @@ import { setMainPhoto } from '../tourAction';
 import { toastr } from 'react-redux-toastr';
 import MediaList from '../../media/MediaList';
 
-//import MediaList from './media/MediaList';
+import '../../../style/media.css'
 
 const actions = {
     deleteFile,
@@ -55,15 +55,12 @@ const TourMedia = (props) => {
         updatedList.map((item, index) => item.order = index)
         props.change('all_media', updatedList)
     }
-    const confirmChanges = () => {
-        saveChanges(initialValues);
-    }
     
     return (
         <Fragment>
-            <Button content='Photos' onClick={() => setPhotoModal(true)} />
-            <Button content='Video' onClick={() => setVideoModal(true)} />
-            <Button content='Audio' onClick={() => setAudioModal(true)} />
+            <button className='addButton' onClick={() => setPhotoModal(true)}>+  Photo</button> 
+            <button className='addButton'  onClick={() => setVideoModal(true)}>+ Video</button>
+            <button className='addButton' onClick={() => setAudioModal(true)}>+ Audio</button> 
 
             <PhotoComponent
                 loading={loading}
@@ -92,8 +89,9 @@ const TourMedia = (props) => {
                 handleDeleteFile={handleDeleteFile}
             />
 
-            <Button content="Save changes" onClick={() => saveChanges(initialValues)} />
+            
             {initialValues.all_media && <MediaList listItems={initialValues.all_media} setMediaList={setMediaList} />}
+            <button className='saveButton' onClick={() => saveChanges(initialValues)}>Save changes</button>
         </Fragment >
     )
 }

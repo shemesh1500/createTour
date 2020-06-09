@@ -7,6 +7,7 @@ import { createStop, updateStop, addStopToTour } from '../stopAction'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import StopMedia from './StopMedia'
+import '../../../style/stopCreation.css'
 
 const actions = {
     createStop,
@@ -61,7 +62,7 @@ const CreateStop = (props) => {
         } catch (error) {
             console.log(error)
         }
-    }
+    } 
 
     const switchRenderFunction = () => {
         switch (tabName) {
@@ -76,10 +77,12 @@ const CreateStop = (props) => {
         }
     }
     return (
-        <Segment>
+        <div className='allCreation'>
             <StopCreationNav activeTab={tabName} handleTabChange={handleTabChange} />
+            <Segment attached='bottom'>
             {switchRenderFunction()}
-        </Segment>
+            </Segment>
+        </div>
     )
 }
 

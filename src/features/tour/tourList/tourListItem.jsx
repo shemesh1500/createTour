@@ -66,11 +66,7 @@ class tourListItem extends Component {
             content="View" />
           <Button
             as={Link}
-            to={`/tourCreation/${tour.id}`}
-            color="teal"
-            content="Creation" />
-          <Button
-            to={`/tourCreation/${tour.id}`}
+            to={`/tourControl/${tour.id}`}
             color="teal"
             content="Creation" />
         </Segment>

@@ -1,0 +1,13 @@
+/*main toolbar*/
+
+.mainToolbar {
+    width: 15%;
+    height: 1080px;
+    background-color: #bdcd31;
+}
+
+.ui.fixed.menu{
+    width: 298px;
+    height: 1080px;
+    background-color: #bdcd31;  
+}

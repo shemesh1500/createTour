@@ -6,14 +6,20 @@ import PlaceInput from "../../../app/common/form/placeInput";
 import TextInput from "../../../app/common/form/textInput";
 import RadioInput from '../../../app/common/form/RadioInput';
 import { addYears } from 'date-fns';
+import { connect } from 'react-redux';
 
-class BasicPage extends Component {
-    render() {
-        const { pristine, submitting, handleSubmit, updateProfile } = this.props;
+/*
+const mapState = (state) => ({
+    initialValues: state.form.userProfile ? state.form.userProfile.values : []
+})
+*/
+
+const BasicPage =({pristine, submitting, handleSubmit, updateProfile}) =>{
+
         return (
             <Segment>
-                <Header dividing size='large' content='Basics' />
                 <Form onSubmit={handleSubmit(updateProfile)}>
+                <Header dividing size='small' content='name' />
                     <Field
                         width={8}
                         name='displayName'
@@ -21,6 +27,38 @@ class BasicPage extends Component {
                         component={TextInput}
                         placeholder='Known As'
                     />
+                    <Header dividing size='small' content='Address' />
+                    <Field
+                        width={8}
+                        name='Address'
+                        type='text'
+                        component={TextInput}
+                        placeholder='Current address'
+                    />
+                    <Header dividing size='small' content='Language' />
+                    <Field
+                        width={8}
+                        name='Language'
+                        type='text'
+                        component={TextInput}
+                        placeholder='Language'
+                    />
+                    <Form.Group inline>
+                    <Header  size='small' content='Age ' />
+                    <Field
+                        name='Age'
+                        type='number'
+                        component={TextInput}
+                        placeholder='Age'
+                    />
+                    <Header size='small' content='Phone ' />
+                    <Field
+                        name='Phone'
+                        type='number'
+                        component={TextInput}
+                        placeholder='Phone'
+                    />
+                    </Form.Group>
                     <Form.Group inline>
                         <label>Gender: </label>
                         <Field
@@ -38,6 +76,7 @@ class BasicPage extends Component {
                             component={RadioInput}
                         />
                     </Form.Group>
+                    <Header dividing size='small' content='Birth Date' />
                     <Field
                         width={8}
                         name='dateOfBirth'
@@ -49,20 +88,12 @@ class BasicPage extends Component {
                         dropdownMode='select'
                         maxDate={addYears(new Date(), -18)}
                     />
-                    <Field
-                        name='city'
-                        placeholder='Home Town'
-                        options={{ types: ['(cities)'] }}
-                        label='Female'
-                        component={PlaceInput}
-                        width={8}
-                    />
                     <Divider />
                     <Button disabled={pristine || submitting} size='large' positive content='Update Profile' />
                 </Form>
             </Segment>
         );
-    }
+    
 }
 
-export default reduxForm({ form: 'userProfile', enableReinitialize: true, destroyOnUnmount: false })(BasicPage);
+export default reduxForm({ form: 'userProfile', enableReinitialize: true, destroyOnUnmount: false , forceUnregisterOnUnmount: true,})(BasicPage);

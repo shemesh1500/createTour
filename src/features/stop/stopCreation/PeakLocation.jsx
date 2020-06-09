@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { Icon, Grid, Form, Button } from 'semantic-ui-react';
+import { Icon, Grid, Form, Button, Divider } from 'semantic-ui-react';
 import placeInput from '../../../app/common/form/placeInput';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Field, reduxForm } from 'redux-form';
@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import TextInput from '../../../app/common/form/textInput';
 import { combineValidators, isRequired } from 'revalidate';
 import { createStop, updateStop } from '../stopAction'
+
+//import '../../../style/stopCreation.css'
 
 const actions = {
     createStop,
@@ -73,32 +75,52 @@ const PeakLocation = (props) => {
         }
     }
     return (
+        <div className='allLocationForm'>
+            <Form onSubmit={handleSubmit(saveChanges)}>
+                <div className='innerLocatioForm'>
+                    <div className='locationInput'>
+                        <Field
+                            component={placeInput}
+                            className='locationInput'
+                            onSelect={handleAddress}
+                            name='location'
+                            placeholder='Stop location'
+                        />
+                    </div>
+                    <div>
+                        <Divider horizontal>Or</Divider>
+                        <div className='locationFooter'>
+                            <div className='cordInput'>
+                                <h4>Latitude</h4>
+                                <Field
+                                    component={TextInput}
+                                    className='cordInput'
 
-        <Form onSubmit={handleSubmit(saveChanges)}>
-            <Field
-                component={placeInput}
-                onSelect={handleAddress}
-                name='location'
-                placeholder='Stop location'
-            />
-            <Field
-                component={TextInput}
-                //value={stopLocation.lat}
-                placeholder='Latitude'
-                name='stop_location.lat'
-            />
-            <Field
-                component={TextInput}
-                //value={stopLocation.lng}
-                placeholder='longitude'
-                name='stop_location.lng'
-            />
-            <Button.Group>
-                <Button onClick={() => setRouteStatus('Stops List')}>Cancel</Button>
-                <Button.Or />
-                <Button disabled={props.invalid} positive type="submit">Save</Button>
-            </Button.Group>
-        </Form>
+                                    //value={stopLocation.lat}
+                                    placeholder='Latitude'
+                                    name='stop_location.lat'
+                                />
+                            </div>
+                            <div className='cordInput'>
+                                <h4>Longitude</h4>
+                                <Field
+                                    component={TextInput}
+                                    className='cordInput'
+                                    //value={stopLocation.lng}
+                                    placeholder='Longitude'
+                                    name='stop_location.lng'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <button className='saveButton' onClick={() => setRouteStatus('Stops List')}>Cancel</button>
+                    <button className='saveButton' disabled={props.invalid} positive type="submit">Save</button>
+                    
+                </div>
+            </Form>
+        </div>
 
     );
 

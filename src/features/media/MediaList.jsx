@@ -9,11 +9,14 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
     const getItemStyle = (isDragging, draggableStyle) => ({
         // some basic styles to make the items look a bit nicer
         userSelect: "none",
-        padding: grid * 2,
+        padding: grid * 0.5,
         margin: `0 0 ${grid}px 0`,
-
+        width: '30vw',
+        height: '120px',
+        borderRadius: '5px',
+        boxShadow: '0 5px 10px 0 rgba(0, 0, 0, 0.15)',
         // change background colour if dragging
-        background: isDragging ? "lightgreen" : "grey",
+        background: isDragging ? "lightgreen" : "#f8f8f5",
 
         // styles we need to apply on draggables
         ...draggableStyle
@@ -31,9 +34,9 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
 
 
     const getListStyle = isDraggingOver => ({
-        background: isDraggingOver ? "lightblue" : "lightgrey",
+        background: isDraggingOver ? "#eef5b3" : "#f8f8f5",
         padding: grid,
-        width: 250
+        width: '33vw'
     });
 
     const onDragEnd = (result) => {
@@ -55,12 +58,11 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
         if (item.type.includes('image')) {
             return <Image src={item.url} />;
         } else if (item.type.includes('audio')) {
-            return (<audio width="320" height="240" controls  >
-                <source src={item.url} type={item.type} />
-            </audio>
+            return (
+                <audio preload="auto" id="id12" controls="controls" onended="func12();" src={item.url}></audio>
             );
         } else if (item.type.includes('video')) {
-            return (<video poster={item.poster_url} width="260" hight="180" controls>
+            return (<video poster={item.poster_url} width="180" hight="120" controls>
                 <source src={item.url} type={item.type} />
             </video>
             );
@@ -69,7 +71,7 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
     }
 
     return (
-        <DragDropContext  onDragEnd={onDragEnd} >
+        <DragDropContext onDragEnd={onDragEnd} >
             <Droppable droppableId="droppable12">
                 {(provided, snapshot) => (
                     <div
@@ -97,8 +99,13 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
                                             onClick={() => deleteFuncSwitch(item)}>
                                             <Icon name='close' />
                                         </Button>
-                                        {item.type}
-                                        {tagByType(item)}
+                                        <div className='contentArea'>
+                                            <div className='leftCard'>
+                                                <div>{index + 1}</div>
+                                                <div> {item.type}</div>
+                                            </div>
+                                            <div className='mediaArea'>{tagByType(item)}</div>
+                                        </div>
                                     </div>
                                 )}
                             </Draggable>

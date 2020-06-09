@@ -15,7 +15,7 @@ export const updateProfile = (user) =>
     }
 
 
-export const uploadProfileImage = (file, fileName) =>
+export const uploadProfileImage = (file) =>
     async (dispatch, getState, { getFirebase, getFirestore }) => {
         const imageName = cuid();
         const firebase = getFirebase();
@@ -35,14 +35,14 @@ export const uploadProfileImage = (file, fileName) =>
             //get userdoc
             let userDoc = await firestore.get(`users/${user.uid}`)
             //check if user have photo
-            if (!userDoc.data().photoURL) {
+            //if (!userDoc.data().photoURL) {
                 await firebase.updateProfile({
                     photoURL: downloadURL
                 })
                 await user.updateProfile({
                     photoURL: downloadURL
                 })
-            }
+            //}
             //add the image to firestore
             await firestore.add({
                 collection: 'users',

@@ -1,0 +1,38 @@
+.header {
+    /*font-family: PloniDL1.1AAA;*/
+    font-size: 32px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.06;
+    letter-spacing: -0.1px;
+    text-align: left;
+    color: #bdcd31;
+}
+
+.generalArea{
+    width: 798px;
+    background-color: #f8f8f5;
+    height:100vh;
+}
+
+.contextArea{
+    padding:6%;
+}
+.ui.small.image{
+box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.profileImg{
+    float: right ;
+    margin-left: auto;
+}
+.uploadFile{
+    margin-top: auto;
+    float: top;
+ }
+
+ .settingHeader{
+    display: flex;
+   
+ }

@@ -21,6 +21,11 @@ html, body {
 
 /*home page styles*/
 
+.homemap{
+  width: 1920px;
+  height: 1080px;
+}
+
 .masthead {
   display: flex;
   align-items: center;
@@ -41,6 +46,7 @@ html, body {
 .masthead .ui.menu .ui.button,
 .ui.menu a.ui.inverted.button {
   margin-left: 0.5em;
+  padding-right: 0%;
 }
 
 .masthead h1.ui.header {
@@ -69,18 +75,25 @@ html, body {
   margin-right: 1.5em;
 }
 
-.ui.fixed.menu {
+/* .ui.fixed.menu {
   background-image: linear-gradient(
           135deg,
           rgb(10, 81, 146) 0%,
           rgb(243, 156, 85) 69%,
           rgb(185, 184, 79) 89%
   ) !important;
+} */
+
+.ui.fixed.menu{
+  width: 15%;
+  height: 1080px;
+  background-color: #bdcd31;  
 }
 
 .ui.main.container,
 .main.segment {
-  margin-top: 7em;
+  margin-top: 0em;
+  margin-left: 0em !important;
 }
 
 .ui.center.aligned.segment.attendance-preview {
@@ -118,4 +131,10 @@ html, body {
 
 .dropzone--isActive {
   border: dashed 3px green;
+}
+
+.bggradientblue {
+  width: 870px;
+  height: 1080px;
+  background-color: #bdcd31;
 }

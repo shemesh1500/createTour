@@ -318,25 +318,4 @@ export const uploadFile = (file, basePath, stopId, all_media) =>
             toastr.error("Oops", "File upload faild, please try agian.")
         }
     }
-export const getAllStopsPoint = (tourId) =>
-    async (dispatch, setState, { getFirestore, getFirebase }) => {
-        const firestore = getFirestore()
-        let all_points = []
-        try {
-            const all_stops = await firestore.get({
-                collection: 'tours',
-                doc: tourId,
-                subcollections: [{ collection: 'stops' }],
-            }).then(response => response.forEach(stop => all_points = [...all_points, stop.data().stop_location]))
-            console.log("all_pointss", all_points)
-            if (all_points !== null) {
-                return all_points
-            } else {
-                return []
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
 

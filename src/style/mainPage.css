@@ -1,0 +1,55 @@
+.mainZone {
+    width: 40vw;
+    background-color: #f8f8f5;
+    height: 100vh;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+}
+
+.headers {
+    padding: 5%;
+}
+
+.mainZoneButtun {
+    width: 571px;
+    height: 81px;
+    border-radius: 8px;
+    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
+    margin-left: 5%;
+    margin-top: 3%;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: row;
+    
+}
+
+.mainButton{
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: row;
+}
+
+.buttonText{
+    font-family: PloniDL1.1AAA-D;
+    font-size: 20px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: -0.06px;
+    text-align: left;
+    color: #97a425;
+    margin-left: 5%;
+    padding-top: 5%;
+}
+
+.icon{
+    width: 25px;
+    height: 25px;
+    margin-left: 5%;
+    margin-top: 5%;
+}

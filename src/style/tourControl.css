@@ -1,0 +1,34 @@
+.controlArea {
+    width: 85vw;
+    background-color: #f8f8f5;
+    height: 100vh;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+
+.contextArea {
+    width: 40vw;
+    padding: 2% !important;
+}
+
+.mapArea {
+    width: 45vw;
+}
+
+.stopCard {
+    padding: 3%;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    background-color: white;
+}
+
+.cardHeaders{
+    vertical-align: top;
+}
+
+.cardButton{
+    float: right;
+    margin-left: auto;
+}
