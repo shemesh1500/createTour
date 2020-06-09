@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Menu } from 'semantic-ui-react';
 
-const TourMainNav = ({ activeTab, handleTabChange }) => {
+const TourMainNav = ({ activeTab, handleTabChange }) => { 
     return (
         <Fragment>
             <Menu fluid tabula='true'>
