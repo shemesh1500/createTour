@@ -141,11 +141,10 @@ const TourForm = (props) => {
             minValue={0}
             value={age}
             onChange={value => (setAge(value), props.change('age_range', value))}
-          //onChange={value => (setAge(value), props.change('min_age', value.min), props.change('max_age', value.max))} 
           />
         </div>
         <div className='formOne'>
-          <Header size='small' content='Age range' />
+          <Header size='small' content='Hours range' />
           <InputRange
             name='hours_range'
             maxValue={86400}

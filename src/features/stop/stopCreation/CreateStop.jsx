@@ -37,27 +37,16 @@ const CreateStop = (props) => {
     const [tabName, handleTabChange] = useState('Location')
 
     const handleSubmit = async (values) => {
+        console.log("add or update stop", values);
+        
         try {
-            console.log("values", values)
             if (values.id) {
-                console.log("update", values, tourId)
                 await updateStop(tourId, values)
             }
             else {
-                console.log("create", values, tourId)
                 let created_stop_id = await createStop(values, tourId, all_stops.length)
-                /*const stopRef = {
-                    id: created_stop_id, 
-                    title : values.s_title,
-                    latlng : values.stop_location,
-                    location : values.location
-                }*/
-                //console.log("stopRef", stopRef)
-                //addStopToTour(created_stop_id, tourId, all_stops)
-                //addStopToTour(all_stops, stopRef)
-                console.log("stopCreared", created_stop_id)
-                props.change('id', created_stop_id)
-                console.log("props after change id", props)
+                //props.change('id', created_stop_id)
+                //await updateStop(tourId, values)
             }
         } catch (error) {
             console.log(error)

@@ -6,7 +6,7 @@ import { withFirestore } from 'react-redux-firebase';
 import PeakLocation from './PeakLocation';
 import StopForm from './stopForm/StopForm';
 import StopMedia from './StopMedia';
-import { reduxForm, Form } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { createStop, updateStop } from './stopAction'
 import cuid from 'cuid';
 

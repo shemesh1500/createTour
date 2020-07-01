@@ -43,7 +43,7 @@ const tags = [
 
 //class StopForm extends Component {
 const StopForm = (props) => {
-    const { handleSubmit, pristine, reset, submitting, saveChanges, setRouteStatus } = props
+    const { handleSubmit,  saveChanges, setRouteStatus } = props
     console.log("STOP FORM", props.initialValues)
 
 

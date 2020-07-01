@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import './style/homePage.css'
 import UserSettings from './features/user/setting/UserSettings';
 import MainPage from './features/home/MainPage';
+import BusinessCreation from './features/business/businessCreation/BusinessCreation';
 
 const mapState = (state) => ({
   auth: state.firebase.auth
@@ -40,7 +41,9 @@ class App extends Component {
                 <Route path='/settingss' component={SettingDashboard} />
                 <Route exact path="/main" component={MainPage} />
                 <Route exact path='/tours' component={TourDashboard} />
+                <Route exact path={['/businessCreation', '/businessCreation/:businessId']} component={BusinessCreation} />
                 
+
                 <Route path='/tours/:id' component={TourDetailedPage} />
                 <Route path={['/tourCreation/:tourId', '/tourCreation']} component={TourCreation} />
                 <Route path={['/createStop/:tourId/:stopId', '/createStop/:tourId', '/createStop']} component={StopCreation} />

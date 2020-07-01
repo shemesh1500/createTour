@@ -38,7 +38,7 @@ const MediaUpload = (props) => {
     const confirmChanges = () => {
         saveChanges(initialValues);
     }
- 
+  
 
     console.log("props", props)
     return (

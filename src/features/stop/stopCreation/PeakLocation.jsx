@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import GoogleMapReact from 'google-map-react';
-import { Icon, Grid, Form, Button, Divider } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Form,  Divider } from 'semantic-ui-react';
 import placeInput from '../../../app/common/form/placeInput';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Field, reduxForm } from 'redux-form';

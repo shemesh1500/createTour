@@ -1,36 +1,18 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { Card, Button, Segment, Icon, Image, Dropdown } from 'semantic-ui-react';
+import { Button, Dropdown } from 'semantic-ui-react';
 import CreateStop from '../../stop/stopCreation/CreateStop';
-import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase';
 import StopList from '../../stop/stopList/StopList';
-import { updateStop, deleteStop } from '../../stop/stopAction'
+import { updateStop, deleteStop, addBusinessStopToRoute } from '../../stop/stopAction'
 import { useEffect } from 'react';
 import '../../../style/tourControl.css'
 import '../../../style/createRoute.css'
-
-const query = (props) => {
-    let tourId;
-    if (props.tourId) {
-        tourId = props.tourId
-    }
-    else if (props.initialValues.tourId) {
-        tourId = props.initialValues.tourId
-    }
-    return [
-        {
-            collection: 'tours',
-            doc: tourId,
-            subcollections: [{ collection: 'stops' }],
-            storeAs: 'stops'
-        }
-    ]
-}
+import AddBusinessStop from '../../stop/stopCreation/AddBusinessStop';
 
 const actions = {
     updateStop,
-    deleteStop
+    deleteStop,
+    addBusinessStopToRoute
 }
 
 const mapState = (state, props) => {
@@ -43,7 +25,9 @@ const mapState = (state, props) => {
 }
 
 const CreateRoute = (props) => {
-    const { setMarker, setCenter, all_stops, tourId, updateStop, setMarkerList, mapMarkers, deleteStop } = props
+    const { setMarker, setCenter, all_stops, tourId, updateStop, setMarkerList, mapMarkers, deleteStop, setbusinessMarker, selectedBusiness, addBusinessStopToRoute } = props
+    console.log("all stopS", props.all_stops);
+
 
     const [routeStatus, setRouteStatus] = useState('Stops List')
     const [currentStopId, setStopId] = useState(null)
@@ -55,16 +39,33 @@ const CreateRoute = (props) => {
         }
     }, [all_stops])
 
+ 
     const setOrderList = (updated_list) => {
-        console.log('updated stops',updated_list)
         updated_list.map((stop, index) => stop.order = index)
     }
+    
+    const deleteStopRoute = (stop) => {
+        deleteStop(stop)
+        all_stops.filter(current_stop => current_stop.id === stop.id)
+        setOrderList(all_stops)
+    }
 
-    const saveChanges = async  () => {
-        console.log('BEFORE update', all_stops)
-        all_stops.map((stop) => console.log("save changes", stop))
-        await all_stops.map(async (stop) => (console.log("all stops", all_stops), await updateStop(tourId, stop)))
-        console.log("AFTER update", all_stops)
+    const AddBusinessToRoute = (business) => {
+        addBusinessStopToRoute(business, tourId, all_stops.length)
+        setbusinessMarker([])
+    }
+
+    const saveChanges = async () => {
+        const tmp = [...all_stops]
+        console.log("save changes", tmp);
+        /*firebase.firestore().collection('tours').doc(tourId).collection("stops").get().then((doc) => {
+                doc.docs.map(docu => console.log("DOC", docu.id));
+                if (doc.exists) {
+            } else {
+                console.log("No such document!");
+            }
+        })*/
+        tmp.map(stop => updateStop(tourId, stop)) // updateStop(tourId, stop)))
         let markerStops = []
         all_stops.sort((a, b) => a.order > b.order)
         all_stops.map(stop => markerStops = [...markerStops, { location: stop.stop_location, order: stop.order }])
@@ -82,7 +83,7 @@ const CreateRoute = (props) => {
                 </div>
                 <div >
                     <Button.Group>
-                        <Button onClick={() => deleteStop(item)}>Delete</Button>
+                        <Button onClick={() => deleteStopRoute(item)}>Delete</Button>
                         <Button.Or />
                         <Button positive onClick={() => {
                             setStopId(item.id);
@@ -95,7 +96,6 @@ const CreateRoute = (props) => {
     }
 
     const stopsList = () => {
-        console.log("all_stops", all_stops)
         return (
             <div>
                 {all_stops && <StopList
@@ -132,7 +132,6 @@ const CreateRoute = (props) => {
     }
 
     const tourStatus = (stopId) => {
-        console.log(" route status", routeStatus)
         switch (routeStatus) {
             case 'Stops List':
                 return stopsList()
@@ -140,6 +139,8 @@ const CreateRoute = (props) => {
                 return createNewStop(null)
             case 'Edit Stop':
                 return createNewStop(stopId)
+            case 'Create Business Stop':
+                return <AddBusinessStop setbusinessMarker={setbusinessMarker} selectedBusiness={selectedBusiness} addBusinessToRoute={AddBusinessToRoute} />
             default:
                 break;
         }
@@ -147,21 +148,24 @@ const CreateRoute = (props) => {
 
     const options = [
         { key: 1, text: 'Add main stop', value: 1 },
-        { key: 2, text: 'Choice 2', value: 2 },
+        { key: 2, text: 'Add business stop', value: 2 },
         { key: 3, text: 'Choice 3', value: 3 },
-      ]
-      const handleDropdown = (e, data) => {
-        switch (data.value){
+    ]
+    const handleDropdown = (e, data) => {
+        switch (data.value) {
             case 1:
                 setRouteStatus('Create Stop')
+                return;
+            case 2:
+                setRouteStatus('Create Business Stop')
                 return;
             default:
                 break;
         }
-        
-        
-     }
-      
+
+
+    }
+
     return (
         <div className='mainZone'>
             <div className='createHeader'>
@@ -183,32 +187,3 @@ const CreateRoute = (props) => {
 //      connect(mapState, actions)
 //  )(CreateRoute);
 export default connect(mapState, actions)(CreateRoute)
-
-/* <Card key={item.id}>
-                <Card.Content>
-                    <Image
-                        floated='right'
-                        size='mini'
-                        src={item.profile_image && item.profile_image}
-                    />
-                    <Card.Header>{item.s_title}</Card.Header>
-                    <Card.Description>
-                        {item.s_smallDesc}
-                        {item.location}
-                    </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                    <a>
-                        <Icon name='eye' />
-                        {item.all_media.length} media
-                     </a>
-                    <Button.Group>
-                        <Button onClick={() => deleteStop(item)}>Delete</Button>
-                        <Button.Or />
-                        <Button positive onClick={() => {
-                            setStopId(item.id);
-                            setRouteStatus('Create Stop');
-                        }}>Edit</Button>
-                    </Button.Group>
-                </Card.Content>
-            </Card>)*/

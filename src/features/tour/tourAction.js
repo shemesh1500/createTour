@@ -228,12 +228,6 @@ export const createTour = (tour) => {
         const newTour = createNewTour(user, tour);
         try { 
             let createdTour = await firestore.add('tours', newTour);
-            /*await firestore.set(`tourLU/${createdTour.id}_${user.uid}`, {
-                tourId: createdTour.id,
-                ownerId: user.uid,
-                stopId: [],
-                host: true
-            })*/
             toastr.success('Success!', 'Tour has been created');
             return createdTour;
         } catch (error) {

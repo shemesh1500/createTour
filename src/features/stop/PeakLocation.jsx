@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import { Icon, Grid, Form, Button } from 'semantic-ui-react';
 import placeInput from '../../app/common/form/placeInput';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { usePosition } from '../../app/common/map/usePosition';
 import TextInput from '../../app/common/form/textInput';
@@ -32,7 +32,7 @@ const validate = combineValidators({
 
 const PeakLocation = (props) => {
     //get the current location of the user
-    const { latitude, longitude, error } = usePosition();
+    const { latitude, longitude } = usePosition();
     const [stopLocation, setLocation] = useState({})
     const { createStop, updateStop, saveChanges, handleSubmit } = props
     const defaultProps = {

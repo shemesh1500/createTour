@@ -1,6 +1,5 @@
 /*global google*/
 import React, { useState, useEffect } from 'react'
-import { Grid } from 'semantic-ui-react';
 import { firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
@@ -8,8 +7,6 @@ import { createTour, updateTour } from '../tourAction'
 import TourMainNav from './TourMainNav';
 import MapComponent from '../../../app/common/map/MapComponent';
 import PeakMainLocation from './PeakMainLocation';
-import TourForm from './TourForm';
-import TourMedia from './TourMedia';
 import CreateRoute from './CreateRoute';
 import { compose } from 'redux';
 import Mapcomponent from '../../../app/common/map/Mapcompomemtt'
@@ -84,6 +81,8 @@ const TourControl = (props) => {
     let all_stop = initialValues.all_stops ? initialValues.all_stops : []
     let bounds;
 
+    const [businessMarker, setbusinessMarker] = useState([])
+    const [SelectedBusiness, setSelectedBusiness] = useState()
 
     const handleMainNavClick = (value) => {
         if(tourId){
@@ -102,7 +101,7 @@ const TourControl = (props) => {
             {
                 collection: 'tours',
                 doc: tourId,
-                subcollections: [{ collection: 'stops' },]
+                subcollections: [{ collection: 'stops' }]
             })
     }
 
@@ -114,7 +113,7 @@ const TourControl = (props) => {
             {
                 collection: 'tours',
                 doc: tourId,
-                subcollections: [{ collection: 'stops' },]
+                subcollections: [{ collection: 'stops' }]
             })
     }
 
@@ -138,7 +137,6 @@ const TourControl = (props) => {
             setClickMarker(initialValues.main_location)
         }
         if (initialValues.all_stops) {
-            console.log("setStops", all_stops)
             setAllStops(initialValues.all_stops)
         }
 
@@ -147,13 +145,11 @@ const TourControl = (props) => {
 
             props.stops.map(stop => all_stops = [...all_stops, { location: stop.stop_location, order: stop.order }])
             all_stops.sort((a, b) => a.order > b.order)
+            
             setMarkerList(all_stops);
 
-
-            //  getAllPoints();
         }
         if (all_stop.length !== 0) {
-            console.log("all_stop", props.stop)
             setCenter(all_stops[0].stop.stop_location)
             setZoom(7)
         }
@@ -200,28 +196,6 @@ const TourControl = (props) => {
 
     };
 
-    const addMarker = (lat, lng, color, name = null) => {
-        // let currentList = markerList;
-        let newList = [...markerList, { lat: lat, lng: lng, color: color, name: name }]
-        setMarkerList(newList)
-    }
-
-    const removeMarker = (lat, lng, color, name) => {
-        if (name) {
-            let newList = markerList.filter(marker =>
-                marker.name.includes(name) !== true
-            )
-            setMarkerList(markerList.filter(marker => marker.name.includes(name) !== true))
-
-        } else {
-            let newList = markerList.filter(marker =>
-                marker.lat !== lat &&
-                marker.lng !== lng &&
-                marker.color !== color)
-            setMarkerList(newList)
-        }
-    }
-
     const handleClickMap = (e) => {
         if (mainNavActive === 'Main Location') {
             let location = { lat: e.lat, lng: e.lng, color: 'red' }
@@ -255,11 +229,12 @@ const TourControl = (props) => {
                         setCenter={setCenter}
                         markerList={markerList}
                         setMarkerList={setMarkerList}
-                        //all_stops={all_stops} 
                         defaultCenter={mapCenter}
                         defaultZoom={mapZoom}
                         tourId={tourId}
-                        addStopToTour={addStopToTour} />
+                        addStopToTour={addStopToTour} 
+                        setbusinessMarker={setbusinessMarker}
+                        selectedBusiness={SelectedBusiness}/>
                 } else {
                     return <h1>Please create main location please</h1>
                 }
@@ -269,13 +244,12 @@ const TourControl = (props) => {
         }
     }
     const renderMainWorkZone = () => {
-        // console.log("marker list", markerList)
         switch (mainNavActive) {
             case 'Tour Medi1':
                 return <div>Media</div>;
             case 'Main Location1':
                 return (<MapComponent
-                    travelMode={google.maps.TravelMode.DRIVING}
+                    travelMode={google.maps.TravelMode.WALKING}
                     selectedMarker={clickMarker}
                     markerList={markerList}
                     zoom={mapZoom}
@@ -285,8 +259,12 @@ const TourControl = (props) => {
                     handleClickMap={handleClickMap}
                 />)
             default:
+                console.log("stop location", markerList);
                 return (<Mapcomponent
                     places={markerList}
+                    businessPlaces={businessMarker}
+                    travelMode={google.maps.TravelMode.WALKING}
+                    setSelectedBusiness={setSelectedBusiness}
                 />
                 )
         }

@@ -21,9 +21,10 @@ const MapComponent = (props) => {
        setCenter(bounds.getCenter())
    }, [markerList])
 */
-
+   console.log("testtttttt");
+   
   function MapDirectionsRenderer(props) {
-
+ 
     const [directions, setDirections] = useState(null);
     const [error, setError] = useState(null);
     //useEffect(() => {
@@ -308,7 +309,7 @@ const MapComponent = (props) => {
   const Marker = ({ children }) => children;
 
   return (
-    <div style={{ height: '600px', width: '100%' }} >
+    <div style={{ height: '900px', width: '100%' }} >
       <GoogleMapReact
         key={markerList.length}
         bootstrapURLKeys={{ key: 'AIzaSyBVQvaXJjGPf8vsfUG9NT_VdcBWNLbiGAg' }}
@@ -328,7 +329,8 @@ const MapComponent = (props) => {
             <Icon name='marker' color='red' />
           </Marker>
         ))}
-        {markerList.length > 10 && <MapDirectionsRenderer places={markerList} travelMode={travelMode} />}
+        {markerList.length > 1 && <MapDirectionsRenderer places={markerList} travelMode={travelMode} />}
+        {console.log("RENDER", travelMode)}
       </GoogleMapReact>
 
     </div>

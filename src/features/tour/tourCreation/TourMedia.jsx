@@ -1,5 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import { Grid, Button } from 'semantic-ui-react';
+import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import VideoComponent from './media/VideoComponent';
@@ -88,7 +87,6 @@ const TourMedia = (props) => {
                 collectionName={'tours'}
                 handleDeleteFile={handleDeleteFile}
             />
-
             
             {initialValues.all_media && <MediaList listItems={initialValues.all_media} setMediaList={setMediaList} />}
             <button className='saveButton' onClick={() => saveChanges(initialValues)}>Save changes</button>

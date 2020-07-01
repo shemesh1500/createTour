@@ -1,0 +1,100 @@
+.businessItem {
+    width: 680px !important;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    background-color: var(--white);
+    padding: 15px;
+    margin: 3px;
+}
+
+.carousel {
+    width: 680px !important;
+}
+
+.slide {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.imageCarousel {
+    width: 320px !important;
+    height: 240px;
+}
+
+.carousel-item>img {
+    width: 320px !important;
+    height: 240px;
+}
+
+.innerCarousel {
+    width: 400px !important;
+    height: 240px;
+}
+
+.businessItemTop {
+    display: flex;
+    align-items: baseline;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.businessName {
+    font-family: PloniDL1.1AAA;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #6e6d71;
+}
+
+.businessPrice {
+    font-size: 26px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: bold;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.oneUnit {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 2%;
+}
+
+.businessItemHeader {
+    width: 80px;
+    height: 19px;
+    font-family: PloniDL1.1AAA;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #262527;
+}
+
+.bigText {
+    width: 444px;
+    font-family: PloniDL1.1AAA;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #6e6d71;
+}
+
+.mediaArea{
+    display: flex;
+    align-items: center;
+    justify-content: wrap;
+    margin: 2%;
+}

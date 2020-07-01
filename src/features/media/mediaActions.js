@@ -14,6 +14,8 @@ export const uploadStopFile = (file, basePath, objectId, all_media, collectionNa
 
         try {
             dispatch(asyncActionStart);
+            console.log("UPLOAD", objectId, collectionName);
+            
             let uploadedFile = await firebase.uploadFile(`${objectId}/${collectionName}Media/`, file, null, options)
             let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
             let order = all_media.lenght + 1;
@@ -73,6 +75,8 @@ export const uploadFile = (file, basePath, objectId, all_media, collectionName) 
             toastr.error("Oops", "File upload faild, please try agian.")
         }
     }
+
+
 
 export const deleteFile = (file, object, collection) =>
     async (dispatch, getState, { getFirebase, getFirestore }) => {

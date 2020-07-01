@@ -1,5 +1,4 @@
 /*global google*/
-
 import React, { useState, useEffect } from "react";
 import { DirectionsRenderer } from 'react-google-maps'
 
@@ -9,7 +8,7 @@ export function MapDirectionsRenderer(props) {
     let delayFactor = 0;
     useEffect(() => {
         const { places, travelMode } = props;
-        places.sort((a,b) => a.order > b.order)
+        places.sort((a, b) => a.order > b.order)
         const waypoints = places.map(p => ({
             location: { lat: p.location.lat, lng: p.location.lng },
             stopover: true
@@ -17,28 +16,31 @@ export function MapDirectionsRenderer(props) {
 
         const origin = waypoints.shift().location;
         const destination = waypoints.pop().location;
-        console.log("MapDirectionsRenderer", waypoints)
+
         const directionsService = new google.maps.DirectionsService();
-        directionsService.route(
-            {
-                origin: origin,
-                destination: destination,
-                travelMode: travelMode,
-                waypoints: waypoints
-            },
-            (result, status) => {
-                if (status === google.maps.DirectionsStatus.OK) {
-                    setDirections(result);
-                } else if (status === google.maps.DirectionsStatus.OVER_QUERY_LIMIT){
-                    delayFactor++;
-                    setTimeout(function () {
-                       // getMapBounds()
-                    }, delayFactor * 1000);
-                }else {
-                    setError(result);
+        //if (directions === null) {
+            directionsService.route(
+                {
+                    origin: origin,
+                    destination: destination,
+                    travelMode: travelMode,
+                    waypoints: waypoints
+                },
+                (result, status) => {
+                    if (status === google.maps.DirectionsStatus.OK) {
+                        setDirections(result);
+                    } else if (status === google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
+                        delayFactor++;
+                        setTimeout(function () {
+                            // getMapBounds()
+                        }, delayFactor * 1000);
+                    } else {
+                        setError(result);
+                    }
+                    console.log("MapDirectionsRenderer", waypoints, travelMode, status)
                 }
-            }
-        );
+            );
+        //}
     });
 
     if (error) {

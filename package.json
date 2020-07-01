@@ -2,6 +2,9 @@
   "name": "revents",
   "version": "0.1.0",
   "private": true,
+  "resolutions": {
+   "@babel/preset-env": "^7.9.0"
+ },
   "dependencies": {
     "@types/react-datepicker": "^2.11.0",
     "axios": "^0.19.2",
@@ -25,6 +28,7 @@
     "react-redux": "^5.1.1",
     "react-redux-firebase": "^2.2.6",
     "react-redux-toastr": "^7.5.1",
+    "react-responsive-carousel": "^3.2.8",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.4.0",
     "redux": "^4.0.1",

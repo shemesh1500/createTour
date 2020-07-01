@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image, Header, Container, Segment, Grid } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import LoginForm from '../auth/login/LoginForm'
 import RegisterForm from '../auth/register/RegisterForm';
 import { connect } from 'react-redux';
@@ -24,12 +24,9 @@ const HomePage = ({ auth, history }) => {
   const [status, setStatus] = useState("login")
 
   const signInSwitch = () => {
-    console.log("switch")
     if (status === 'login') {
-      console.log("LoginForm")
       return <LoginForm changeState={setStatus} />
     } else {
-      console.log("RegisterForm")
       return <RegisterForm changeState={setStatus} />
     }
   }

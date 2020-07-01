@@ -1,6 +1,5 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Image } from 'semantic-ui-react';
 
 const StopList = ({ listItems, setList, renderingFunc }) => { 
     if(listItems) {

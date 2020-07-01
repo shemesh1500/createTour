@@ -1,14 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {  Header, Divider, Grid, Button, Card, Image, Modal } from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput';
-import { setMainPhoto } from '../../tourAction';
+import { setMainPhoto } from '../../tour/tourAction';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import {uploadVideo } from '../../../media/mediaActions'
+import { uploadStopVideo } from '../../media/mediaActions'
 
 const actions = {
     setMainPhoto,
-    uploadVideo
+    uploadStopVideo
 }
 
 const mapState = (state) => (
@@ -20,8 +20,19 @@ const mapState = (state) => (
     }
 )
 
-const VideoComponenet = (props) => { 
-    const {  uploadVideo, deleteFile, setMainPhoto, loading, all_media, open, onClose, objectId, collectionName,handleDeleteFile } = props
+const VideoComponenet = (props) => {
+    const {
+        uploadStopVideo,
+        setMainPhoto,
+        loading,
+        all_media,
+        open,
+        onClose,
+        objectId,
+        collectionName,
+        handleDeleteFile, 
+        tourId
+    } = props
     const [files, setFiles] = useState([]);
     const [poster, setPoster] = useState(null);
 
@@ -36,27 +47,25 @@ const VideoComponenet = (props) => {
     const handleUploadVideo = async () => {
         try {
             console.log("all_media", all_media)
-            await uploadVideo(files[0].file, `${objectId}/${collectionName}Media/`, objectId, all_media, poster[0].file, collectionName)
+            await uploadStopVideo(files[0].file, 
+                `${objectId}/${collectionName}Media/`,
+                 objectId, 
+                 all_media, 
+                 poster[0].file, 
+                 collectionName, 
+                 tourId)
             all_video = all_media.filter(media => media.type.includes('video'))
             handleCancleCrop();
             toastr.success('Success', 'Photo has been uploaded');
         } catch (error) {
             console.log(error)
-            toastr.error('Oops', 'Somethingwent wrong')
+            toastr.error('Oops', 'Something went wrong')
         }
     }
 
     const handleCancleCrop = () => {
         setFiles([]);
         setPoster(null);
-    }
-
-    const handleDeleteVideo = async (photo) => {
-        try {
-            await deleteFile(photo, objectId, collectionName)
-        } catch (error) {
-            toastr.error('Oops', error.message)
-        }
     }
 
     const handleSetMainPhoto = async (photo, stop) => {
@@ -66,7 +75,6 @@ const VideoComponenet = (props) => {
             toastr.error('Oops', error.message);
         }
     }
-    console.log("VIDEO COMPONENT")
     return (
         <Modal size='large' open={open} onClose={onClose}>
             <Modal.Header>

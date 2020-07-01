@@ -1,4 +1,4 @@
-import { createNewStop } from "../../app/common/helpers";
+import { createNewStop, businessForRoute } from "../../app/common/helpers";
 import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
@@ -18,6 +18,41 @@ export const addStopToTour = (stop, tourId, allStops) =>
         }
     }
 
+export const addBusinessStopToRoute = (stop, tourId, stopsCount) =>
+    async (dispatch, setState, {getFirestore, getFirebase}) => {
+        const firestore = getFirestore();
+        const firebase = getFirebase();
+        const user = firebase.auth().currentUser;
+        const businessStop = businessForRoute(user, stop, tourId, stopsCount)
+        try{
+            let created_stop = await firestore.add({
+                collection: 'tours',
+                doc: tourId,
+                subcollections: [{ collection: 'stops' }]
+            }, {
+                ...businessStop
+            })
+            const added_id = {
+                ...businessStop,
+                id : created_stop.id
+            }
+            
+            await firestore.update({
+                collection: 'tours',
+                doc: tourId,
+                subcollections: [{ collection: 'stops', doc: created_stop.id }],
+            },
+                added_id
+            );
+            toastr.success('Success', 'Stop has been created.');
+            return created_stop.id;
+        } catch (error) {
+            console.log("Error", error)
+            toastr.error("Oops", "Something went wrong! Please try agian")
+        
+        }
+    }
+
 export const createStop = (stop, tourId, stopsCount) =>
     async (dispatch, setState, { getFirestore, getFirebase }) => {
         const firestore = getFirestore();
@@ -33,7 +68,19 @@ export const createStop = (stop, tourId, stopsCount) =>
             }, {
                 ...newStop
             })
-            //let created_stop = await firestore.add('stops', newStop);
+            const added_id = {
+                ...newStop,
+                id : created_stop.id
+            }
+            
+            await firestore.update({
+                collection: 'tours',
+                doc: tourId,
+                subcollections: [{ collection: 'stops', doc: created_stop.id }],
+            },
+                added_id
+            );
+
             toastr.success('Success', 'Stop has been created.');
             return created_stop.id;
         } catch (error) {
@@ -48,7 +95,6 @@ export const createStop1 = (stop, tourOwner) =>
         const firebase = getFirebase();
         const user = firebase.auth().currentUser;
         const newStop = createNewStop(user, stop, tourOwner);
-        console.log("new stop", newStop)
         try {
             let created_stop = await firestore.add('stops', newStop);
             toastr.success('Success', 'Stop has been created.');
@@ -61,11 +107,8 @@ export const createStop1 = (stop, tourOwner) =>
 
 export const updateStop = (tourId, stop) =>
     async (dispatch, setState, { getFirestore }) => {
-        console.log("update stop")
         const firestore = getFirestore()
         try {
-            console.log("update stop", stop)
-            //let created_stop = await firestore.update(`tours/${tourId}/stops/${stop.id}`, stop)
             let created_stop = await firestore.update({
                 collection: 'tours',
                 doc: tourId,
@@ -100,7 +143,7 @@ export const deleteStop = (stop) =>
         const firebase = getFirebase();
         console.log("delete stop", stop)
         try {
-            //await firebase.move(`${stop.id}/stopsMedia/`, `deleted/${stop.id}/stosMedia/`)
+        /*    //await firebase.move(`${stop.id}/stopsMedia/`, `deleted/${stop.id}/stosMedia/`)
             stop.all_media.map(media => {
                 console.log("media", media, media.type)
                 if (media.type.includes('image')){
@@ -111,7 +154,7 @@ export const deleteStop = (stop) =>
                     deleteStopAudio(media, stop, 'stops', stop.tour_owner)
                 }
         });
-
+*/
        await firestore.delete({
                 collection: 'tours',
                 doc: stop.tour_owner,
