@@ -78,6 +78,9 @@ const TourControl = (props) => {
     const [mapCenter, setCenter] = useState({ lat: 15.0, lng: 15.0 })
     const [mapZoom, setZoom] = useState( 0)
     const [all_stops, setAllStops] = useState([]);
+    const [Distance, setDistance] = useState(0)
+    const [Duration, setDuration] = useState(0)
+
     let all_stop = initialValues.all_stops ? initialValues.all_stops : []
     let bounds;
 
@@ -209,6 +212,26 @@ const TourControl = (props) => {
         }
     }
 
+    const checkStartingPoint = (starting_point) => {
+                
+        if (initialValues.starting_point.lat !== starting_point.lat ||
+            initialValues.starting_point.lng !== starting_point.lng){
+            props.updateStartingPoint(initialValues, starting_point)
+        }
+        if (initialValues.starting_point.lat !== starting_point.lat ||
+            initialValues.starting_point.lng !== starting_point.lng){
+            props.updateStartingPoint(initialValues, starting_point)
+        }
+        console.log("DISTANCE & DURATION####", Distance, Duration);
+        if (initialValues.distance !== Distance){
+            props.updateDistance(initialValues, Distance*1)
+        }
+        if (initialValues.duration !== Duration){
+            props.updateDuration(initialValues, Duration * 2)
+        }
+
+    }
+
     const renderMainNav = () => {
         switch (mainNavActive) {
             case 'Main Location':
@@ -232,6 +255,7 @@ const TourControl = (props) => {
                         defaultCenter={mapCenter}
                         defaultZoom={mapZoom}
                         tourId={tourId}
+                        checkStartingPoint={checkStartingPoint}
                         addStopToTour={addStopToTour} 
                         setbusinessMarker={setbusinessMarker}
                         selectedBusiness={SelectedBusiness}/>
@@ -265,6 +289,8 @@ const TourControl = (props) => {
                     businessPlaces={businessMarker}
                     travelMode={google.maps.TravelMode.WALKING}
                     setSelectedBusiness={setSelectedBusiness}
+                    setDistance={setDistance}
+                    setDuration={setDuration}
                 />
                 )
         }

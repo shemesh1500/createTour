@@ -23,34 +23,26 @@ const placeInput = ({
                     <input className={className} placeholder={placeholder} {...getInputProps({ placeholder, onBlur })} />
                     {touched && error && <Label basic color='red'>{error}</Label>}
                     {suggestions.length > 0 && (
-                        <Segment
-                            style={{
-                                marginTop: 0,
-                                position: 'absolute',
-                                zIndex: 0,
-                                width: '100%',
-                            }}
-                            className='PlacesAutocompleteList'>
+                       <div className='PlacesAutocompleteList' >
                             {loading && <div>Loading...</div>}
-                            <List className='PlacesAutocompleteList' >
+                            
 
                                 {suggestions.map(suggestion => (
-                                    <List.Item {...getSuggestionItemProps(suggestion)} className='PlacesAutocompleteItem'>
+                                    <div {...getSuggestionItemProps(suggestion)} className='PlacesAutocompleteItem'>
                                         <div className='PlacesAutocompleteItem'>
                                             <div>
                                                 <Icon disabled name='point' />
                                             </div>
                                             <div>
-                                                <List.Header className='suggestionHeader'>
-                                                    {suggestion.formattedSuggestion.mainText}, {suggestion.formattedSuggestion.secondaryText}
-                                                </List.Header>
+                                                <div className='pac-item'>
+                                                {suggestion.formattedSuggestion.mainText}, {suggestion.formattedSuggestion.secondaryText}
+                                                </div>
                                             </div>
                                         </div>
                                         <Divider horizontal> </Divider>
-                                    </List.Item>
+                                    </div>
                                 ))}
-                            </List>
-                        </Segment>
+                            </div>
                     )}
                 </Form.Field>
             )}
@@ -60,6 +52,11 @@ const placeInput = ({
 
 export default placeInput
 
-/*<List.Description>
+/*
+<List.Header className='suggestionHeader'>
+                                                    {suggestion.formattedSuggestion.mainText}, {suggestion.formattedSuggestion.secondaryText}
+                                                </List.Header>
+
+<List.Description>
                                             {suggestion.formattedSuggestion.secondaryText}
                                         </List.Description>*/

@@ -13,7 +13,6 @@ const actions = {
 }
 
 const mapState = (state) => {
-    console.log("LOADINGTEST", <state className="async loading"></state>)
     return {
         loading: state.async.loading
     }
@@ -36,7 +35,6 @@ const PhotoComponent = (props) => {
     let all_picture = all_media ? all_media.filter(media => media.type.includes('image')) : []
 
     useEffect(() => {
-        console.log("test")
         return () => {
             files.forEach(file => URL.revokeObjectURL(file.preview))
         }

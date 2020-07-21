@@ -4,6 +4,7 @@ import LoginForm from '../auth/login/LoginForm'
 import RegisterForm from '../auth/register/RegisterForm';
 import { connect } from 'react-redux';
 import { withFirebase } from 'react-redux-firebase';
+import Index from './Index';
 
 const mapState = (state) => ({
     auth: state.firebase.auth,
@@ -14,31 +15,41 @@ const mapState = (state) => ({
 const HomePage = ({ auth, history }) => {
   const authenticated = auth.isLoaded && !auth.isEmpty
   useEffect(() => {
-    console.log("Effect", auth)
     if (authenticated) {
       history.push('/main')
     }
   }, [auth])
 
 
-  const [status, setStatus] = useState("login")
+  const [status, setStatus] = useState("home")
+  const [SigninStatus, setSigninStatus] = useState("login")
+
 
   const signInSwitch = () => {
-    if (status === 'login') {
-      return <LoginForm changeState={setStatus} />
+     if (SigninStatus === 'login') {
+      return <LoginForm changeState={setSigninStatus} />
     } else {
-      return <RegisterForm changeState={setStatus} />
+      return <RegisterForm changeState={setSigninStatus} />
     }
   }
-  return (
-    <div id={status}>
-      <Grid>
+  const homeSwitch = () => {
+    if ( status === 'home'){
+      return <Index setStatus={setStatus} setSigninStatus={setSigninStatus}/>
+    }
+    else{
+      return <Grid>
         <Grid.Column width={7} className='formBG'>
           {signInSwitch()}
         </Grid.Column>
         <Grid.Column width={9} className='deadZone'>
         </Grid.Column>
       </Grid>
+    }
+  }
+
+  return (
+    <div id={status}>
+      {homeSwitch()}
     </div>
   )
 }

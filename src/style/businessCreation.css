@@ -1,0 +1,72 @@
+.mainAreaBusiness {
+    height: 500px;
+    width: 35vw;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    margin: 6%;
+}
+
+.ui.menu>.item:not(.active) {
+    background-color: #EAEAEA !important;
+}
+
+.ui.menu {
+    width: 216px;
+    height: 38px;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #6e6d71;
+}
+
+.businessForm {
+    background-color: #ffffff;
+    min-height: 400px;
+    width: 35vw;
+    padding-top: 3%;
+}
+
+.peakLocationArea {
+    min-height: 550px;
+    display: flex;
+    justify-content: center;
+    padding-top: 5%;
+}
+
+.peakLocationInput {
+    width: 508px;
+    height: 55px;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+}
+
+.PlacesAutocompleteItem {
+    cursor: default;
+    padding: 0 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 75px;
+    font-size: 16px;
+    display: flex;
+    align-items: left;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.PlacesAutocompleteList {
+    width: 500px;
+    height: 400px;
+    background-color: #ffffff;
+}
+
+.saveBusinessButton {
+    width: 171px;
+    height: 46px;
+    border-radius: 24px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.21);
+    background-color: #f8a12a;
+}

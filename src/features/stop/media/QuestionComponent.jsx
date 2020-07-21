@@ -3,6 +3,7 @@ import { Divider, Button, Card, Modal } from 'semantic-ui-react';
 import { addQuestion } from '../../media/mediaActions'
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
+import cuid from 'cuid';
 
 const actions = {
     addQuestion
@@ -21,7 +22,8 @@ const QuestionComponent = (props) => {
         open,
         onClose,
         tourId,
-        addQuestion
+        addQuestion,
+        uploadQuestion
     } = props
 
     const [question, setQuestion] = useState("")
@@ -32,7 +34,14 @@ const QuestionComponent = (props) => {
     const handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            await addQuestion(question, answers, tourId,objectId,all_media)
+            //await addQuestion(question, answers, tourId,objectId,all_media)
+            const question_media = {
+                name: cuid(),
+                qustion_text: question,
+                options: answers,
+                type: 'question'
+            }
+            uploadQuestion(question_media)
             onClose()
         } catch (error) {
             console.log(error)
@@ -65,11 +74,10 @@ const QuestionComponent = (props) => {
         values.splice(index, 1);
         setAnswers(values);
     };
-
     const handleCancleCrop = () => {
 
     }
-
+    
     return (
         <Modal size='large' open={open} onClose={onClose}>
             <Modal.Header>

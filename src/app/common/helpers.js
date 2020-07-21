@@ -8,9 +8,23 @@ export const objectToArray = object => {
 export const createNewTour = ( user, tour) => {
     return {
         ...tour, 
-        tourOwner : user.uid,
+        tour_guide : {
+            id : user.uid,
+            full_name : user.displayName,
+            profile_image : user.photoURL,
+        },
         hostedBy: user.displayName,
-        created_date: new Date()
+        created_date: new Date(),
+        rating : {
+            total : 0,
+            votes : 0
+        },
+        starting_point : {
+            latitude : 0,
+            longitude: 0
+        },
+        stops : []
+
     }
 }
 
@@ -35,15 +49,14 @@ export const businessForRoute = (user, business, tourOwner, stopsCount) => {
     }
 }
 
-export const createNewStop = (user, stop, tourOwner, stopsCount) => {
+export const createNewStop = (user, stop, tourOwner, stopsCount, stopType) => {
     return {
         ...stop,
         tour_owner : tourOwner,
-        stopOwner : user.uid,
+        stop_owner : user.uid,
         created_date : new Date(),
-        tourOwner : null,
         all_media : [], 
         order: stopsCount,
-        type : "bigStop"
+        type : stopType
     }
 }

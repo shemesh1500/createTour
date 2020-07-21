@@ -3,7 +3,7 @@ import { Segment } from 'semantic-ui-react'
 import StopCreationNav from './StopCreationNav'
 import PeakLocation from './PeakLocation'
 import StopForm from './StopForm'
-import { createStop, updateStop, addStopToTour } from '../stopAction'
+import { createStop, addStopToTour } from '../stopAction'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import StopMedia from './StopMedia'
@@ -12,7 +12,7 @@ import '../../../style/stopCreation.css'
 const actions = {
     createStop,
     addStopToTour,
-    updateStop
+    //updateStop
 }
 
 const mapState = (state, props) => {
@@ -33,34 +33,37 @@ const mapState = (state, props) => {
 }
 
 const CreateStop = (props) => {
-    const {  setMarker, setCenter, tourId, createStop, updateStop, setRouteStatus, all_stops } = props;
+    const {  setMarker, setCenter, tourId, updateStop, setRouteStatus, all_stops } = props;
     const [tabName, handleTabChange] = useState('Location')
 
     const handleSubmit = async (values) => {
-        console.log("add or update stop", values);
-        
         try {
-            if (values.id) {
+            let newStop={
+                ...values,
+                type : 'bigStop'
+            }
+            updateStop(newStop)
+            /*if (values.id) {
                 await updateStop(tourId, values)
             }
             else {
-                let created_stop_id = await createStop(values, tourId, all_stops.length)
+                let created_stop_id = await createStop(values, tourId, all_stops.length, 'bigStop')
                 //props.change('id', created_stop_id)
                 //await updateStop(tourId, values)
-            }
+            }*/
         } catch (error) {
             console.log(error)
         }
     } 
 
     const switchRenderFunction = () => {
-        switch (tabName) {
+        switch (tabName) { 
             case 'Location':
                 return <PeakLocation saveChanges={handleSubmit} setMarker={setMarker} setCenter={setCenter} setRouteStatus={setRouteStatus}/>;
             case 'General Info':
                 return <StopForm saveChanges={handleSubmit} setRouteStatus={setRouteStatus} />;
             case 'Media':
-                return <StopMedia saveChanges={handleSubmit} tourId={tourId}/>
+                return <StopMedia saveChanges={handleSubmit} tourId={tourId} all_stops={all_stops} />
             default:
                 break;
         }

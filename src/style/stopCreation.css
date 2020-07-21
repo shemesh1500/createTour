@@ -24,15 +24,14 @@
     background-color: #f6f6f6 !important;
 }
 
-.PlacesAutocompleteItem {
+.PlacesAutocompleteItemOld {
     display: flex;
     align-items: left;
     flex-direction: row;
     justify-content: left;
 }
-
-.PlacesAutocompleteList {
-    width: 459px;
+.PlacesAutocompleteListOle {
+    width: 459px !important;
     height: 19px;
     font-family: PloniDL1.1AAA;
     font-size: 16px !important;
@@ -41,8 +40,37 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: right;
-    color: #ff6008
+    text-align: left;
+    color: #ff6008;
+    background-color: #f6f6f6 !important;
+}
+
+
+.PlacesAutocompleteItem{
+    cursor: default;
+    padding: 0 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 75px;
+    text-align: left;
+    border-top: 2px solid #e6e6e6;
+    font-size: 16px;
+    color:  #ff6008;
+    display: flex;
+    align-items: left;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.PlacesAutocompleteList {
+    width: 475px;
+
+    height: 500px;
+  
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+  
+    background-color: #ffffff;
 }
 
 .suggestionHeader {
@@ -57,7 +85,7 @@
     color: #ff6008
 }
 
-.locationFooter{
+.locationFooter {
     display: flex;
     align-items: left;
     flex-direction: row;
@@ -70,7 +98,8 @@
     border-radius: 3px;
     background-color: #f6f6f6;
 }
-.saveButton{
+
+.saveButton {
     margin-top: 30px;
     cursor: pointer;
 }

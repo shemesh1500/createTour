@@ -22,7 +22,9 @@ const PhotoComponent = (props) => {
         onClose,
         objectId,
         all_media,
-        tourId } = props
+        tourId,
+        generalUploadFile
+     } = props
 
     const [files, setFiles] = useState([]);
     const [image, setImage] = useState()
@@ -37,23 +39,26 @@ const PhotoComponent = (props) => {
 
 
 
-    const handleUploadImage = async () => {
+    const handleUploadImageOld = async () => {
         try {
-            console.log("handle stop", all_media)
+            console.log("handle stop", all_media, objectId, tourId)
             await uploadStopFile(image, `${objectId}/stopMedia/`, objectId, all_media, 'stops', tourId)
             all_picture = all_media.filter(media => media.type.includes('image'))
             handleCancleCrop();
         } catch (error) {
             console.log(error)
-            toastr.error('Oops', 'Somethingwent wrong')
+            toastr.error('Oops', 'Something went wrong')
         }
+    }
+
+    const handleUploadImage = () => {
+        generalUploadFile(image)
     }
 
     const handleCancleCrop = () => {
         setFiles([]);
         setImage(null);
     }
-    console.log("PHOTO COMPONENT", tourId)
     return (
         <Modal size='large' open={open} onClose={onClose}>
             <Modal.Header>

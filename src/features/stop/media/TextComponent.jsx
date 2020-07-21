@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
+import cuid from 'cuid';
 
 const actions = {
     uploadStopText
@@ -26,17 +27,23 @@ const TextComponent = (props) => {
         open,
         onClose,
         tourId,
-        context
+        context,
+        uploadText
     } = props
-
-    const [text, setText] = useState("");
 
 
     let all_text = context ? context : "Write something"
+    const [text, setText] = useState(all_text);
 
     const handleUploadText = async () => {
         try {
-            await uploadStopText(text, `${objectId}/${collectionName}Media/`, objectId, all_media,  collectionName, tourId)
+            //await uploadStopText(text, `${objectId}/${collectionName}Media/`, objectId, all_media,  collectionName, tourId)
+            let newText ={
+                type: 'text',
+                name : cuid(),
+                content : text
+            }
+            uploadText(newText)
             handleCancleCrop();
         } catch (error) {
             console.log(error)
@@ -96,7 +103,7 @@ const TextComponent = (props) => {
                     <ReactQuill
                         theme="snow"
                     onChange={handleChange}
-                    value={all_text}
+                    value={text}
                     modules={modules}
                     formats={formats}
                     bounds={'.Modal'}

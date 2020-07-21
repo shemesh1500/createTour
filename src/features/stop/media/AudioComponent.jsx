@@ -1,11 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Segment, Header, Divider, Grid, Button, Card, Image, Form, Modal } from 'semantic-ui-react';
+import {  Header, Divider, Grid, Button, Card,  Form, Modal } from 'semantic-ui-react';
 //import DropzoneInput from '../../tour/tourCreation/media/video/DropzoneInput';
 import DropzoneInput from './DropzoneInput'
 import { setMainPhoto } from '../../tour/tourAction'
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { reduxForm } from 'redux-form';
 import { uploadStopAudio } from '../../media/mediaActions';
 
 
@@ -33,7 +32,8 @@ const AudioComponent = (props) => {
         uploadStopAudio,
         open,
         onClose,
-        tourId    
+        tourId,
+        generalUploadFile
     } = props
 
     const [files, setFiles] = useState([]);
@@ -47,15 +47,18 @@ const AudioComponent = (props) => {
 
     let all_audio = all_media ? all_media.filter(media => media.type.includes('audio')) : []
 
-    const handleUploadAudio = async () => {
+    const handleUploadAudioOld = async () => {
         try {
-            console.log("objectId", objectId)
             await uploadStopAudio(files[0].file, `${objectId}/${collectionName}Media/`, objectId, all_media, title, collectionName, tourId)
             handleCancleCrop();
         } catch (error) {
             console.log(error)
             toastr.error('Oops', 'Something went wrong')
         }
+    }
+
+    const handleUploadAudio = async () => {
+        generalUploadFile(files[0].file)
     }
 
     const handleCancleCrop = () => {
@@ -75,7 +78,6 @@ const AudioComponent = (props) => {
             toastr.error('Oops', error.message);
         }
     }
-    console.log("AUDIO COMPONENT")
     return (
         <Modal size='large' open={open} onClose={onClose}>
             <Modal.Header>

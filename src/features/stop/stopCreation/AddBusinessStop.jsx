@@ -22,7 +22,6 @@ const mapState = (state) => ({
 })
 
 const AddBusinessStop = (props) => {
-    console.log("props.business", props.selectedBusiness);
 
     props.setbusinessMarker(props.business)
 

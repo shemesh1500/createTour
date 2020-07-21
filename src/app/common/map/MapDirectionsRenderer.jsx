@@ -9,8 +9,8 @@ export function MapDirectionsRenderer(props) {
     useEffect(() => {
         const { places, travelMode } = props;
         places.sort((a, b) => a.order > b.order)
-        const waypoints = places.map(p => ({
-            location: { lat: p.location.lat, lng: p.location.lng },
+        const waypoints = places.map(p => ({            
+            location: { lat: p.location.latitude, lng: p.location.longitude },
             stopover: true
         }));
 
@@ -19,29 +19,42 @@ export function MapDirectionsRenderer(props) {
 
         const directionsService = new google.maps.DirectionsService();
         //if (directions === null) {
-            directionsService.route(
-                {
-                    origin: origin,
-                    destination: destination,
-                    travelMode: travelMode,
-                    waypoints: waypoints
-                },
-                (result, status) => {
-                    if (status === google.maps.DirectionsStatus.OK) {
-                        setDirections(result);
-                    } else if (status === google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
-                        delayFactor++;
-                        setTimeout(function () {
-                            // getMapBounds()
-                        }, delayFactor * 1000);
-                    } else {
-                        setError(result);
-                    }
-                    console.log("MapDirectionsRenderer", waypoints, travelMode, status)
+        directionsService.route(
+            {
+                origin: origin,
+                destination: destination,
+                travelMode: travelMode,
+                waypoints: waypoints
+            },
+            (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    setDirections(result);
+                } else if (status === google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
+                    delayFactor++;
+                    setTimeout(function () {
+                        // getMapBounds()
+                    }, delayFactor * 1000);
+                } else {
+                    setError(result);
                 }
-            );
+                console.log("MapDirectionsRenderer", waypoints, travelMode, status)
+                if (result && result.routes[0].legs) {
+                    let totalDistance = 0
+                    let totalDuration = 0
+                    let legs = result.routes[0].legs
+                    for (var i = 0; i < legs.length; ++i) {                        
+                        totalDistance += legs[i].distance.value;
+                        totalDuration += legs[i].duration.value;
+                    }
+
+                    props.setDistance(totalDistance)
+                    props.setDuration(totalDuration)
+                }
+
+            }
+        );
         //}
-    });
+    }, [props.places]);
 
     if (error) {
         return (<h1>{error}</h1>);

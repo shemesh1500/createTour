@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import BusinessNavBar from './businessNavBar'
 import GeneralInfoForm from './GeneralInfoForm'
@@ -9,6 +9,11 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { reduxForm } from 'redux-form'
 import OfferForm from './OfferForm'
 import BusinessMedia from './BusinessMedia'
+import PeakLocation from './PeakLocation'
+import '../../../style/businessCreation.css'
+import Background from '../../../images/mapBG.png'
+import { Segment } from 'semantic-ui-react'
+
 
 const query = (props) => {
     let businessId;
@@ -35,7 +40,7 @@ const actions = {
 }
 const mapState = (state, ownProps) => {
     let businessId;
-    
+
     if (ownProps.match.params.businessId) {
         businessId = ownProps.match.params.businessId;
     } else if (state.form && state.form.businessForm && state.form.businessForm.values.id) {
@@ -45,9 +50,9 @@ const mapState = (state, ownProps) => {
     let business = {}
     if (state.firestore.ordered.business && state.firestore.ordered.business.length > 0) {
         business = state.firestore.ordered.business.filter(business => business.id === businessId)[0] || {}
-        
+
     }
-    
+
     return {
         initialValues: business,
         businessId: businessId
@@ -56,7 +61,36 @@ const mapState = (state, ownProps) => {
 
 const BusinessCreation = (props) => {
 
-    const [StatusNav, setStatusNav] = useState('General Info')
+    const [StatusNav, setStatusNav] = useState('Peak Location')
+
+    /* useEffect functions */
+    async function setListener(firestore) {
+        await firestore.setListener(
+            {
+                collection: 'business',
+                doc: props.businessId,
+            })
+    }
+    async function unSetListener(firestore) {
+        await firestore.unsetListener(
+            
+            {
+                collection: 'business',
+                doc: props.businessId,
+            })
+    }
+
+    useEffect(() => {
+        const { firestore, } = props
+        if (props.businessId) {
+            setListener(firestore)
+
+        }
+
+        return () => {
+            unSetListener(firestore)
+        }
+    })
 
     const onFormSubmit = async (values) => {
         try {
@@ -73,10 +107,12 @@ const BusinessCreation = (props) => {
 
     const switchContext = () => {
         switch (StatusNav) {
+            case 'Peak Location':
+                return <PeakLocation onFormSubmit={onFormSubmit} />
             case 'General Info':
                 return <GeneralInfoForm onFormSubmit={onFormSubmit} />
             case 'Offer Details':
-                return <OfferForm onFormSubmit={onFormSubmit}/>
+                return <OfferForm onFormSubmit={onFormSubmit} />
             case 'Business Content':
                 return <BusinessMedia saveChanges={onFormSubmit} />
             default:
@@ -85,13 +121,16 @@ const BusinessCreation = (props) => {
     }
 
     return (
-        <div className='controlArea'>
-            <div className='contextArea'>
+        <div>
+            <div className='mainAreaBusiness'>
                 <BusinessNavBar activeTab={StatusNav} handleTabChange={setStatusNav} />
-                <div className='allForm'>
-
-                    {switchContext()}
+                <div attached='bottom' className='businessForm'>
+                        {switchContext()}
                 </div>
+
+            </div>
+            <div className='mapArea'  >
+                <div style={{ backgroundImage: `url(${Background})` }}></div>
             </div>
         </div>
 

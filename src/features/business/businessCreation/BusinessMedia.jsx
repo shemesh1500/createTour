@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import PhotoComponent from './PhotoComponent';
 import { toastr } from 'react-redux-toastr';
-import { deleteFile } from '../../media/mediaActions';
+import { generalDeleteFile } from '../../media/mediaActions';
 import VideoComponent from '../../tour/tourCreation/media/VideoComponent';
 import AudioComponent from '../../tour/tourCreation/media/AudioComponent';
 import MediaList from '../../media/MediaList';
 
 const actions = {
-    deleteFile
+   // deleteFile
+   generalDeleteFile
 }
 
 const mapState = (state) => {
@@ -22,7 +23,7 @@ const mapState = (state) => {
 }
 
 const BusinessMedia = (props) => {
-    const { initialValues, saveChanges, loading, deleteFile } = props;
+    const { initialValues, saveChanges, loading, generalDeleteFile } = props;
 
     const [photoOpen, setPhotoModal] = useState(false)
     const [videoOpen, setVideoModal] = useState(false)
@@ -35,6 +36,19 @@ const BusinessMedia = (props) => {
         } catch (error) {
             toastr.error('Oops', error.message)
         }
+    }
+
+    const deleteFile = async (file) => {
+        if(file.type.includes('image') || file.type.includes('audio') || file.type.includes('video')){
+            await generalDeleteFile(file, initialValues.id, 'businessMedia')
+        }
+        let new_all_media = all_media.filter(media => media.name !== file.name)
+        let update_business = {
+            ...initialValues,
+            all_media: new_all_media
+        }
+        
+        saveChanges(update_business)
     }
 
     const handleSetMainFile = async (photo, stop) => {
@@ -87,8 +101,8 @@ const BusinessMedia = (props) => {
                     handleDeleteFile={handleDeleteFile}
                 />
             }
-            {initialValues.all_media && <MediaList listItems={initialValues.all_media} setMediaList={setMediaList} />}
-            <button className='saveButton' onClick={() => saveChanges(initialValues)}>Save changes</button>
+            {initialValues.all_media && <MediaList listItems={initialValues.all_media} setMediaList={setMediaList} deleteFuncSwitch={deleteFile}/>}
+            <button className='saveBusinessButton' onClick={() => saveChanges(initialValues)}>save & continue</button>
         </Fragment >
     )
 }

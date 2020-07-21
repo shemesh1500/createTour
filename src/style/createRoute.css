@@ -74,9 +74,18 @@
     text-align: center !important;
     vertical-align: center !important;
 }
-
 .ui.dropdown{
 
+}
+
+.returnStopList{
+    width: 171px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #bdee4a;
+    margin-right: 70px;
+    text-align: center !important;
+    vertical-align: center !important;
 }
 
 .ui.dropdown .text{

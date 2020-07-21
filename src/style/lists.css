@@ -1,0 +1,71 @@
+.listItem {
+    width: 500px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #6e6d71;
+    font-family: PloniDL1.1AAA;
+    padding: 2%;
+    margin:auto;
+    margin-bottom: 3%;
+}
+
+.itemHeader {
+    font-size: 20px;
+    font-weight: 600;
+    font-style: bold;
+    padding-bottom: 1%;
+}
+
+.itemAddress {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.editButton {
+    width: 171px;
+    height: 46px;
+    border-radius: 24px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.21);
+    background-color: #f8a12a;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: bold;
+    margin-top: 3%;
+}
+
+.mainHeaderList {
+    font-size: 36px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.06;
+    letter-spacing: -0.1px;
+    text-align: center;
+    color: #39415e;
+    margin-bottom: 2%;
+}
+
+.allList {
+    place-items: center;
+    width: 746px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    margin:3%;
+    padding: 3%;
+}
+
+.allItmList {
+    width: 607px;
+    border-radius: 8px;
+    background-color: #bfbdc7;
+    padding: 3%;
+    margin:auto;
+}

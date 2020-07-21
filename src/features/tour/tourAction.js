@@ -214,13 +214,7 @@ export const setMainPhoto = (photo, tour) =>
         }
     }
 
-export const addStopToTour = (tourId, stopId) => 
-    async(dispatch, getState, {getFirebase, getFirestore}) => {
-        const firestore = getFirestore()
-        
-}
-
-export const createTour = (tour) => {
+export const createTour = (tour) => { 
     return async (dispatch, getState, { getFirestore, getFirebase }) => {
         const firestore = getFirestore();
         const firebase = getFirebase();
@@ -241,6 +235,8 @@ export const updateTour = (tour) => {
     return async (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore()
         try {
+            console.log("updateTour", tour);
+            
             await firestore.update(`tours/${tour.id}`, tour)
             toastr.success('Success!', 'Tour has been updated');
         } catch (error) {
@@ -249,6 +245,7 @@ export const updateTour = (tour) => {
         }
     }
 }
+
 
 export const cancelToggle = (cancelled, tourId) =>
     async (dispatch, getState, { getFirestore }) => {

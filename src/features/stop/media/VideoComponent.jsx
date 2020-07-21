@@ -32,7 +32,8 @@ const VideoComponenet = (props) => {
         objectId,
         collectionName,
         handleDeleteFile, 
-        tourId
+        tourId,
+        generalUploadFile
     } = props
     const [files, setFiles] = useState([]);
     const [poster, setPoster] = useState(null);
@@ -45,9 +46,8 @@ const VideoComponenet = (props) => {
         }
     }, [files])
 
-    const handleUploadVideo = async () => {
+    const handleUploadVideoOld = async () => {
         try {
-            console.log("all_media", all_media)
             await uploadStopVideo(files[0].file, 
                 `${objectId}/${collectionName}Media/`,
                  objectId, 
@@ -64,6 +64,10 @@ const VideoComponenet = (props) => {
         }
     }
 
+    const handleUploadVideo = async () => {
+        generalUploadFile(files[0].file)
+    }
+
     const handleCancleCrop = () => {
         setFiles([]);
         setPoster(null);
@@ -76,7 +80,6 @@ const VideoComponenet = (props) => {
             toastr.error('Oops', error.message);
         }
     }
-    console.log("VIDEO COMPONENT")
     return (
         <Modal size='large' open={open} onClose={onClose}>
             <Modal.Header>

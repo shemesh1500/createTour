@@ -74,7 +74,7 @@ const BusinessItem = (props) => {
             {business.all_media && business.all_media.map(media => tagByType(media))}
             </div>
                
-            <button className='saveButton' onClick={() => addBusinessToRoute(business)}>Add this business stop to my tour</button>
+            {addBusinessToRoute && <button className='saveButton' onClick={() => addBusinessToRoute(business)}>Add this business stop to my tour</button>}
         </div>
     )
 }

@@ -4,7 +4,12 @@ import { Menu } from 'semantic-ui-react';
 const businessNavBar = ({ activeTab, handleTabChange }) => { 
     return (
         <Fragment>
-            <Menu fluid tabula='true'>
+            <Menu attached='top' tabular>
+            <Menu.Item
+                    name='Peak Location'
+                    active={activeTab === 'Peak Location'}
+                    onClick={() => handleTabChange("Peak Location")}
+                />
                 <Menu.Item
                     name='General Info'
                     active={activeTab === 'General Info'}

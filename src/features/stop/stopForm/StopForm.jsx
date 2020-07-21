@@ -12,10 +12,14 @@ const actions = {
 
 }
 
-const mapState = (state) => {
+const mapState = (state, props) => {
     let formValues = {}
     if (state.form.stopForm) {
         formValues = state.form.stopForm.values;
+    }else if (props.stop){
+        console.log("PROPS>STOP", props.stop);
+        
+        formValues = props.stop;
     }
     return {
         initialValues: formValues
@@ -44,29 +48,7 @@ const tags = [
 //class StopForm extends Component {
 const StopForm = (props) => {
     const { handleSubmit, pristine, reset, submitting, saveChanges } = props
-    console.log("STOP FORM", props.initialValues)
 
-    /* const onFormSubmit = values => {
-        if (this.props.initValues.id) {
-            console.log("UPDATE STOP");
-            this.props.history.push(`tours/${this.props.tourId}`)
-        }
-        else {
-            console.log('CREATE STOP')
-            this.props.history.push(`tours/${this.props.tourId}`)
-        }
-    }
-
-   const handleAddressSelect = selectedCity => {
-        geocodeByAddress(selectedCity)
-            .then(res => getLatLng(res[0]))
-            .then(latlng => this.setState({
-                latlng: latlng
-            }))
-            .then(latlen => this.props.change('city', selectedCity))
-    }
-*/
-    //render() {
 
     return (
         <Segment>
@@ -86,7 +68,7 @@ const StopForm = (props) => {
                     placeholder='Small description about this stop'
                     component={TextAreaInput}
                     rows={2}
-                />
+                /> 
                 <Button disabled={props.invalid} positive type="submit" >
                     Save & Continue
                 </Button>

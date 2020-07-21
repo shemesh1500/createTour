@@ -7,7 +7,6 @@ const initialState = {
 }
 
 const asyncActionStarted = (state, payload) => {
-    console.log("asyncActionStarted", state, payload)
     return {
         ...state,
         loading: true,

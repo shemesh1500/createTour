@@ -3,7 +3,6 @@ import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
 import { ASYNC_ACTION_ERROR } from "../async/asyncConstants";
-import { deleteStopFile, deleteStopAudio } from "../media/mediaActions";
 
 export const addStopToTour = (stop, tourId, allStops) =>
     async (dispatch, setState, { getFirestore }) => {
@@ -53,12 +52,12 @@ export const addBusinessStopToRoute = (stop, tourId, stopsCount) =>
         }
     }
 
-export const createStop = (stop, tourId, stopsCount) =>
+export const createStop = (stop, tourId, stopsCount, stopType) =>
     async (dispatch, setState, { getFirestore, getFirebase }) => {
         const firestore = getFirestore();
         const firebase = getFirebase();
         const user = firebase.auth().currentUser;
-        const newStop = createNewStop(user, stop, tourId, stopsCount);
+        const newStop = createNewStop(user, stop, tourId, stopsCount, stopType);
         
         try {
             let created_stop = await firestore.add({
@@ -138,10 +137,8 @@ export const updateStop1 = (stop) =>
     }
 
 export const deleteStop = (stop) =>
-    async (dispatch, setState, { getFirestore, getFirebase }) => {
+    async (dispatch, setState, { getFirestore }) => {
         const firestore = getFirestore()
-        const firebase = getFirebase();
-        console.log("delete stop", stop)
         try {
         /*    //await firebase.move(`${stop.id}/stopsMedia/`, `deleted/${stop.id}/stosMedia/`)
             stop.all_media.map(media => {

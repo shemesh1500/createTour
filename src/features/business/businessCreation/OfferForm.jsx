@@ -24,24 +24,26 @@ const OfferForm = (props) => {
     return (
         <div>
             <Form onSubmit={props.handleSubmit(props.onFormSubmit)}>
-                <div className='formOne'>
-                    <Header size='small' content='Offer price' />
-                    <Field
-                        name='offer_price'
-                        component={TextInput}
-                        placeholder='Offer price'
-                        type='number'
-                    />
+                <div className='businessForm'>
+                    <div className='formOne'>
+                        <Header size='small' content='Offer price' />
+                        <Field
+                            name='offer_price'
+                            component={TextInput}
+                            placeholder='Offer price'
+                            type='number'
+                        />
+                    </div>
+                    <div className='formOne'>
+                        <Header size='small' content='Offer in details' />
+                        <Field name="offer_in_details" type='textarea' component={textAreaInput} placeholder="What the is your offer includs? Min of 25 words" rows={3} />
+                    </div>
+                    <div className='formOne'>
+                        <Header size='small' content='More details' />
+                        <Field name="more_details" type='textarea' component={textAreaInput} placeholder="Tell us more, what to expect? Min of 25 words" rows={3} />
+                    </div>
                 </div>
-                <div className='formOne'>
-                    <Header size='small' content='Offer in details' />
-                    <Field name="offer_in_details" type='textarea' component={textAreaInput} placeholder="What the is your offer includs? Min of 25 words" rows={3} />
-                </div>
-                <div className='formOne'>
-                    <Header size='small' content='More details' />
-                    <Field name="more_details" type='textarea' component={textAreaInput} placeholder="Tell us more, what to expect? Min of 25 words" rows={3} />
-                </div>
-                <Button disabled={invalid || submitting} positive type="submit"></Button>
+                <button className='saveBusinessButton' disabled={invalid || submitting} positive type="submit">save & continue</button>
             </Form>
         </div>
     )

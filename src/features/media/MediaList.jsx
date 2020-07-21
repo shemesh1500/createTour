@@ -56,7 +56,7 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
 
     const tagByType = (item) => {
         if (item.type.includes('image')) {
-            return <Image src={item.url} />;
+            return <Image className='mediaArea' src={item.url} />;
         } else if (item.type.includes('audio')) {
             return (
                 <audio preload="auto" id="id12" controls="controls" onended="func12();" src={item.url}></audio>

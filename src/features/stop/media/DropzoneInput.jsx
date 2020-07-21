@@ -18,7 +18,7 @@ const DropzoneInput = ({setFiles, acceptedFile}) => {
         <div {...getRootProps()} className={'dropzone ' + (isDragActive && 'dropzone--isActive')} >
             <input {...getInputProps()} />
             <Icon name="upload" size='huge' /> 
-            <Header content='Drop image here' />
+            <Header content={`Drop ${acceptedFile} here`}/>
         </div>
     )
 }

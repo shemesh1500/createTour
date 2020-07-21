@@ -28,9 +28,16 @@ const actions = {
 }
 
 const mapState = (state, props) => {
-    const stop = state.firestore.ordered.stops.filter(stop => stop.id === state.form.stopForm.values.id)[0]
-    console.log("stop on media", stop)
-    const all_media = stop ? stop.all_media : []
+    let wanted_stop
+    let tour
+    if (state.firestore.ordered.stops){
+        wanted_stop = state.firestore.ordered.stops.filter(stop => stop.id === state.form.stopForm.values.id)[0]
+    }
+    else{
+        wanted_stop = props.all_stops.filter(stop => stop.id === state.form.stopForm.values.id)[0]
+    }
+    console.log("stop on media", wanted_stop)
+    const all_media = wanted_stop ? wanted_stop.all_media : []
     return {
         all_media: all_media,
         firestore: state.firestore,
@@ -90,9 +97,7 @@ const StopMedia = (props) => {
     const setMediaList = (updatedList) => {
         updatedList.map((item, index) => item.order = index)
     }
-    const confirmChanges = () => {
-        saveChanges(initialValues);
-    }
+ 
 
     const deleteFuncSwitch = (file) => {
         console.log("file", file)
@@ -113,7 +118,6 @@ const StopMedia = (props) => {
                 break;
         }
     }
-    //console.log("all media in media", all_media)
     return (
         <Fragment> 
             <button className='addButton' onClick={() => setPhotoModal(true)}>+  Photo</button>
