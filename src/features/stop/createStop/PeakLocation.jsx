@@ -1,132 +1,182 @@
-import React, { useState } from 'react';
-import { Form,  Divider } from 'semantic-ui-react';
-import placeInput from '../../../app/common/form/placeInput';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import TextInput from '../../../app/common/form/textInput';
-import { combineValidators, isRequired } from 'revalidate';
-import { createStop, updateStop } from '../stopAction'
+import React, { useState, useEffect } from "react";
+import { Form, Divider } from "semantic-ui-react";
+import placeInput from "../../../app/common/form/placeInput";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import TextInput from "../../../app/common/form/textInput";
+import { combineValidators, isRequired } from "revalidate";
+import { createStop, updateStop } from "../stopAction";
+import textAreaInput from "../../../app/common/form/textAreaInput";
 
 //import '../../../style/stopCreation.css'
 
 const actions = {
-    createStop,
-    updateStop
-}
+  createStop,
+  updateStop,
+};
 
 const mapState = (state) => {
-    let initVal = {}
-    if (state.form.stopForm) {
-        initVal = state.form.stopForm.values
-    }
-    return {
-        initialValues: initVal,
-        //values: getFormValues('stopForm')(state)
-    }
-}
+  let initVal = {};
+  if (state.form.stopForm) {
+    initVal = state.form.stopForm.values;
+  }
+  return {
+    initialValues: initVal,
+    //values: getFormValues('stopForm')(state)
+  };
+};
 
 const validate = combineValidators({
-    stop_location: isRequired({ message: "Specific location is required" })
-})
+  stop_location: isRequired({ message: "Specific location is required" }),
+});
 
 const PeakLocation = (props) => {
-    //get the current location of the user
-    const [stopLocation, setLocation] = useState({})
-    const { createStop, updateStop, saveChanges, handleSubmit, setMarker, setCenter, setRouteStatus } = props
+  //get the current location of the user
+  const [stopLocation, setLocation] = useState({});
+  const {
+    createStop,
+    updateStop,
+    saveChanges,
+    handleSubmit,
+    setMarker,
+    setCenter,
+    setRouteStatus,
+    clickLocation,
+    setClickLocation,
+  } = props;
 
-
-    const handleAddress = (address) => {
-        geocodeByAddress(address)
-            .then(result => getLatLng(result[0])
-                .then(latlng => {
-                    setLocation(latlng);
-                    let stop_location = { latitude : latlng.lat, longitude : latlng.lng}
-                    props.change('stop_location', stop_location, setMarker(latlng), setCenter(latlng))
-                }
-                ))
-    }
-
-    const handleAddressPeak = values => {
-        console.log('values', values)
-    }
-
-    const handleClickMap = (e) => {
-        setLocation({ lat: e.lat, lng: e.lng })
-        let location = { lat: e.lat, lng: e.lng }
-        try {
-            props.change('stop_location', location)
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
-    const onSaveClick = async (values) => {
-        try {
-            if (props.initialValues.id) {
-                await updateStop(values)
-            }
-            else {
-                await createStop(values)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    return (
-        <div className='allLocationForm'>
-            <Form onSubmit={handleSubmit(saveChanges)}>
-                <div className='innerLocatioForm'>
-                    <div className='locationInput'>
-                        <Field
-                            component={placeInput}
-                            className='locationInput'
-                            onSelect={handleAddress}
-                            name='location'
-                            placeholder='Stop location'
-                        />
-                    </div>
-                    <div>
-                        <Divider horizontal>Or</Divider>
-                        <div className='locationFooter'>
-                            <div className='cordInput'>
-                                <h4>Latitude</h4>
-                                <Field
-                                    component={TextInput}
-                                    className='cordInput'
-                                    placeholder='Latitude'
-                                    name='stop_location.latitude'
-                                />
-                            </div>
-                            <div className='cordInput'>
-                                <h4>Longitude</h4>
-                                <Field
-                                    component={TextInput}
-                                    className='cordInput'
-                                    placeholder='Longitude'
-                                    name='stop_location.longitude'
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div >
-                    <button className='saveButton' onClick={() => setRouteStatus('Stops List')}>Cancel</button>
-                    <button className='saveButton' disabled={props.invalid} positive type="submit">Save</button>
-                    
-                </div>
-            </Form>
-        </div>
-
+  const handleAddress = (address) => {
+    geocodeByAddress(address).then((result) =>
+      getLatLng(result[0]).then((latlng) => {
+        setLocation(latlng);
+        let stop_location = { latitude: latlng.lat, longitude: latlng.lng };
+        props.change(
+          "stop_location",
+          stop_location,
+          setMarker(latlng),
+          setCenter(latlng),
+          setClickLocation(null)
+        );
+      })
     );
+  };
 
-}
+  useEffect(() => {
+    if (clickLocation) {
+      const newLocation = {
+        latitude: clickLocation.lat,
+        longitude: clickLocation.lng,
+      };
+      props.change("stop_location", newLocation);
+      props.change("location", "custom");
+    }
+  }, [clickLocation]);
 
-export default connect(mapState, actions)(reduxForm({
-    form: 'stopForm',
+  const handleAddressPeak = (values) => {
+    console.log("values", values);
+  };
+
+  const handleClickMap = (e) => {
+    setLocation({ lat: e.lat, lng: e.lng });
+    let location = { lat: e.lat, lng: e.lng };
+    try {
+      props.change("stop_location", location);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSaveClick = async (values) => {
+    try {
+      if (props.initialValues.id) {
+        await updateStop(values);
+      } else {
+        await createStop(values);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <div className="allLocationForm">
+      <Form onSubmit={handleSubmit(saveChanges)}>
+        <div className="innerLocatioForm">
+          <div className="locationInput">
+            <div className="inputLocationHeader">Address</div>
+            <Field
+              component={placeInput}
+              className="locationInput"
+              onSelect={handleAddress}
+              name="location"
+              placeholder="Stop location"
+            />
+          </div>
+          <div className="textLocation">
+            <div className="inputLocationHeader">Diractions by words</div>
+            <Field
+              name="diraction_text"
+              type="textarea"
+              component={textAreaInput}
+              placeholder="Diraction in text"
+              rows={2}
+              className="locationInput"
+            />
+          </div>
+          <div>
+            <Divider horizontal>Or</Divider>
+            <div className="locationFooter">
+              <div className="cordInput">
+                <h4>Latitude</h4>
+                <Field
+                  component={TextInput}
+                  className="cordInput"
+                  placeholder="Latitude"
+                  name="stop_location.latitude"
+                />
+              </div>
+              <div className="cordInput">
+                <h4>Longitude</h4>
+                <Field
+                  component={TextInput}
+                  className="cordInput"
+                  placeholder="Longitude"
+                  name="stop_location.longitude"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button
+            className="saveButton"
+            onClick={() => setRouteStatus("Stops List")}
+          >
+            Cancel
+          </button>
+          <button
+            className="saveButton"
+            disabled={props.invalid}
+            positive
+            type="submit"
+          >
+            Save
+          </button>
+        </div>
+      </Form>
+    </div>
+  );
+};
+
+export default connect(
+  mapState,
+  actions
+)(
+  reduxForm({
+    form: "stopForm",
     validate,
     enableReinitialize: true,
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-})(PeakLocation));
+  })(PeakLocation)
+);

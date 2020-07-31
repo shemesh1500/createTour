@@ -1,105 +1,128 @@
 .innerLocatioForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 55vh;
-    margin: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 55vh;
+  margin: 3%;
 }
 
 .allLocationForm {
-    margin: 3%;
-    height: 64vh;
-    width: 40vw;
+  margin: 3%;
+  height: 64vh;
+  width: 32vw;
 }
 
 .allCreation {
-    margin: 3%;
-    width: 36vw;
+  margin: 3%;
+  width: 36vw;
 }
 
 .locationInput {
-    width: 508px;
-    height: 55px;
-    border-radius: 3px !important;
-    background-color: #f6f6f6 !important;
+  width: 508px;
+  height: 55px;
+  border-radius: 3px !important;
+  background-color: #f6f6f6 !important;
+}
+
+.inputLocationHeader {
+  width: 508px;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6e6d71;
+  background-color: #ffffff;
+}
+
+.textLocation {
+  width: 508px;
+  border-radius: 3px !important;
+  padding-bottom: 20px;
 }
 
 .PlacesAutocompleteItemOld {
-    display: flex;
-    align-items: left;
-    flex-direction: row;
-    justify-content: left;
+  display: flex;
+  align-items: left;
+  flex-direction: row;
+  justify-content: left;
 }
 .PlacesAutocompleteListOle {
-    width: 459px !important;
-    height: 19px;
-    font-family: PloniDL1.1AAA;
-    font-size: 16px !important;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #ff6008;
-    background-color: #f6f6f6 !important;
+  width: 459px !important;
+  height: 19px;
+  font-family: PloniDL1.1AAA;
+  font-size: 16px !important;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff6008;
+  background-color: #f6f6f6 !important;
 }
 
-
-.PlacesAutocompleteItem{
-    cursor: default;
-    padding: 0 4px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    line-height: 75px;
-    text-align: left;
-    border-top: 2px solid #e6e6e6;
-    font-size: 16px;
-    color:  #ff6008;
-    display: flex;
-    align-items: left;
-    flex-direction: row;
-    justify-content: left;
+.PlacesAutocompleteItem {
+  position: "absolute";
+  z-index: 10000;
+  width: 100%q;
+  cursor: default;
+  padding: 0 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 75px;
+  text-align: left;
+  border-top: 2px solid #e6e6e6;
+  font-size: 16px;
+  color: #ff6008;
+  display: flex;
+  align-items: left;
+  flex-direction: row;
+  justify-content: left;
+  background-color: #ffffff;
 }
 
 .PlacesAutocompleteList {
-    width: 475px;
-
-    height: 500px;
-  
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
-  
-    background-color: #ffffff;
+  position: "absolute";
+  z-index: 10000;
+  width: 475px;
+  height: 500px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
 }
 
 .suggestionHeader {
-    font-family: PloniDL1.1AAA;
-    font-size: 16px !important;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: right;
-    color: #ff6008
+  position: "absolute";
+  z-index: 10000;
+  font-family: PloniDL1.1AAA;
+  font-size: 16px !important;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ff6008;
 }
 
 .locationFooter {
-    display: flex;
-    align-items: left;
-    flex-direction: row;
-    justify-content: left;
+  display: flex;
+  align-items: left;
+  flex-direction: row;
+  justify-content: left;
 }
 
 .cordInput {
-    width: 150px !important;
-    height: 55px;
-    border-radius: 3px;
-    background-color: #f6f6f6;
+  width: 150px !important;
+  height: 55px;
+  border-radius: 3px;
+  background-color: #f6f6f6;
 }
 
 .saveButton {
-    margin-top: 30px;
-    cursor: pointer;
+  margin-top: 30px;
+  cursor: pointer;
 }

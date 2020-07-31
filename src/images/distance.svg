@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <defs>
+        <filter id="prefix__a" width="114.4%" height="107.6%" x="-7.2%" y="-3.8%" filterUnits="objectBoundingBox">
+            <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/>
+            <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd" filter="url(#prefix__a)" transform="translate(-323 -426)">
+        <g transform="translate(323 426)">
+            <circle cx="15" cy="15" r="7" fill="#FF8900"/>
+            <text fill="#FFF" font-family="PloniDL1.1AAA-Regular, Ploni DL 1.1 AAA" font-size="11" letter-spacing=".034">
+                <tspan x="12" y="18">K</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

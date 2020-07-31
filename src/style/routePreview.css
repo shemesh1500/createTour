@@ -1,0 +1,116 @@
+.previewArea {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+
+.routePreview {
+  width: 25vw !important;
+  height: 120vh;
+  background-image: url("../images/blankPhoto.png");
+  background-repeat: no-repeat;
+  padding-top: 80px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  overflow: hidden;
+}
+
+.mapRoute {
+  margin-left: 17px;
+  width: 23vw !important;
+  height: 67vh;
+}
+
+/****************STOP Preview************/
+
+.stopPreview {
+  display: flex;
+  justify-items: center;
+}
+
+.mediaList {
+  width: 250px;
+  height: 78px;
+  border-radius: 16px;
+  box-shadow: 0 2px 35px 0 rgba(212, 212, 212, 0.5),
+    0 2px 4px 0 rgba(197, 197, 197, 0.5);
+  background-color: #ffffff;
+  display: flex;
+  justify-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  margin-bottom: 200px;
+}
+
+.buttomRoute {
+  margin-left: 17px;
+  width: 23vw !important;
+  height: 10vh;
+  display: flex;
+  justify-items: left;
+}
+
+.stopsList {
+  display: flex;
+  justify-items: left;
+  padding: 3px;
+  margin: 3px;
+  margin-left: 10px;
+}
+
+.stopCircle {
+  width: 40px;
+  height: 40px;
+  border: solid 0.5px #ffffff;
+  background-color: #ff8900;
+  border-radius: 50%;
+  margin-left: 5px;
+  /*FONT*/
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.33px;
+  text-align: center;
+  color: #ffffff;
+  padding-top: 8px;
+}
+
+.stopHeader {
+  width: 180px;
+  font-size: 21px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ff8900;
+  padding: 5%;
+}
+.routeDetails {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  font-size: 18px;
+}
+
+.List {
+  width: 200px;
+  height: 55px;
+  opacity: 0.68;
+  border-radius: 36px;
+  background-color: #ffffff;
+}
+
+.ListItemEven,
+.ListItemOdd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ListItemEven {
+  background-color: #f8f8f0;
+}

@@ -1,0 +1,140 @@
+.generalModal {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: #ffffff;
+  z-index: 1000;
+}
+
+.generalModal:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.mediaModal {
+  position: absolute;
+  top: 15%;
+  right: 11.3%;
+  bottom: 26%;
+  left: 67%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.voiceModal {
+  position: absolute;
+  top: 32%;
+  right: 11.3%;
+  bottom: 53%;
+  left: 67%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.audioModalPlayer {
+  margin: auto;
+  margin-top: 45px;
+  width: 150px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 90px;
+  transform: scale(1.05);
+}
+
+.videoModal {
+  position: absolute;
+  top: 21%;
+  right: 11.3%;
+  bottom: 31%;
+  left: 67%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.videoModalPlayer {
+  margin: auto;
+  width: 95%;
+  position: relative;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 44px 0 rgba(212, 212, 212, 0.5);
+}
+
+.mediaModal .imgModal {
+  width: 360px;
+  height: 480px;
+  display: flex;
+  margin: auto;
+  padding-top: 15px;
+}
+
+.textModal {
+  position: absolute;
+  top: 21%;
+  right: 11.3%;
+  bottom: 31%;
+  left: 67%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.textContent {
+  padding: 3%;
+}
+
+.questionModal {
+  position: absolute;
+  top: 21%;
+  right: 11.3%;
+  bottom: 31%;
+  left: 67%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.questionContext {
+  padding: 8%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: #d8d8d8;
+}
+
+.theQuestion {
+  font-size: 21px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff8900;
+  padding-bottom: 4%;
+}
+
+.theAnswer {
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.05px;
+  text-align: left;
+  color: #263238;
+  padding: 3%;
+  padding-right: 20px;
+}
+
+.answerText {
+  padding-left: 20px;
+}
+
+.answerImg {
+  padding-right: 25px;
+}
+
+.closeIcon {
+  float: right;
+  width: 9px;
+
+  height: 9px;
+
+  color: solid 3px #ff8900;
+}

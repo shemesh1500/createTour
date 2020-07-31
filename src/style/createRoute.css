@@ -1,94 +1,94 @@
 .mainZone {
-    background-color: #f8f8f5;
-    height: 100vh;
+  background-color: #f8f8f5;
+  height: 100vh;
 }
 
 .mainHeader {
-    font-family: PloniDL1.1AAA;
-    font-size: 36px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.06;
-    letter-spacing: -0.1px;
-    text-align: left;
-    color: #97a425;
+  font-family: PloniDL1.1AAA;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.06;
+  letter-spacing: -0.1px;
+  text-align: left;
+  color: #97a425;
 }
 
-.subHeader {
-    font-family: PloniDL1.1AAA;
-    font-size: 18px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.33;
-    letter-spacing: normal;
-    text-align: left;
-    color: #6e6d71;
-    padding-top: 10px;
+.subHeaderRoute {
+  font-family: PloniDL1.1AAA;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6e6d71;
+  padding-top: 8px;
 }
 
 .createHeader {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .createText {
-    width: 15vw;
+  width: 30vw;
+  margin: 2%;
 }
 
-.ui.dropdown1  {
-    width: 171px;
-    height: 46px;
-    border-radius: 24px;
-    background-color: #eec24a;
-    padding-top: 5px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 46px;  
+.ui.dropdown1 {
+  width: 171px;
+  height: 46px;
+  border-radius: 24px;
+  background-color: #eec24a;
+  padding-top: 5px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 46px;
 }
 
 .saveButton {
-    width: 171px;
-    height: 46px;
-    border-radius: 24px;
-    background-color: #97a425;
-    float: bottom;
-    font-family: PloniDL1.1AAA;
-    font-size: 17px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 0.85;
-    letter-spacing: 0.32px;
-    text-align: center;
-    color: white;
+  width: 171px;
+  height: 46px;
+  border-radius: 24px;
+  background-color: #97a425;
+  float: bottom;
+  font-family: PloniDL1.1AAA;
+  font-size: 17px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.85;
+  letter-spacing: 0.32px;
+  text-align: center;
+  color: white;
 }
 
 .addNewStop {
-    width: 171px;
-    height: 46px;
-    border-radius: 24px;
-    background-color: #eec24a;
-    margin-right: 70px;
-    text-align: center !important;
-    vertical-align: center !important;
+  width: 171px;
+  height: 46px;
+  border-radius: 24px;
+  background-color: #eec24a;
+  margin-right: 70px;
+  text-align: center !important;
+  vertical-align: center !important;
 }
-.ui.dropdown{
-
-}
-
-.returnStopList{
-    width: 171px;
-    height: 46px;
-    border-radius: 24px;
-    background-color: #bdee4a;
-    margin-right: 70px;
-    text-align: center !important;
-    vertical-align: center !important;
+.ui.dropdown {
 }
 
-.ui.dropdown .text{
-    text-align: center;
-    vertical-align: middle;
+.returnStopList {
+  width: 171px;
+  height: 46px;
+  border-radius: 24px;
+  background-color: #bdee4a;
+  margin-right: 70px;
+  text-align: center !important;
+  vertical-align: center !important;
+}
+
+.ui.dropdown .text {
+  text-align: center;
+  vertical-align: middle;
 }

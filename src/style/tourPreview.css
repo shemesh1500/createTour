@@ -1,0 +1,123 @@
+.previewArea {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  margin: auto;
+}
+
+.tourPreview {
+  width: 25vw !important;
+  height: 120vh;
+  background-image: url("../images/blankPhoto.png");
+  background-repeat: no-repeat;
+  padding: 3%;
+  padding-top: 80px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  overflow: hidden;
+  margin-left: 50px;
+}
+
+.img {
+  max-width: 100%;
+  height: auto;
+}
+
+.topHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 3%;
+}
+
+.tourName {
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.97;
+  letter-spacing: normal;
+  text-align: right;
+  color: #434040;
+}
+
+.tourPrice {
+  font-size: 26px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: 0.28px;
+  text-align: right;
+  color: #ff8900;
+}
+
+.tourType {
+  font-family: Hind;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: 0.4px;
+  color: #ff8900;
+}
+
+.subHeader {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 70%;
+  margin: 3%;
+}
+
+.iconItem {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.iconItem img {
+  width: 25px;
+  height: 25px;
+}
+
+.descHeader .notesHeade {
+  font-size: 18px;
+  height: 28px;
+  letter-spacing: 0.06px;
+}
+
+.tourDesc .tourNotes {
+  font-family: PloniDL1.1AAA;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: 0.05px;
+  color: #9c9c9c;
+}
+
+.tourDescription {
+  padding: 3%;
+}
+
+.tourNotes {
+  padding: 3%;
+}
+
+.ratingStar {
+  color: #ff8900;
+}
+
+.tourRate {
+  margin: 5px;
+}
+
+.List {
+  width: 200px;
+  height: 210px;
+  background-color: #ffffff;
+}
