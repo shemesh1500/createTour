@@ -58,12 +58,8 @@ const CreateRoute = (props) => {
   }, [currentStopId, currentStop]);
 
   useEffect(() => {
-    if (all_stops && mapMarkers && all_stops.length > 0) {
-      //all_stops.map((stop) =>
-      // setMarkerList([...mapMarkers, stop.stop.location])
-      //);
-    }
-  }, [all_stops]);
+    setClickLocation(null);
+  }, [currentStop, routeStatus]);
 
   const setOrderList = (updated_list) => {
     updated_list.map((stop, index) => (stop.order = index));
@@ -90,7 +86,11 @@ const CreateRoute = (props) => {
   };
 
   const AddBusinessToRoute = (business) => {
-    updateStop(business);
+    const new_business = {
+      ...business,
+      type: "business",
+    };
+    updateStop(new_business);
     setbusinessMarker([]);
     setRouteStatus("Stops List");
   };
@@ -159,7 +159,7 @@ const CreateRoute = (props) => {
                 setCurrentStop(item);
               }}
             >
-              Edit
+              {item.type === "business" ? "View" : "Edit"}
             </Button>
           </Button.Group>
         </div>
@@ -260,6 +260,7 @@ const CreateRoute = (props) => {
             updateStop={updateStop}
             clickLocation={clickLocation}
             setClickLocation={setClickLocation}
+            setCurrentStop={setCurrentStop}
           />
         );
       default:

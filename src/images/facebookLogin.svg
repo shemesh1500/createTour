@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="306" height="48" viewBox="0 0 306 48">
+    <defs>
+        <filter id="prefix__a" width="101.3%" height="108.7%" x="-.7%" y="-2.2%" filterUnits="objectBoundingBox">
+            <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.14 0"/>
+        </filter>
+        <rect id="prefix__b" width="304" height="46" x="0" y="0" rx="23"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(1)">
+        <use fill="#000" filter="url(#prefix__a)" xlink:href="#prefix__b"/>
+        <use fill="#4267B2" xlink:href="#prefix__b"/>
+        <g fill="#FFF">
+            <path fill-rule="nonzero" d="M2.177 18v-7.156H0V8h2.177V5.75c0-1.188.302-2.11.905-2.766C3.685 2.328 4.486 2 5.485 2c.81 0 1.47.042 1.98.125v2.531H6.106c-.509 0-.857.125-1.046.375-.15.209-.226.542-.226 1V8h2.403l-.34 2.844H4.836V18H2.177z" transform="translate(51 13)"/>
+            <text font-family="PloniDL1.1AAA-Bold, Ploni DL 1.1 AAA" font-size="11.2" font-weight="bold" letter-spacing="1" transform="translate(51 13)">
+                <tspan x="32.512" y="10.6">LOGIN WITH FACEBOOK</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

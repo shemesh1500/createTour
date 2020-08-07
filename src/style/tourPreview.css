@@ -6,7 +6,7 @@
 }
 
 .tourPreview {
-  width: 25vw !important;
+  width: 30vw !important;
   height: 120vh;
   background-image: url("../images/blankPhoto.png");
   background-repeat: no-repeat;
@@ -65,17 +65,20 @@
 
 .subHeader {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  width: 70%;
-  margin: 3%;
+  width: 90%;
+  margin: 8%;
 }
 
 .iconItem {
   display: flex;
   align-items: center;
   margin-right: 10px;
+  padding: 4%;
+  width: 160px;
 }
 
 .iconItem img {
@@ -120,4 +123,21 @@
   width: 200px;
   height: 210px;
   background-color: #ffffff;
+}
+
+.pruchaseButton {
+  width: 313px;
+  height: 48px;
+  border-radius: 24px;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.21);
+  background-color: #f8a12a;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.05px;
+  text-align: center;
+  color: #ffffff;
+  margin: auto;
 }

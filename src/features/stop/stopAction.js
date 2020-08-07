@@ -1,146 +1,182 @@
 import { createNewStop, businessForRoute } from "../../app/common/helpers";
 import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
-import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
-import { ASYNC_ACTION_ERROR } from "../async/asyncConstants";
+import {
+  asyncActionStart,
+  asyncActionFinish,
+  asyncActionError,
+} from "../async/asyncActions";
 
-export const addStopToTour = (stop, tourId, allStops) =>
-    async (dispatch, setState, { getFirestore }) => {
-        const firestore = getFirestore();
-        const updatedStops = [...allStops, stop]
-        try {
-            await firestore.set(`tours/${tourId}`, { all_stops: updatedStops }, { merge: true })
-            toastr.success('Success', 'Stop is added to tour');
-        } catch (error) {
-            console.log(error)
-            toastr.error('Error', 'Stop not add to tour, please try agian')
-        }
-    }
+export const addStopToTour = (stop, tourId, allStops) => async (
+  dispatch,
+  setState,
+  { getFirestore }
+) => {
+  const firestore = getFirestore();
+  const updatedStops = [...allStops, stop];
+  try {
+    await firestore.set(
+      `tours/${tourId}`,
+      { all_stops: updatedStops },
+      { merge: true }
+    );
+    toastr.success("Success", "Stop is added to tour");
+  } catch (error) {
+    console.log(error);
+    toastr.error("Error", "Stop not add to tour, please try agian");
+  }
+};
 
-export const addBusinessStopToRoute = (stop, tourId, stopsCount) =>
-    async (dispatch, setState, {getFirestore, getFirebase}) => {
-        const firestore = getFirestore();
-        const firebase = getFirebase();
-        const user = firebase.auth().currentUser;
-        const businessStop = businessForRoute(user, stop, tourId, stopsCount)
-        try{
-            let created_stop = await firestore.add({
-                collection: 'tours',
-                doc: tourId,
-                subcollections: [{ collection: 'stops' }]
-            }, {
-                ...businessStop
-            })
-            const added_id = {
-                ...businessStop,
-                id : created_stop.id
-            }
-            
-            await firestore.update({
-                collection: 'tours',
-                doc: tourId,
-                subcollections: [{ collection: 'stops', doc: created_stop.id }],
-            },
-                added_id
-            );
-            toastr.success('Success', 'Stop has been created.');
-            return created_stop.id;
-        } catch (error) {
-            console.log("Error", error)
-            toastr.error("Oops", "Something went wrong! Please try agian")
-        
-        }
-    }
+export const addBusinessStopToRoute = (stop, tourId, stopsCount) => async (
+  dispatch,
+  setState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore();
+  const firebase = getFirebase();
+  const user = firebase.auth().currentUser;
+  const businessStop = businessForRoute(user, stop, tourId, stopsCount);
+  try {
+    let created_stop = await firestore.add(
+      {
+        collection: "tours",
+        doc: tourId,
+        subcollections: [{ collection: "stops" }],
+      },
+      {
+        ...businessStop,
+      }
+    );
+    const added_id = {
+      ...businessStop,
+      id: created_stop.id,
+    };
 
-export const createStop = (stop, tourId, stopsCount, stopType) =>
-    async (dispatch, setState, { getFirestore, getFirebase }) => {
-        const firestore = getFirestore();
-        const firebase = getFirebase();
-        const user = firebase.auth().currentUser;
-        const newStop = createNewStop(user, stop, tourId, stopsCount, stopType);
-        
-        try {
-            let created_stop = await firestore.add({
-                collection: 'tours',
-                doc: tourId,
-                subcollections: [{ collection: 'stops' }]
-            }, {
-                ...newStop
-            })
-            const added_id = {
-                ...newStop,
-                id : created_stop.id
-            }
-            
-            await firestore.update({
-                collection: 'tours',
-                doc: tourId,
-                subcollections: [{ collection: 'stops', doc: created_stop.id }],
-            },
-                added_id
-            );
+    await firestore.update(
+      {
+        collection: "tours",
+        doc: tourId,
+        subcollections: [{ collection: "stops", doc: created_stop.id }],
+      },
+      added_id
+    );
+    toastr.success("Success", "Stop has been created.");
+    return created_stop.id;
+  } catch (error) {
+    console.log("Error", error);
+    toastr.error("Oops", "Something went wrong! Please try agian");
+  }
+};
 
-            toastr.success('Success', 'Stop has been created.');
-            return created_stop.id;
-        } catch (error) {
-            console.log("Error", error)
-            toastr.error("Oops", "Something went wrong! Please try agian")
-        }
-    }
+export const createStop = (stop, tourId, stopsCount, stopType) => async (
+  dispatch,
+  setState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore();
+  const firebase = getFirebase();
+  const user = firebase.auth().currentUser;
+  const newStop = createNewStop(user, stop, tourId, stopsCount, stopType);
 
-export const createStop1 = (stop, tourOwner) =>
-    async (dispatch, setState, { getFirebase, getFirestore, }) => {
-        const firestore = getFirestore();
-        const firebase = getFirebase();
-        const user = firebase.auth().currentUser;
-        const newStop = createNewStop(user, stop, tourOwner);
-        try {
-            let created_stop = await firestore.add('stops', newStop);
-            toastr.success('Success', 'Stop has been created.');
-            return created_stop.id;
-        } catch (error) {
-            console.log("Error", error)
-            toastr.error("Oops", "Something went wrong! Please try agian")
-        }
-    }
+  try {
+    let created_stop = await firestore.add(
+      {
+        collection: "tours",
+        doc: tourId,
+        subcollections: [{ collection: "stops" }],
+      },
+      {
+        ...newStop,
+      }
+    );
+    const added_id = {
+      ...newStop,
+      id: created_stop.id,
+    };
 
-export const updateStop = (tourId, stop) =>
-    async (dispatch, setState, { getFirestore }) => {
-        const firestore = getFirestore()
-        try {
-            let created_stop = await firestore.update({
-                collection: 'tours',
-                doc: tourId,
-                subcollections: [{ collection: 'stops', doc: stop.id }],
-            },
-                stop
-            );
-            toastr.success('Success', 'Stop has been updated.');
-            return created_stop
-        } catch (error) {
-            console.log(error);
-            toastr.error("Oops", 'Somthing went wrong! Please try again');
-        }
-    }
+    await firestore.update(
+      {
+        collection: "tours",
+        doc: tourId,
+        subcollections: [{ collection: "stops", doc: created_stop.id }],
+      },
+      added_id
+    );
 
-export const updateStop1 = (stop) =>
-    async (dispatch, setState, { getFirestore }) => {
-        const firestore = getFirestore()
-        try {
-            let created_stop = await firestore.update(`stops/${stop.id}`, stop)
-            toastr.success('Success', 'Stop has been updated.');
-            return created_stop
-        } catch (error) {
-            console.log(error);
-            toastr.error("Oops", 'Somthing went wrong! Please try again');
-        }
-    }
+    toastr.success("Success", "Stop has been created.");
+    return created_stop.id;
+  } catch (error) {
+    console.log("Error", error);
+    toastr.error("Oops", "Something went wrong! Please try agian");
+  }
+};
 
-export const deleteStop = (stop) =>
-    async (dispatch, setState, { getFirestore }) => {
-        const firestore = getFirestore()
-        try {
-        /*    //await firebase.move(`${stop.id}/stopsMedia/`, `deleted/${stop.id}/stosMedia/`)
+export const createStop1 = (stop, tourOwner) => async (
+  dispatch,
+  setState,
+  { getFirebase, getFirestore }
+) => {
+  const firestore = getFirestore();
+  const firebase = getFirebase();
+  const user = firebase.auth().currentUser;
+  const newStop = createNewStop(user, stop, tourOwner);
+  try {
+    let created_stop = await firestore.add("stops", newStop);
+    toastr.success("Success", "Stop has been created.");
+    return created_stop.id;
+  } catch (error) {
+    console.log("Error", error);
+    toastr.error("Oops", "Something went wrong! Please try agian");
+  }
+};
+
+export const updateStop = (tourId, stop) => async (
+  dispatch,
+  setState,
+  { getFirestore }
+) => {
+  const firestore = getFirestore();
+  try {
+    let created_stop = await firestore.update(
+      {
+        collection: "tours",
+        doc: tourId,
+        subcollections: [{ collection: "stops", doc: stop.id }],
+      },
+      stop
+    );
+    toastr.success("Success", "Stop has been updated.");
+    return created_stop;
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Somthing went wrong! Please try again");
+  }
+};
+
+export const updateStop1 = (stop) => async (
+  dispatch,
+  setState,
+  { getFirestore }
+) => {
+  const firestore = getFirestore();
+  try {
+    let created_stop = await firestore.update(`stops/${stop.id}`, stop);
+    toastr.success("Success", "Stop has been updated.");
+    return created_stop;
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Somthing went wrong! Please try again");
+  }
+};
+
+export const deleteStop = (stop) => async (
+  dispatch,
+  setState,
+  { getFirestore }
+) => {
+  const firestore = getFirestore();
+  try {
+    /*    //await firebase.move(`${stop.id}/stopsMedia/`, `deleted/${stop.id}/stosMedia/`)
             stop.all_media.map(media => {
                 console.log("media", media, media.type)
                 if (media.type.includes('image')){
@@ -152,210 +188,261 @@ export const deleteStop = (stop) =>
                 }
         });
 */
-       await firestore.delete({
-                collection: 'tours',
-                doc: stop.tour_owner,
-                subcollections: [{ collection: 'stops', doc: stop.id }],
-            });
-        toastr.success('Success', 'Stop has been updated.');
-        } catch (error) {
-            console.log(error)
-            toastr.error('Oops', 'Somthing went wrong! Please try again')
-        }
-    }
+    await firestore.delete({
+      collection: "tours",
+      doc: stop.tour_owner,
+      subcollections: [{ collection: "stops", doc: stop.id }],
+    });
+    toastr.success("Success", "Stop has been updated.");
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Somthing went wrong! Please try again");
+  }
+};
 
-export const deleteFile = (file, stop) =>
-    async (dispatch, getState, { getFirebase, getFirestore }) => {
-        const firebase = getFirebase();
-        const firestore = getFirestore();
-        const updated_media = stop.all_media.filter(media => media.name !== file.name)
-        let updated_stop = {
-            ...stop,
-            all_media: updated_media
-        }
+export const deleteFile = (file, stop) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const updated_media = stop.all_media.filter(
+    (media) => media.name !== file.name
+  );
+  let updated_stop = {
+    ...stop,
+    all_media: updated_media,
+  };
 
-        try {
-            dispatch(asyncActionStart);
-            await firebase.deleteFile(`${stop.id}/stopMedia/${file.name}`)
-            await firestore.update(`stops/${stop.id}`, updated_stop)
-            toastr.success('Success', 'Delete has been success');
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "Something went wrong, please try agian")
-        }
-    }
+  try {
+    dispatch(asyncActionStart);
+    await firebase.deleteFile(`${stop.id}/stopMedia/${file.name}`);
+    await firestore.update(`stops/${stop.id}`, updated_stop);
+    toastr.success("Success", "Delete has been success");
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "Something went wrong, please try agian");
+  }
+};
 
-export const deleteStopVideo = (video, stop) =>
-    async (dispatch, setState, { getFirebase, getFirestore }) => {
-        const firebase = getFirebase();
-        const firestore = getFirestore();
-        const updated_media = stop.all_media.filter(media => media.name !== video.name)
-        let updated_stop = {
-            ...stop,
-            all_media: updated_media
-        }
+export const deleteStopVideo = (video, stop) => async (
+  dispatch,
+  setState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const updated_media = stop.all_media.filter(
+    (media) => media.name !== video.name
+  );
+  let updated_stop = {
+    ...stop,
+    all_media: updated_media,
+  };
 
-        try {
-            dispatch(asyncActionStart);
-            await firebase.deleteFile(`${stop.id}/stopMedia/${video.name}`);
-            await firebase.deleteFile(`${stop.id}/stopMedia/${video.poster_name}`);
-            await firestore.update({
-                collection: 'tours',
-                doc: stop.tour_owner,
-                subcollections: [{ collection: 'stops', doc: stop.id }],
-            },
-            updated_stop
-            );
-            toastr.success('Success', 'Delete video has been success');
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "Something went wrong, please try agian")
-        }
+  try {
+    dispatch(asyncActionStart);
+    await firebase.deleteFile(`${stop.id}/stopMedia/${video.name}`);
+    await firebase.deleteFile(`${stop.id}/stopMedia/${video.poster_name}`);
+    await firestore.update(
+      {
+        collection: "tours",
+        doc: stop.tour_owner,
+        subcollections: [{ collection: "stops", doc: stop.id }],
+      },
+      updated_stop
+    );
+    toastr.success("Success", "Delete video has been success");
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "Something went wrong, please try agian");
+  }
+};
+export const deleteVideo = (video, stop) => async (
+  dispatch,
+  setState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const updated_media = stop.all_media.filter(
+    (media) => media.name !== video.name
+  );
+  let updated_stop = {
+    ...stop,
+    all_media: updated_media,
+  };
+  try {
+    dispatch(asyncActionStart);
+    await firebase.deleteFile(`${stop.id}/stopMedia/${video.name}`);
+    await firebase.deleteFile(`${stop.id}/stopMedia/${video.poster_name}`);
+    await firestore.update(`stops/${stop.id}`, updated_stop);
+    toastr.success("Success", "Delete video has been success");
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "Something went wrong, please try agian");
+  }
+};
 
-    }
-export const deleteVideo = (video, stop) =>
-    async (dispatch, setState, { getFirebase, getFirestore }) => {
-        const firebase = getFirebase();
-        const firestore = getFirestore();
-        const updated_media = stop.all_media.filter(media => media.name !== video.name)
-        let updated_stop = {
-            ...stop,
-            all_media: updated_media
-        }
-        try {
-            dispatch(asyncActionStart);
-            await firebase.deleteFile(`${stop.id}/stopMedia/${video.name}`);
-            await firebase.deleteFile(`${stop.id}/stopMedia/${video.poster_name}`);
-            await firestore.update(`stops/${stop.id}`, updated_stop);
-            toastr.success('Success', 'Delete video has been success');
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "Something went wrong, please try agian")
-        }
+export const uploadVideo = (
+  videoFile,
+  basePath,
+  stopId,
+  all_media,
+  posterImg
+) => async (dispatch, setState, { getFirebase, getFirestore }) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const videoName = cuid();
+  const posterName = cuid();
+  const videoOptions = {
+    name: videoName,
+  };
+  const posterOptions = {
+    name: posterName,
+  };
+  try {
+    dispatch(asyncActionStart);
+    let uploadedVideo = await firebase.uploadFile(
+      basePath,
+      videoFile,
+      null,
+      videoOptions
+    );
+    let downloadURLvideo = await uploadedVideo.uploadTaskSnapshot.ref.getDownloadURL();
+    let uploadedPoster = await firebase.uploadFile(
+      basePath,
+      posterImg,
+      null,
+      posterOptions
+    );
+    let downloadURLposter = await uploadedPoster.uploadTaskSnapshot.ref.getDownloadURL();
+    let new_media = {
+      name: videoName,
+      url: downloadURLvideo,
+      type: videoFile.type,
+      poster_name: posterName,
+      poster_url: downloadURLposter,
+      order: all_media.lenght + 1,
+    };
+    let updated_media = [...all_media, new_media];
+    await firestore.set(
+      `stops/${stopId}`,
+      { all_media: updated_media },
+      { merge: true }
+    );
+    dispatch(asyncActionFinish);
+    toastr.success("Success", "Upload video has been success");
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "Something went wrong, please try agian");
+  }
+};
 
-    }
+export const deleteAudio = (audio, stop) => async (
+  dispatch,
+  setState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  const updated_media = stop.all_media.filter(
+    (media) => media.name !== audio.name
+  );
+  let updated_stop = {
+    ...stop,
+    all_media: updated_media,
+  };
+  try {
+    dispatch(asyncActionStart);
+    await firebase.deleteFile(`${stop.id}/stopMedia/${audio.name}`);
+    await firestore.update(`stops/${stop.id}`, updated_stop);
+    toastr.success("Success", "Delete audio has been success");
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "Something went wrong, please try agian");
+  }
+};
 
-export const uploadVideo = (videoFile, basePath, stopId, all_media, posterImg) =>
-    async (dispatch, setState, { getFirebase, getFirestore }) => {
-        const firebase = getFirebase();
-        const firestore = getFirestore();
-        const videoName = cuid();
-        const posterName = cuid();
-        const videoOptions = {
-            name: videoName
-        }
-        const posterOptions = {
-            name: posterName
-        }
-        try {
-            dispatch(asyncActionStart)
-            let uploadedVideo = await firebase.uploadFile(basePath, videoFile, null, videoOptions);
-            let downloadURLvideo = await uploadedVideo.uploadTaskSnapshot.ref.getDownloadURL();
-            let uploadedPoster = await firebase.uploadFile(basePath, posterImg, null, posterOptions);
-            let downloadURLposter = await uploadedPoster.uploadTaskSnapshot.ref.getDownloadURL();
-            let new_media = {
-                name: videoName,
-                url: downloadURLvideo,
-                type: videoFile.type,
-                poster_name: posterName,
-                poster_url: downloadURLposter,
-                order: all_media.lenght + 1
-            }
-            let updated_media = [...all_media, new_media];
-            await firestore.set(`stops/${stopId}`, { all_media: updated_media }, { merge: true })
-            dispatch(asyncActionFinish)
-            toastr.success('Success', 'Upload video has been success');
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "Something went wrong, please try agian")
-        }
+export const uploadAudio = (
+  file,
+  basePath,
+  stopId,
+  all_media,
+  audioTitle
+) => async (dispatch, setState, { getFirestore, getFirebase }) => {
+  const firestore = getFirestore();
+  const firebase = getFirebase();
+  const fileName = cuid();
+  const options = {
+    name: fileName,
+  };
 
-    }
+  try {
+    dispatch(asyncActionStart);
+    let uploadedFile = await firebase.uploadFile(basePath, file, null, options);
+    let downloadedURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
+    let new_media = {
+      name: fileName,
+      url: downloadedURL,
+      type: file.type,
+      audio_title: audioTitle,
+      order: all_media.lenght + 1,
+    };
+    let updated_media = [...all_media, new_media];
+    await firestore.set(
+      `/stops/${stopId}`,
+      { all_media: updated_media },
+      { merge: true }
+    );
+    dispatch(asyncActionFinish);
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "Something went wrong, please try agian");
+  }
+};
 
-export const deleteAudio = (audio, stop) =>
-    async (dispatch, setState, { getFirebase, getFirestore }) => {
-        const firebase = getFirebase();
-        const firestore = getFirestore();
-        const updated_media = stop.all_media.filter(media => media.name !== audio.name)
-        let updated_stop = {
-            ...stop,
-            all_media: updated_media
-        }
-        try {
-            dispatch(asyncActionStart);
-            await firebase.deleteFile(`${stop.id}/stopMedia/${audio.name}`);
-            await firestore.update(`stops/${stop.id}`, updated_stop);
-            toastr.success('Success', 'Delete audio has been success');
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "Something went wrong, please try agian")
-        }
+export const uploadFile = (file, basePath, stopId, all_media) => async (
+  dispatch,
+  setState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore();
+  const firebase = getFirebase();
+  const fileName = cuid();
+  const options = {
+    name: fileName,
+    generation: stopId,
+  };
 
-    }
-
-    
-export const uploadAudio = (file, basePath, stopId, all_media, audioTitle) =>
-    async (dispatch, setState, { getFirestore, getFirebase }) => {
-        const firestore = getFirestore();
-        const firebase = getFirebase();
-        const fileName = cuid();
-        const options = {
-            name: fileName
-        }
-
-        try {
-            dispatch(asyncActionStart)
-            let uploadedFile = await firebase.uploadFile(basePath, file, null, options);
-            let downloadedURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
-            let new_media = {
-                name: fileName,
-                url: downloadedURL,
-                type: file.type, audio_title: audioTitle,
-                order: all_media.lenght + 1
-            }
-            let updated_media = [...all_media, new_media]
-            await firestore.set(`/stops/${stopId}`, { all_media: updated_media }, { merge: true });
-            dispatch(asyncActionFinish);
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "Something went wrong, please try agian")
-        }
-    }
-
-export const uploadFile = (file, basePath, stopId, all_media) =>
-    async (dispatch, setState, { getFirestore, getFirebase }) => {
-        const firestore = getFirestore()
-        const firebase = getFirebase();
-        const fileName = cuid();
-        const options = {
-            name: fileName,
-            generation: stopId
-        };
-
-        try {
-            dispatch(asyncActionStart);
-            let uploadedFile = await firebase.uploadFile(basePath, file, null, options)
-            let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
-            let order = all_media.lenght + 1;
-            let new_media = {
-                name: fileName,
-                url: downloadURL,
-                type: file.type,
-                order: order
-            }
-            let updated_media = [...all_media, new_media]
-            await firestore.set(`stops/${stopId}`, { all_media: updated_media }, { merge: true })
-            dispatch(asyncActionFinish)
-        } catch (error) {
-            console.log(error)
-            dispatch(asyncActionError)
-            toastr.error("Oops", "File upload faild, please try agian.")
-        }
-    }
-
+  try {
+    dispatch(asyncActionStart);
+    let uploadedFile = await firebase.uploadFile(basePath, file, null, options);
+    let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
+    let order = all_media.lenght + 1;
+    let new_media = {
+      name: fileName,
+      url: downloadURL,
+      type: file.type,
+      order: order,
+    };
+    let updated_media = [...all_media, new_media];
+    await firestore.set(
+      `stops/${stopId}`,
+      { all_media: updated_media },
+      { merge: true }
+    );
+    dispatch(asyncActionFinish);
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError);
+    toastr.error("Oops", "File upload faild, please try agian.");
+  }
+};

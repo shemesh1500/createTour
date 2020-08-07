@@ -8,12 +8,16 @@ import TextInput from "../../../app/common/form/textInput";
 import { combineValidators, isRequired } from "revalidate";
 import { createStop, updateStop } from "../stopAction";
 import textAreaInput from "../../../app/common/form/textAreaInput";
-
+import DropzoneInput from "../../stop/media/DropzoneInput";
+import { generalUploadFile, generalDeleteFile } from "../../media/mediaActions";
+import PhotoComponent from "../media/PhotoComponent";
 //import '../../../style/stopCreation.css'
 
 const actions = {
   createStop,
   updateStop,
+  generalUploadFile,
+  generalDeleteFile,
 };
 
 const mapState = (state) => {
@@ -21,8 +25,10 @@ const mapState = (state) => {
   if (state.form.stopForm) {
     initVal = state.form.stopForm.values;
   }
+
   return {
     initialValues: initVal,
+    loading: state.async.loading,
     //values: getFormValues('stopForm')(state)
   };
 };
@@ -44,7 +50,19 @@ const PeakLocation = (props) => {
     setRouteStatus,
     clickLocation,
     setClickLocation,
+    loading,
+    initialValues,
+    generalUploadFile,
+    generalDeleteFile,
   } = props;
+
+  const [photoOpen, setPhotoModal] = useState(false);
+  const [files, setFiles] = useState([]);
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
   const handleAddress = (address) => {
     geocodeByAddress(address).then((result) =>
@@ -77,14 +95,42 @@ const PeakLocation = (props) => {
     console.log("values", values);
   };
 
-  const handleClickMap = (e) => {
-    setLocation({ lat: e.lat, lng: e.lng });
-    let location = { lat: e.lat, lng: e.lng };
-    try {
-      props.change("stop_location", location);
-    } catch (error) {
-      console.log(error);
+  const deleteFile = async (file) => {
+    if (
+      file.type.includes("image") ||
+      file.type.includes("audio") ||
+      file.type.includes("video")
+    ) {
+      await generalDeleteFile(file, initialValues.id, "stopMedia");
     }
+    let new_all_media = initialValues.loc_pics.filter(
+      (media) => media.name !== file.name
+    );
+    let update_stop = {
+      ...initialValues,
+      loc_pics: new_all_media,
+    };
+
+    saveChanges(update_stop);
+  };
+
+  const uploadFile = async (file) => {
+    if (!initialValues.id) {
+      const new_id = saveChanges(initialValues);
+    }
+
+    let new_media = await generalUploadFile(file, initialValues.id, "stop");
+    new_media = {
+      ...new_media,
+      order: initialValues.loc_pics ? initialValues.loc_pics.lenght : 0,
+    };
+    let new_all_media = [...initialValues.loc_pics, new_media];
+    let update_stop = {
+      ...initialValues,
+      loc_pics: new_all_media,
+    };
+
+    saveChanges(update_stop);
   };
 
   const onSaveClick = async (values) => {
@@ -121,6 +167,22 @@ const PeakLocation = (props) => {
               placeholder="Diraction in text"
               rows={2}
               className="locationInput"
+            />
+          </div>
+          <div className="photoLocation">
+            <div className="inputLocationHeader">Picture of the location</div>
+            <button className="addButton" onClick={() => setPhotoModal(true)}>
+              + Add pictures to be more precise
+            </button>
+            <PhotoComponent
+              loading={loading}
+              objectId={initialValues.id}
+              all_media={initialValues.loc_pics}
+              //handleSetMainFile={handleSetMainFile}
+              handleDeletePhoto={deleteFile}
+              open={photoOpen}
+              onClose={() => setPhotoModal(false)}
+              generalUploadFile={uploadFile}
             />
           </div>
           <div>

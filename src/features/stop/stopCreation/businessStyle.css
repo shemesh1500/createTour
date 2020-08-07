@@ -8,7 +8,7 @@
 }
 
 .carousel {
-    width: 680px ;
+    width: 680px;
 }
 
 .slide {
@@ -92,9 +92,26 @@
     color: #6e6d71;
 }
 
-.mediaArea{
+.businessMediaArea {
     display: flex;
     align-items: center;
     justify-content: wrap;
     margin: 2%;
+}
+
+.mediaItemBusiness {
+    padding: 8px;
+}
+
+.businessTitle {
+    width: 100%;
+    height: 29px;
+    font-size: 30px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: bold;
+    line-height: 0.97;
+    letter-spacing: normal;
+    text-align: center;
+    color: #434040;
 }

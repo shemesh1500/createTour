@@ -1,9 +1,10 @@
 html, body {
   background-color: rgb(234, 234, 234) !important;
-  width: 100%;  
+  width: 100%;
 }
 
 /*timepicker style*/
+
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
   padding-left: 0;
   padding-right: 0;
@@ -18,10 +19,9 @@ html, body {
   width: 100%;
 }
 
-
 /*home page styles*/
 
-.homemap{
+.homemap {
   width: 1920px;
   height: 1080px;
 }
@@ -29,12 +29,7 @@ html, body {
 .masthead {
   display: flex;
   align-items: center;
-  background-image: linear-gradient(
-          135deg,
-          rgb(24, 42, 115) 0%,
-          rgb(33, 138, 174) 69%,
-          rgb(32, 167, 172) 89%
-  ) !important;
+  background-image: linear-gradient( 135deg, rgb(24, 42, 115) 0%, rgb(33, 138, 174) 69%, rgb(32, 167, 172) 89%) !important;
   height: 100vh;
 }
 
@@ -43,8 +38,7 @@ html, body {
   padding: 1em 0 !important;
 } */
 
-.masthead .ui.menu .ui.button,
-.ui.menu a.ui.inverted.button {
+.masthead .ui.menu .ui.button, .ui.menu a.ui.inverted.button {
   margin-left: 0.5em;
   padding-right: 0%;
 }
@@ -84,14 +78,13 @@ html, body {
   ) !important;
 } */
 
-.ui.fixed.menu{
+.ui.fixed.menu {
   width: 15%;
   height: 1080px;
-  background-color: #bdcd31;  
+  background-color: #39415e;
 }
 
-.ui.main.container,
-.main.segment {
+.ui.main.container, .main.segment {
   margin-top: 0em;
   margin-left: 0em !important;
 }
@@ -100,8 +93,7 @@ html, body {
   background-color: #f5f5f5;
 }
 
-.masthead .ui.menu .ui.button,
-.ui.menu a.ui.inverted.button {
+.masthead .ui.menu .ui.button, .ui.menu a.ui.inverted.button {
   margin-left: 0.5em;
 }
 
@@ -121,6 +113,7 @@ html, body {
 }
 
 /* dropzone styles */
+
 .dropzone {
   border: dashed 3px #eee;
   border-radius: 5px;

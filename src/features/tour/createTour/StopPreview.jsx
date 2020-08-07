@@ -37,7 +37,6 @@ const StopPreview = (props) => {
       );
     }
   };
-  console.log("stop.all_media", stop.all_media);
 
   return (
     <div className="stopPreview">

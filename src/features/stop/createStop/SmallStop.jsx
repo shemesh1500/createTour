@@ -43,6 +43,7 @@ const SmallStop = ({
   setStopId,
   clickLocation,
   setClickLocation,
+  setCurrentStop,
 }) => {
   const [tabName, settabName] = useState("Location");
 
@@ -75,6 +76,7 @@ const SmallStop = ({
       };
       let current_stopId = await updateStop(new_stop);
       setStopId(current_stopId);
+      setCurrentStop(new_stop);
     } catch (error) {
       console.log(error);
     }

@@ -12,6 +12,76 @@
     color: #6e6d71;
 }
 
-.menuText{
+.menuText {
     text-align: left;
+}
+
+.menuName {
+    width: 110px;
+    height: 35px;
+    font-family: PloniDL1.1AAA;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.55;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+}
+
+.menuEmail {
+    width: 134px;
+    height: 35px;
+    font-family: PloniDL1.1AAA;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.13;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+}
+
+.logoutMenu {
+    width: 100px;
+    height: 35px;
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.13;
+    text-align: left;
+    color: #ffffff;
+}
+
+.menuPersonalInfo {
+    margin: auto;
+    margin-top: 20px;
+}
+
+.menuLogo {
+    position: absolute;
+    top: 30;
+    right: 8;
+}
+
+.topMenu {
+    display: flex;
+    flex-direction: row;
+    width: 220px;
+}
+
+.a {
+    text-align: center;
+    line-height: 20px;
+}
+
+.menuIcon {
+    float: left;
+}
+
+.item {
+    margin: 5px;
 }

@@ -6,12 +6,6 @@ import StopPreview from "./StopPreview";
 import { FixedSizeList as List } from "react-window";
 import MediaModal from "../../../app/common/modal/MediaModal";
 
-const mapState = (state, props) => {
-  return {
-    tour: state.form.tourForm.values,
-  };
-};
-
 const RoutePreview = (props) => {
   const {
     tour,

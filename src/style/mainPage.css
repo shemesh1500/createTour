@@ -12,6 +12,10 @@
     padding: 5%;
 }
 
+.mainHeader {
+    color: #39415e;
+}
+
 .mainZoneButtun {
     width: 571px;
     height: 81px;
@@ -24,17 +28,16 @@
     justify-content: left;
     align-items: left;
     flex-direction: row;
-    
 }
 
-.mainButton{
+.mainButton {
     display: flex;
     justify-content: left;
     align-items: left;
     flex-direction: row;
 }
 
-.buttonText{
+.buttonText {
     font-family: PloniDL1.1AAA-D;
     font-size: 20px;
     font-stretch: normal;
@@ -42,12 +45,12 @@
     line-height: 1;
     letter-spacing: -0.06px;
     text-align: left;
-    color: #97a425;
+    color: #39415e;
     margin-left: 5%;
     padding-top: 5%;
 }
 
-.icon{
+.icon {
     width: 25px;
     height: 25px;
     margin-left: 5%;

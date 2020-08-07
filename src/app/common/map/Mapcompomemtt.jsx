@@ -4,6 +4,7 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
+  InfoWindow,
 } from "react-google-maps";
 import { MapDirectionsRenderer } from "./MapDirectionsRenderer";
 
@@ -204,8 +205,17 @@ const Map = withScriptjs(
       }}
       key={props.key}
       defaultCenter={props.defaultCenter}
-      defaultZoom={props.defaultZoom}
+      zoom={props.defaultZoom}
       onClick={props.onClick}
+      zoom={props.places.length === 1 ? 15 : props.defaultZoom}
+      center={
+        props.places.length === 1
+          ? {
+              lat: props.places[0].location.latitude,
+              lng: props.places[0].location.longitude,
+            }
+          : props.defaultZoom
+      }
     >
       {props.places.map((marker, index) => {
         if (marker.location) {
@@ -218,7 +228,19 @@ const Map = withScriptjs(
         }
       })}
       {props.clickLocation && (
-        <Marker position={props.clickLocation} style={{ color: "#0000ff" }} />
+        <Marker
+          position={props.clickLocation}
+          draggable={true}
+          icon={"http://maps.google.com/mapfiles/ms/icons/orange.png"}
+          style={{ strokeColor: "green" }}
+        >
+          {" "}
+          <InfoWindow>
+            <div style={{ color: "black" }}>
+              Save for changing to this location
+            </div>
+          </InfoWindow>
+        </Marker>
       )}
       {props.businessPlaces &&
         props.businessPlaces.map((marker, index) => {

@@ -32,3 +32,30 @@
   float: right;
   margin-left: auto;
 }
+
+.mainTourHeader {
+  width: 200px;
+  height: 38px;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.06;
+  letter-spacing: -0.1px;
+  text-align: left;
+  color: #39415e;
+  margin-bottom: 2%;
+}
+
+.subTourHeader {
+  width: 532px;
+  height: 24px;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6e6d71;
+}

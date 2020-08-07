@@ -1,23 +1,26 @@
-.formBG{
-    background-color: #39415e;
-    text-align: center;
+.formBG {
+  background-color: #39415e;
+  text-align: center;
 }
 
 .deadZone {
-    display: flex;
-    align-items: center;
-    background-image: url('/assets/mapBG.png');
-    height: 100vh;
-  }
+  display: flex;
+  align-items: center;
+  background-image: url('/assets/mapBG.png');
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-  .mainApp{
-    display: flex;
-    justify-content: left;
-    align-items: left;
-    height: 100vh;
-  }
+.mainApp {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  height: 100vh;
+}
 
-  .switchContext{
-      margin-left: 15%;
-      width: 100vw;
-  }
+.switchContext {
+  margin-left: 15%;
+  width: 100vw;
+}

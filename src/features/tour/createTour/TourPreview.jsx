@@ -2,9 +2,10 @@ import React from "react";
 import styled, { css } from "styled-components";
 import makeCarousel from "react-reveal/makeCarousel";
 import Slide from "react-reveal/Slide";
-import locationIcon from "../../../images/location.svg";
-import durationIcon from "../../../images/duration.svg";
-import distanceIcon from "../../../images/distance.svg";
+import locationIcon from "../../../images/location.png";
+import durationIcon from "../../../images/duration.png";
+import distanceIcon from "../../../images/distance.png";
+import rangeIcon from "../../../images/range.png";
 import { FixedSizeList as List } from "react-window";
 import { Rating } from "semantic-ui-react";
 import "../../../style/tourPreview.css";
@@ -33,9 +34,10 @@ const TourPreview = (props) => {
   `;
   const Dot = styled.span`
     font-size: 2.5em;
-    font-color: #ff7b00;
+    font-color: #e8e7e7;
     cursor: pointer;
-    text-shadow: 1px 1px 1px #fff;
+    text-shadow: 2px 2px 2px #fff;
+
     user-select: none;
   `;
   const Dots = styled.span`
@@ -47,6 +49,7 @@ const TourPreview = (props) => {
     align-items: left;
     justify-content: left;
     padding-left: 20px;
+    padding-bottom: 8%;
   `;
 
   const CarouselUI = ({ position, total, handleClick, children }) => (
@@ -141,11 +144,6 @@ const TourPreview = (props) => {
                 K
               </div>
             </div>
-          </div>
-        );
-      case 3:
-        return (
-          <div className="subHeader">
             <div className="iconItem">
               <img src={durationIcon} alt="duration" />
               <div className="tourDuration">
@@ -154,11 +152,21 @@ const TourPreview = (props) => {
             </div>
 
             <div className="iconItem">
-              <img src={locationIcon} alt="difficulty" />
+              <img src={rangeIcon} alt="difficulty" />
               <div className="tourDifficulty">
                 {tour.difficulty && tour.difficulty}
               </div>
             </div>
+          </div>
+        );
+      case 3:
+        return (
+          <div className="guideArea">
+            <div className="guidePreview">
+              <div className="guideInfo"></div>
+              <div className="guideRate"></div>
+            </div>
+            <div className="goProfile"></div>
           </div>
         );
       case 4:
@@ -179,6 +187,8 @@ const TourPreview = (props) => {
             <div className="tourNotes">{tour.notes && tour.notes}</div>
           </div>
         );
+      case 7:
+        return <div className="pruchaseButton">Pruchase</div>;
       default:
         return null;
     }
@@ -191,7 +201,7 @@ const TourPreview = (props) => {
           <List
             //className="List"
             height={730}
-            itemCount={7}
+            itemCount={8}
             itemSize={150}
             width={420}
           >

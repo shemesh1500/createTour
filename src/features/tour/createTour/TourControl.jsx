@@ -8,14 +8,12 @@ import TourMainNav from "./TourMainNav";
 import MapComponent from "../../../app/common/map/MapComponent";
 import PeakMainLocation from "./PeakMainLocation";
 import CreateRoute from "./CreateRoute";
-import { compose } from "redux";
-import Mapcomponent from "../../../app/common/map/Mapcompomemtt";
-import "../../../style/tourControl.css";
 import { toastr } from "react-redux-toastr";
 import TourDetails from "./TourDetails";
 import cuid from "cuid";
 import TourPreview from "./TourPreview";
 import RoutePreview from "./RoutePreview";
+import "../../../style/tourControl.css";
 
 const query = (props) => {
   let tourId;
@@ -131,8 +129,9 @@ const TourControl = (props) => {
   }, [props, initialValues]);
 
   useEffect(() => {
-    if (props.stops && props.stops.length !== markerList.length) {
-      console.log("newRender from useEffect");
+    console.log("useeffect in");
+    if (props.stops) {
+      checkStartingPoint(initialValues.stops);
       renderRoute();
     }
   }, [props.stops]);
@@ -148,11 +147,9 @@ const TourControl = (props) => {
   };
 
   const updateStop = async (update_stop) => {
-    console.log("updateStop1", update_stop);
     let wanted_stop = initialValues.stops.filter(
       (stop) => stop.id === update_stop.id
     )[0];
-    console.log("updateStop2", wanted_stop);
     if (wanted_stop) {
       initialValues.stops = initialValues.stops.map((stop) =>
         stop.id === update_stop.id ? update_stop : stop
@@ -165,6 +162,7 @@ const TourControl = (props) => {
         id: cuid(),
         all_media: [],
         created_date: new Date(),
+        loc_pics: [],
       };
       let updated_stops = [...initialValues.stops, update_stop];
       let updated_tour = {
@@ -191,9 +189,7 @@ const TourControl = (props) => {
     props.stops.map((stop) =>
       markerStops.push({ location: stop.stop_location, order: stop.order })
     );
-    console.log("Render Route1", props.stops, markerStops, markerList);
     setMarkerList(markerStops);
-    console.log("Render Route2", props.stops, markerStops, markerList);
   };
 
   const updateAllStops = async (all_stops) => {
@@ -304,14 +300,15 @@ const TourControl = (props) => {
       doUpdate = true;
     }
 
-    if (initialValues.distance !== Distance) {
+    if (initialValues.distance !== Distance && Distance !== 0) {
       initialValues.distance = Distance;
       doUpdate = true;
     }
-    if (initialValues.duration !== Duration) {
+    if (initialValues.duration !== Duration && Duration !== 0) {
       initialValues.duration = Duration;
       doUpdate = true;
     }
+    console.log("DoUpload", doUpdate);
     if (doUpdate === true) {
       await props.updateTour(initialValues);
     }
@@ -366,6 +363,8 @@ const TourControl = (props) => {
   return (
     <div className="controlArea">
       <div className="contextArea">
+        <div className="mainTourHeader">Tour Details</div>
+        <div className="subTourHeader">Here you start to build your tour</div>
         <TourMainNav
           activeTab={mainNavActive}
           handleTabChange={handleMainNavClick}
