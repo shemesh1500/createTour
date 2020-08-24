@@ -68,6 +68,11 @@ const language = [
   { key: "Hebrew", text: "Hebrew", value: "Hebrew" },
   { key: "Spanish", text: "Spanish", value: "Spanish" },
 ];
+const equipment = [
+  { key: "Water", text: "Water", value: "Water" },
+  { key: "Towel", text: "Towel", value: "Towel" },
+  { key: "Warm clothing", text: "Warm clothing", value: "Warm clothing" },
+];
 
 const tourType = [
   { key: "Culinary", text: "Culinary", value: "Culinary" },
@@ -81,10 +86,10 @@ const tourType = [
 ];
 
 const TourForm = (props) => {
-  const [age, setAge] = useState(
-    props.initialValues.age_range
-      ? props.initialValues.age_range
-      : { min: 18, max: 60 }
+  const [difficulty, setDifficulty] = useState(
+    props.initialValues.difficulty
+      ? props.initialValues.difficulty
+      : { min: 1, max: 9 }
   );
   const [hours, setHours] = useState(
     props.initialValues.hours_range
@@ -118,21 +123,6 @@ const TourForm = (props) => {
     <div className="allForm">
       <Form onSubmit={props.handleSubmit(props.onFormSubmit)}>
         <div className="formOne">
-          <Header size="small" content="Tour name" />
-          <Field name="title" component={TextInput} placeholder="Tour name" />
-        </div>
-        <div className="formOne">
-          <Header size="small" content="General location" />
-          <Field
-            component={placeInput}
-            className="locationInput"
-            onSelect={handleAddress}
-            name="location"
-            placeholder="General location"
-            options={{ types: ["(cities)"] }}
-          />
-        </div>
-        <div className="formOne">
           <Header size="small" content="Price " />
           <Field
             name="price"
@@ -141,27 +131,17 @@ const TourForm = (props) => {
             placeholder="Price"
           />
         </div>
-        <div className="formOne">
-          <Header size="small" content="Language" />
-          <Field
-            name="language"
-            component={SelectInput}
-            options={language}
-            value="language.text"
-            multiple={false}
-            placeholder="Language"
-          />
-        </div>
 
         <div className="formOne">
-          <Header size="small" content="Age range" />
+          <Header size="small" content="Difficulty meter" />
           <InputRange
-            name="age_range"
-            maxValue={100}
+            name="difficulty"
+            maxValue={10}
             minValue={0}
-            value={age}
+            value={difficulty}
+            draggableTrack
             onChange={(value) => (
-              setAge(value), props.change("age_range", value)
+              setDifficulty(value), props.change("difficulty", value)
             )}
           />
         </div>
@@ -190,6 +170,17 @@ const TourForm = (props) => {
             value="audience.text"
             multiple={true}
             placeholder="Recommened audience"
+          />
+        </div>
+        <div className="formOne">
+          <Header size="small" content="Equipment list" />
+          <Field
+            name="equipment"
+            component={SelectInput}
+            options={equipment}
+            value="equipment.text"
+            multiple={true}
+            placeholder="Equipment list"
           />
         </div>
 
@@ -236,19 +227,14 @@ const TourForm = (props) => {
           />
         </div>
 
-        <Button disabled={invalid || submitting} positive type="submit">
-          Submit
-        </Button>
-        <Button onClick={() => props.handleEditStat(false)}>Cancel</Button>
-        <Button
-          type="button"
-          color={initialValues.cancelled ? "green" : "red"}
-          floated="right"
-          content={initialValues.cancelled ? "Reactivate tour" : "Cancel tour"}
-          onClick={() =>
-            cancelToggle(!initialValues.cancelled, initialValues.id)
-          }
-        />
+        <button
+          className="saveFormButton"
+          disabled={invalid || submitting}
+          positive
+          type="submit"
+        >
+          Save & Continue
+        </button>
       </Form>
     </div>
   );
@@ -268,51 +254,3 @@ export default withFirestore(
     })(TourForm)
   )
 );
-
-/*
-<Field name="title" component={TextInput} placeholder="Tour title" />
-        <Field name="language" component={TextInput} placeholder="Language of the tour" />
-
-        <Header sub color='teal' content="Tour description" />
-        <Field name="main_sentense" component={TextInput} placeholder="Kicking sentence about your tour" />
-        <Field name="description" component={TextAreaInput} placeholder="Tell us more, what to expect?" rows={3} />
-        <Header sub color='teal' content="Tour location" />
-        <Field
-          name="city"
-          component={PlaceInput}
-          options={{ types: ['(cities)'] }}
-          placeholder="City"
-          onSelect={handleCitySelect} />
-        <Field
-          name="street"
-          options={{
-            location: new google.maps.LatLng(addLatlng),
-            radius: 1000,
-            types: ['address'],
-          }}
-          component={PlaceInput}
-          placeholder="Street"
-          onSelect={handleAddressSelect}
-        />
-        <Field
-          name="house_number"
-          component={TextInput}
-          placeholder="Address number"
-          required
-        />
-        <Header sub color='teal' content="Recommended hours to take that tour" />
-        <Field name="rec_start_h" component={DateInput} placeholder="From..."
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={15}
-          timeCaption="Time"
-          dateFormat="h:mm aa"
-        />
-        <Field name="rec_end_h" component={DateInput} placeholder="Until..."
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={15}
-          timeCaption="Time"
-          dateFormat="h:mm aa"
-        />
-*/
