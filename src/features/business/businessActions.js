@@ -24,10 +24,13 @@ export const createBusiness = (business) => {
 };
 
 export const updateBusiness = (business) => {
-  return async (dispatch, getState, { getFirestore }) => {
+  return async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore();
+    const firebase = getFirebase();
+    const user = firebase.auth().currentUser;
+
     try {
-      await firestore.update(`business/${business.id}`, business);
+      await firestore.set(`business/${business.id}`, business);
       toastr.success("Success!", "Tour has been updated");
     } catch (error) {
       console.log(error);

@@ -154,7 +154,8 @@ const TourPreview = (props) => {
             <div className="iconItem">
               <img src={rangeIcon} alt="difficulty" />
               <div className="tourDifficulty">
-                {tour.difficulty && tour.difficulty}
+                {tour.difficulty && tour.difficulty.min} -{" "}
+                {tour.difficulty && tour.difficulty.max}
               </div>
             </div>
           </div>

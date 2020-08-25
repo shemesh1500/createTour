@@ -53,7 +53,6 @@ const CreateRoute = (props) => {
   const [currentStop, setStop] = useState(null);
 
   useEffect(() => {
-    console.log("setCurrentStop", currentStop);
     setCurrentStop(currentStop);
   }, [currentStopId, currentStop]);
 

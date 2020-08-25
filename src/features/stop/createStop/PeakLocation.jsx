@@ -115,21 +115,26 @@ const PeakLocation = (props) => {
   };
 
   const uploadFile = async (file) => {
+    let new_id = null;
     if (!initialValues.id) {
-      const new_id = saveChanges(initialValues);
+      new_id = await saveChanges(initialValues);
     }
 
-    let new_media = await generalUploadFile(file, initialValues.id, "stop");
+    let new_media = await generalUploadFile(
+      file,
+      new_id ? new_id : initialValues.id,
+      "stop"
+    );
     new_media = {
       ...new_media,
-      order: initialValues.loc_pics ? initialValues.loc_pics.lenght : 0,
+      order:
+        initialValues.loc_pics.lenght === 0 ? initialValues.loc_pics.lenght : 0,
     };
     let new_all_media = [...initialValues.loc_pics, new_media];
     let update_stop = {
       ...initialValues,
       loc_pics: new_all_media,
     };
-
     saveChanges(update_stop);
   };
 
@@ -172,8 +177,11 @@ const PeakLocation = (props) => {
           <div className="photoLocation">
             <div className="inputLocationHeader">Picture of the location</div>
             <button className="addButton" onClick={() => setPhotoModal(true)}>
-              + Add pictures to be more precise
+              {initialValues.loc_pics.lenght === 0
+                ? "Add stop picture"
+                : "Add more pictures"}
             </button>
+
             <PhotoComponent
               loading={loading}
               objectId={initialValues.id}

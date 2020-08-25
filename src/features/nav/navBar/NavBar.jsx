@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Menu, Container } from "semantic-ui-react";
 import { withFirebase } from "react-redux-firebase";
 import { NavLink, withRouter } from "react-router-dom";
@@ -16,6 +16,7 @@ import "../../../style/mainNavBar.css";
 
 const actions = {
   openModal,
+  CheckType,
 };
 
 const mapState = (state) => ({
@@ -23,130 +24,126 @@ const mapState = (state) => ({
   auth: state.firebase.auth,
 });
 
-class NavBar extends Component {
-  handleSignIn = () => this.props.openModal("LoginModal");
-  handleRegister = () => this.props.openModal("RegisterModal");
+const NavBar = (props) => {
+  let [activeItem, setActiveItem] = useState("home page");
 
-  state = { activeItem: "Home page" };
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  const handleItemClick = (e, { name }) => setActiveItem(name);
 
-  handleSignOut = () => {
-    this.props.firebase.logout();
-    this.props.history.push("/");
+  const handleSignOut = () => {
+    props.firebase.logout();
+    props.history.push("/");
   };
 
-  render() {
-    const { profile, auth } = this.props;
-    const { activeItem } = this.state;
-    const firstName = profile.displayName
-      ? profile.displayName.split(" ")[0]
-      : "New Guide";
-    return (
-      <div className="menuText">
-        <Menu inverted vertical fixed="left">
-          <Container>
-            <Menu.Item as={NavLink} exact to="/" header>
-              <div className="topMenu">
-                <img className="menuLogo" src={menuLogo} alt="logo" />
-                <div className="menuPersonalInfo">
-                  <div className="menuName">{firstName}</div>
-                  <div className="menuEmail">
-                    {auth.email ? auth.email : "fix@it.com"}
-                  </div>
-                  <div className="logoutMenu">
-                    <a
-                      onClick={() => this.handleSignOut}
-                      style={{ cursor: "pointer" }}
-                    >
-                      Log out
-                    </a>
-                  </div>
+  const { profile, auth } = props;
+  const firstName = profile.displayName
+    ? profile.displayName.split(" ")[0]
+    : "New Guide";
+
+  return (
+    <div className="menuText">
+      <Menu inverted vertical fixed="left">
+        <Container>
+          <Menu.Item as={NavLink} exact to="/" header>
+            <div className="topMenu">
+              <img className="menuLogo" src={menuLogo} alt="logo" />
+              <div className="menuPersonalInfo">
+                <div className="menuName">{firstName}</div>
+                <div className="menuEmail">
+                  {auth.email ? auth.email : "fix@it.com"}
+                </div>
+                <div className="logoutMenu">
+                  <a
+                    onClick={() => handleSignOut()}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Log out
+                  </a>
                 </div>
               </div>
-            </Menu.Item>
+            </div>
+          </Menu.Item>
+          <Menu.Item
+            as={NavLink}
+            exact
+            to="/main"
+            name="Home page"
+            active={activeItem === "Home page"}
+            onClick={handleItemClick}
+          >
+            <img className="menuIcon" src={homeIcon} />
+            Home
+          </Menu.Item>
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to="/tours"
+            name="My tours"
+            active={activeItem === "My tours"}
+            onClick={handleItemClick}
+          >
+            <img className="menuIcon" src={assetsIcon} />
+            My assets
+          </Menu.Item>
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to="/tourControl"
+            name="Create tour"
+            active={activeItem === "Create tour"}
+            onClick={handleItemClick}
+          >
+            <img className="menuIcon" src={tourIcon} />
+            Create tour
+          </Menu.Item>
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to="/businessCreation"
+            name="Create Business point"
+            active={activeItem === "Create Business point"}
+            onClick={handleItemClick}
+          >
+            <img className="menuIcon" src={businessIcon} />
+            Create business stop
+          </Menu.Item>
+
+          <Menu.Item
+            as={NavLink}
+            exact
+            to="/sales"
+            name="Cash register"
+            active={activeItem === "Cash register"}
+            onClick={handleItemClick}
+          >
+            <img className="menuIcon" src={balanceIcon} />
+            Cash register
+          </Menu.Item>
+
+          {props.profile.userType == "rootGuide" && (
             <Menu.Item
               as={NavLink}
               exact
-              to="/main"
-              name="Home page"
-              active={activeItem === "Home page"}
-              onClick={this.handleItemClick}
-            >
-              <img className="menuIcon" src={homeIcon} />
-              Home
-            </Menu.Item>
+              to="/Manage"
+              name="Manage"
+              active={activeItem === "Manage"}
+              onClick={handleItemClick}
+            />
+          )}
 
-            <Menu.Item
-              as={NavLink}
-              exact
-              to="/tours"
-              name="My tours"
-              active={activeItem === "My tours"}
-              onClick={this.handleItemClick}
-            >
-              <img className="menuIcon" src={assetsIcon} />
-              My assets
-            </Menu.Item>
-
-            <Menu.Item
-              as={NavLink}
-              exact
-              to="/tourControl"
-              name="Create tour"
-              active={activeItem === "Create tour"}
-              onClick={this.handleItemClick}
-            >
-              <img className="menuIcon" src={tourIcon} />
-              Create tour
-            </Menu.Item>
-
-            <Menu.Item
-              as={NavLink}
-              exact
-              to="/businessCreation"
-              name="Create Business point"
-              active={activeItem === "Create Business point"}
-              onClick={this.handleItemClick}
-            >
-              <img className="menuIcon" src={businessIcon} />
-              Create business stop
-            </Menu.Item>
-
-            <Menu.Item
-              as={NavLink}
-              exact
-              to="/tours"
-              name="My assets"
-              active={activeItem === "My assets"}
-              onClick={this.handleItemClick}
-            >
-              <img className="menuIcon" src={balanceIcon} />
-              Cash register
-            </Menu.Item>
-
-            {CheckType() && (
-              <Menu.Item
-                as={NavLink}
-                exact
-                to="/Manage"
-                name="Manage"
-                active={activeItem === "Manage"}
-                onClick={this.handleItemClick}
-              />
-            )}
-
-            <footer>
-              <SignedInMenu
-                floated="button"
-                signOut={this.handleSignOut}
-                profile={profile}
-              />
-            </footer>
-          </Container>
-        </Menu>
-      </div>
-    );
-  }
-}
+          <footer>
+            <SignedInMenu
+              floated="button"
+              signOut={handleSignOut}
+              profile={profile}
+            />
+          </footer>
+        </Container>
+      </Menu>
+    </div>
+  );
+};
 
 export default withRouter(withFirebase(connect(mapState, actions)(NavBar)));

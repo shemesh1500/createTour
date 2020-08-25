@@ -8,6 +8,7 @@ import { compose } from "redux";
 import BusinessList from "../../business/businessList/BusinessList";
 import TourList from "../tourList/TourList";
 import { approveBusiness } from "../../business/businessActions.js";
+import UserTable from "../../auth/UserTable";
 
 const query = (props) => {
   return [
@@ -19,6 +20,10 @@ const query = (props) => {
       collection: "business",
       // where: ["tourOwner", "==", props.auth.uid],
     },
+    {
+      collection: "users",
+      // where: ["tourOwner", "==", props.auth.uid],
+    },
   ];
 };
 
@@ -28,6 +33,7 @@ const mapState = (state) => ({
   loading: state.async.loading,
   profile: state.firebase.profile,
   auth: state.firebase.auth,
+  users: state.firestore.ordered.users,
 });
 
 const actions = {
@@ -39,26 +45,30 @@ const actions = {
 };
 const ManageTours = (props) => {
   return (
-    <Grid>
-      <Grid.Column width={8}>
-        {props.tours && (
-          <TourList
-            tours={props.tours}
-            doApprov={true}
-            approveTour={props.approveTour}
-          />
-        )}
-      </Grid.Column>
-      <Grid.Column width={8}>
-        {props.business && (
-          <BusinessList
-            business={props.business}
-            doApprov={true}
-            approveBusiness={props.approveBusiness}
-          />
-        )}
-      </Grid.Column>
-    </Grid>
+    <div>
+      {" "}
+      <Grid>
+        <Grid.Column width={8}>
+          {props.tours && (
+            <TourList
+              tours={props.tours}
+              doApprov={true}
+              approveTour={props.approveTour}
+            />
+          )}
+        </Grid.Column>
+        <Grid.Column width={8}>
+          {props.business && (
+            <BusinessList
+              business={props.business}
+              doApprov={true}
+              approveBusiness={props.approveBusiness}
+            />
+          )}
+        </Grid.Column>
+      </Grid>
+      {props.users && <UserTable users={props.users} />}
+    </div>
   );
 };
 

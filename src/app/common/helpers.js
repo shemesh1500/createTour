@@ -39,6 +39,9 @@ export const createNewBusiness = (user, business) => {
     tourOwner: user.uid,
     hostedBy: user.displayName,
     created_date: new Date(),
+    id: cuid(),
+    all_media: [],
+    loc_pics: [],
   };
 };
 
@@ -63,5 +66,6 @@ export const createNewStop = (user, stop, tourOwner, stopsCount, stopType) => {
     all_media: [],
     order: stopsCount,
     type: stopType,
+    loc_pics: [],
   };
 };

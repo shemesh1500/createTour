@@ -1,6 +1,7 @@
 import { SubmissionError, reset } from "redux-form";
 import { closeModal } from "../modals/modalActions";
 import { toastr } from "react-redux-toastr";
+import cuid from "cuid";
 
 const createUser = (user) => {
   let new_user = {
@@ -47,13 +48,23 @@ export const registerUser = (user) => async (
     await createdUser.user.updateProfile({
       displayName: user.displayName,
     });
+    console.log("Register USER", user);
     let newUser = {
       displayName: user.displayName,
-      createAt: firestore.FieldValue.serverTimestamp(),
+      creationTime: firestore.FieldValue.serverTimestamp(),
       rating: {
         total: 0,
         votes: 0,
       },
+      fisrtname: "",
+      lastname: "",
+      imageUrl: "",
+      isNewUser: false,
+      locale: "",
+      tours: [],
+      email: user.email ? user.email : "",
+      uid: cuid(),
+      userType: "guide",
     };
     await firestore.set(`users/${createdUser.user.uid}`, { ...newUser });
     dispatch(closeModal());
@@ -78,12 +89,26 @@ export const socialLogin = (selectedProvider) => async (
       provider: selectedProvider,
       type: "popup",
     });
-    console.log("social", user);
+    console.log("social", user, user.getIdToken(true));
     if (user.additionalUserInfo.isNewUser) {
       await firestore.set(`users/${user.user.uid}`, {
-        displayName: user.displayName,
-        photoURL: user.profile.avatarUrl,
-        createAt: firestore.FieldValue.serverTimestamp(),
+        displayName: user.user.displayName,
+        imageUrl: user.profile.avatarUrl,
+        creationTime: firestore.FieldValue.serverTimestamp(),
+        email: user.additionalUserInfo.profile.email,
+        rating: {
+          total: 0,
+          votes: 0,
+        },
+        fisrtname: user.additionalUserInfo.profile.given_name,
+        lastname: user.additionalUserInfo.profile.family_name,
+        imageUrl: user.additionalUserInfo.profile.picture,
+        isNewUser: false,
+        locale: user.additionalUserInfo.profile.locale,
+        tours: [],
+        lastSignIn: firestore.FieldValue.serverTimestamp(),
+        uid: user.user.uid,
+        userType: "guide",
       });
     }
   } catch (error) {
@@ -113,12 +138,17 @@ export const updatePassword = (creds) => async (
 export const CheckType = () => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   const user = firebase.auth().currentUser;
-  if (
-    user.uid === "tLnbyrAN3XSFaQXv6dJdUjxgY0F2" ||
-    user.uid === "HH6St4cQa2UpCGdc2zO62r2EHDg2" ||
-    user.uid === "Nnq5qCRzfHbg6UzmSWQcRzghvpv1"
-  ) {
-    return true;
+
+  if (user) {
+    if (
+      user.uid === "tLnbyrAN3XSFaQXv6dJdUjxgY0F2" ||
+      user.uid === "HH6St4cQa2UpCGdc2zO62r2EHDg2" ||
+      user.uid === "Nnq5qCRzfHbg6UzmSWQcRzghvpv1"
+    ) {
+      console.log("checkType TRUE", user);
+      return true;
+    }
   }
+  console.log("checkType FALSE", user);
   return false;
 };

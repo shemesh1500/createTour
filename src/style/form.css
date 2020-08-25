@@ -230,4 +230,36 @@
     margin-bottom: 2% !important;
 }
 
+.saveFormButton {
+    width: 199px;
+    height: 46px;
+    border-radius: 24px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.21);
+    background-color: #f8a12a;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: bold;
+    margin: auto;
+    margin-left: 38%;
+    margin-top: 2%;
+}
+
+.saveFormButton:disabled {
+    background-color: #f8a22a6c;
+}
+
 /* End Tour Form */
+
+/*User form*/
+
+.questionText {
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #262627;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}

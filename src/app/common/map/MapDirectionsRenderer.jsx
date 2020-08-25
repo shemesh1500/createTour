@@ -1,67 +1,63 @@
 /*global google*/
 import React, { useState, useEffect } from "react";
-import { DirectionsRenderer } from 'react-google-maps'
+import { DirectionsRenderer } from "react-google-maps";
 
 export function MapDirectionsRenderer(props) {
-    const [directions, setDirections] = useState(null);
-    const [error, setError] = useState(null);
-    let delayFactor = 0;
-    useEffect(() => {
-        const { places, travelMode } = props;
-        places.sort((a, b) => a.order > b.order)
-        const waypoints = places.map(p => ({            
-            location: { lat: p.location.latitude, lng: p.location.longitude },
-            stopover: true
-        }));
+  const [directions, setDirections] = useState(null);
+  const [error, setError] = useState(null);
+  let delayFactor = 0;
+  useEffect(() => {
+    const { places, travelMode } = props;
+    places.sort((a, b) => a.order > b.order);
+    console.log("Places", places);
+    const waypoints = places.map((p) => ({
+      location: { lat: p.location.latitude, lng: p.location.longitude },
+      stopover: true,
+    }));
 
-        const origin = waypoints.shift().location;
-        const destination = waypoints.pop().location;
+    const origin = waypoints.shift().location;
+    const destination = waypoints.pop().location;
 
-        const directionsService = new google.maps.DirectionsService();
-        //if (directions === null) {
-        directionsService.route(
-            {
-                origin: origin,
-                destination: destination,
-                travelMode: travelMode,
-                waypoints: waypoints
-            },
-            (result, status) => {
-                if (status === google.maps.DirectionsStatus.OK) {
-                    setDirections(result);
-                } else if (status === google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
-                    delayFactor++;
-                    setTimeout(function () {
-                        // getMapBounds()
-                    }, delayFactor * 1000);
-                } else {
-                    setError(result);
-                }
-                console.log("MapDirectionsRenderer", waypoints, travelMode, status)
-                if (result && result.routes[0].legs) {
-                    let totalDistance = 0
-                    let totalDuration = 0
-                    let legs = result.routes[0].legs
-                    for (var i = 0; i < legs.length; ++i) {                        
-                        totalDistance += legs[i].distance.value;
-                        totalDuration += legs[i].duration.value;
-                    }
+    const directionsService = new google.maps.DirectionsService();
+    //if (directions === null) {
+    directionsService.route(
+      {
+        origin: origin,
+        destination: destination,
+        travelMode: travelMode,
+        waypoints: waypoints,
+      },
+      (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          setDirections(result);
+        } else if (status === google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
+          delayFactor++;
+          setTimeout(function () {
+            // getMapBounds()
+          }, delayFactor * 1000);
+        } else {
+          setError(result);
+        }
+        console.log("MapDirectionsRenderer", waypoints, travelMode, status);
+        if (result && result.routes[0].legs) {
+          let totalDistance = 0;
+          let totalDuration = 0;
+          let legs = result.routes[0].legs;
+          for (var i = 0; i < legs.length; ++i) {
+            totalDistance += legs[i].distance.value;
+            totalDuration += legs[i].duration.value;
+          }
 
-                    props.setDistance(totalDistance)
-                    props.setDuration(totalDuration)
-                }
-
-            }
-        );
-        //}
-    }, [props.places]);
-
-    if (error) {
-        return (<h1>{error}</h1>);
-    }
-    return (
-        directions && (
-            <DirectionsRenderer directions={directions} />
-        )
+          props.setDistance(totalDistance);
+          props.setDuration(totalDuration);
+        }
+      }
     );
+    //}
+  }, [props.places]);
+
+  if (error) {
+    return <h1>{error}</h1>;
+  }
+  return directions && <DirectionsRenderer directions={directions} />;
 }

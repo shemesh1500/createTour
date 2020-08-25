@@ -19,19 +19,28 @@ import BusinessCreation from "./features/business/businessCreation/BusinessCreat
 import Index from "./features/home/Index";
 import HelperComponent from "./HelperComponent";
 import ManageTours from "./features/tour/tourDashboard/ManageTours";
+import SalesPage from "./features/user/SalesPage";
+import CandT from "./features/auth/CandT";
 
-const mapState = (state) => ({
-  auth: state.firebase.auth,
-});
+const mapState = (state, props) => {
+  return {
+    path: props.location.pathname,
+    auth: state.firebase.auth,
+  };
+};
 
 class App extends Component {
   render() {
-    const authenticated = this.props.auth.isLoaded && !this.props.auth.isEmpty;
+    const TandC = this.props.path === "/TandC" ? true : false;
+    let authenticated = this.props.auth.isLoaded && !this.props.auth.isEmpty;
     return (
       <Fragment>
         <ModalManager />
+        {TandC ? ((<Redirect to="/TandC" />), (authenticated = true)) : null}
+        <Route exact path={"/TandC"} component={CandT} />
         {!authenticated ? <Redirect to="/" /> : null}
         <Route exact path="/" component={HomePage} />
+
         <Route
           path="/(.+)"
           render={() => (
@@ -52,6 +61,7 @@ class App extends Component {
                     component={BusinessCreation}
                   />
                   <Route exact path="/index" component={Index} />
+                  <Route exact path="/sales" component={SalesPage} />
                   <Route
                     path={["/tourControl/:tourId", "/tourControl"]}
                     component={TourControlNew}
@@ -74,6 +84,7 @@ class App extends Component {
                   />
 
                   <Route path={"/stops"} component={StopList} />
+
                   <HelperComponent
                     path="/manage"
                     component={ManageTours}

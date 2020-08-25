@@ -14,6 +14,7 @@ import cuid from "cuid";
 import TourPreview from "./TourPreview";
 import RoutePreview from "./RoutePreview";
 import "../../../style/tourControl.css";
+import InstractionController from "../../instractions/InstractionController";
 
 const query = (props) => {
   let tourId;
@@ -71,7 +72,7 @@ const mapState = (state, ownProps) => {
 
 const TourControl = (props) => {
   const { initialValues, tourId } = props;
-  const [mainNavActive, setMainNav] = useState("Tour Editor");
+  const [mainNavActive, setMainNav] = useState("Tour Summary");
 
   const [markerList, setMarkerList] = useState([]);
   const [clickMarker, setClickMarker] = useState(null);
@@ -83,8 +84,8 @@ const TourControl = (props) => {
     initialValues.stops ? initialValues.stops[0] : null
   );
   const [clickLocation, setClickLocation] = useState(null);
+  const [ActiveDetailsTab, setActiveDetailsTab] = useState("First details");
 
-  let all_stop = initialValues.stops ? initialValues.stops : [];
   let bounds;
 
   const [businessMarker, setbusinessMarker] = useState([]);
@@ -129,9 +130,8 @@ const TourControl = (props) => {
   }, [props, initialValues]);
 
   useEffect(() => {
-    console.log("useeffect in");
-    if (props.stops) {
-      checkStartingPoint(initialValues.stops);
+    if (props.stops && props.stops[0]) {
+      checkStartingPoint(initialValues.stops[0].stop_location);
       renderRoute();
     }
   }, [props.stops]);
@@ -154,6 +154,7 @@ const TourControl = (props) => {
       initialValues.stops = initialValues.stops.map((stop) =>
         stop.id === update_stop.id ? update_stop : stop
       );
+      console.log("WANTED STOP", initialValues);
       await props.updateTour(initialValues);
     } else {
       update_stop = {
@@ -179,23 +180,24 @@ const TourControl = (props) => {
     initialValues.stops = initialValues.stops.filter(
       (stop) => stop.id !== wanted_stop.id
     );
-    checkStartingPoint(initialValues.stops);
+    checkStartingPoint(initialValues.stops[0].stop_location);
     await props.updateTour(initialValues);
     setworkingStop(null);
   };
 
   const renderRoute = () => {
     let markerStops = [];
-    props.stops.map((stop) =>
-      markerStops.push({ location: stop.stop_location, order: stop.order })
-    );
+    props.stops.map((stop) => {
+      if (stop.stop_location) {
+        markerStops.push({ location: stop.stop_location, order: stop.order });
+      }
+    });
     setMarkerList(markerStops);
   };
 
   const updateAllStops = async (all_stops) => {
     initialValues.stops = all_stops;
     await props.updateTour(initialValues);
-    renderRoute();
   };
 
   /* Rendering the main area of the cteation of the tour */
@@ -210,8 +212,14 @@ const TourControl = (props) => {
             setSelectMarker={setClickMarker}
           />
         );
-      case "Tour Editor":
-        return <TourDetails onFormSubmit={onFormSubmit} />;
+      case "Tour Summary":
+        return (
+          <TourDetails
+            onFormSubmit={onFormSubmit}
+            ActiveTab={ActiveDetailsTab}
+            setActiveTab={setActiveDetailsTab}
+          />
+        );
       case "Create Route":
         if (tourId) {
           return (
@@ -265,7 +273,7 @@ const TourControl = (props) => {
 
   const onFormSubmit = async (values) => {
     try {
-      if (props.initialValuesstops.id) {
+      if (props.initialValues.id) {
         props.updateTour(values);
         props.handleEditStat(false);
       } else {
@@ -293,8 +301,8 @@ const TourControl = (props) => {
   const checkStartingPoint = async (starting_point) => {
     let doUpdate = false;
     if (
-      initialValues.starting_point.lat !== starting_point.lat ||
-      initialValues.starting_point.lng !== starting_point.lng
+      initialValues.starting_point.latitude !== starting_point.latitude ||
+      initialValues.starting_point.longitude !== starting_point.longitude
     ) {
       initialValues.starting_point = starting_point;
       doUpdate = true;
@@ -331,7 +339,7 @@ const TourControl = (props) => {
             handleClickMap={handleClickMap}
           />
         );
-      case "Tour Editor":
+      case "Tour Summary":
         return <TourPreview /*tour={initialValues}*/ />;
       case "Create Route":
         return (
@@ -360,35 +368,58 @@ const TourControl = (props) => {
                 )*/
     }
   };
+
+  /*Start Instraction modal */
+  const [showInstraction, setShowInstraction] = useState("");
+  const [instractionStep, setInstractionStep] = useState(1);
+  const renderInstraction1 = () => {
+    if (mainNavActive === "Tour Summary") {
+      return setShowInstraction("tourInstraction");
+    }
+  };
+
+  const renderInstraction = () => {
+    switch (mainNavActive) {
+      case "Tour Summary":
+        switch (ActiveDetailsTab) {
+          case "First details":
+            return setShowInstraction("firstForm");
+          case "General details":
+            return setShowInstraction("tourInstraction");
+          case "General content":
+            return setShowInstraction("tourInstraction");
+        }
+    }
+  };
+  /*End Instraction modal */
+
   return (
     <div className="controlArea">
       <div className="contextArea">
         <div className="mainTourHeader">Tour Details</div>
         <div className="subTourHeader">Here you start to build your tour</div>
+        <div
+          className="getInstraction"
+          onClick={() =>
+            /*(setInstractionStep(1), setShowInstraction(true))*/ renderInstraction()
+          }
+        >
+          Get some help
+        </div>
         <TourMainNav
           activeTab={mainNavActive}
           handleTabChange={handleMainNavClick}
         />
-        {renderMainNav()}
+        <InstractionController
+          showInstraction={showInstraction}
+          setShowInstraction={setShowInstraction}
+        />
+        <div>{renderMainNav()}</div>
       </div>
       <div className="mapArea">{renderMainWorkZone()}</div>
     </div>
   );
 };
-
-/*
-export default compose(
-    connect(mapState, actions),
-    firestoreConnect(props => query(props)),
-    reduxForm(
-        {
-            form: 'tourForm',
-            enableReinitialize: true,
-            destroyOnUnmount: false,
-            forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-        })
-)(TourControl);
-*/
 
 export default withFirestore(
   connect(

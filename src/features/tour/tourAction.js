@@ -285,13 +285,22 @@ export const createTour = (tour) => {
 export const updateTour = (tour) => {
   return async (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
+    let image = "";
+    if (tour.all_media) {
+      image = tour.all_media.find((media) => media.type.includes("image"));
+    }
     let update_tour = {
       ...tour,
       last_update: new Date(),
+      tour_image: image.url,
     };
     try {
       dispatch(asyncActionStart());
-      await firestore.update(`tours/${tour.id}`, update_tour);
+      await firestore.set(
+        `tours/${tour.id}`,
+        { ...update_tour },
+        { merge: true }
+      );
       toastr.success("Success!", "Tour has been updated");
       dispatch(asyncActionFinish());
     } catch (error) {
@@ -360,7 +369,6 @@ export const approveTour = (tour) => async (
     approval_time: new Date(),
     approval_index: dateHash,
   };
-  console.log("Before hash", update_tour);
   try {
     dispatch(asyncActionStart());
     //await firestore.add("approval_tours", update_tour);

@@ -1,117 +1,125 @@
 .businessItem {
-    width: 680px !important;
-    border-radius: 5px;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
-    background-color: var(--white);
-    padding: 15px;
-    margin: 3px;
+  width: 680px !important;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+  background-color: var(--white);
+  padding: 15px;
+  margin: 3px;
 }
 
 .carousel {
-    width: 680px;
+  width: 680px;
 }
 
 .slide {
-    background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
 }
 
 .imageCarousel {
-    width: 320px !important;
-    height: 240px;
+  width: 320px !important;
+  height: 240px;
 }
 
-.carousel-item>img {
-    width: 320px !important;
-    height: 240px;
+.carousel-item > img {
+  width: 320px !important;
+  height: 240px;
 }
 
 .innerCarousel {
-    width: 400px !important;
-    height: 240px;
+  width: 400px !important;
+  height: 240px;
 }
 
 .businessItemTop {
-    display: flex;
-    align-items: baseline;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .businessName {
-    font-family: PloniDL1.1AAA;
-    font-size: 18px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: right;
-    color: #6e6d71;
+  font-family: PloniDL1.1AAA;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #6e6d71;
 }
 
 .businessPrice {
-    font-size: 26px !important;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: bold;
-    line-height: normal;
-    letter-spacing: normal;
+  font-size: 26px !important;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: bold;
+  line-height: normal;
+  letter-spacing: normal;
 }
 
 .oneUnit {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin: 2%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin: 2%;
 }
 
 .businessItemHeader {
-    width: 80px;
-    height: 19px;
-    font-family: PloniDL1.1AAA;
-    font-size: 16px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #262527;
+  width: 80px;
+  height: 19px;
+  font-family: PloniDL1.1AAA;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #262527;
 }
 
 .bigText {
-    width: 444px;
-    font-family: PloniDL1.1AAA;
-    font-size: 16px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #6e6d71;
+  width: 444px;
+  font-family: PloniDL1.1AAA;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6e6d71;
 }
 
 .businessMediaArea {
-    display: flex;
-    align-items: center;
-    justify-content: wrap;
-    margin: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: wrap;
+  margin: 2%;
 }
 
 .mediaItemBusiness {
-    padding: 8px;
+  padding: 8px;
 }
 
 .businessTitle {
-    width: 100%;
-    height: 29px;
-    font-size: 30px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: bold;
-    line-height: 0.97;
-    letter-spacing: normal;
-    text-align: center;
-    color: #434040;
+  width: 100%;
+  height: 29px;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: bold;
+  line-height: 0.97;
+  letter-spacing: normal;
+  text-align: center;
+  color: #434040;
+}
+
+.addLocPicButton {
+  width: 171px;
+  height: 46px;
+  border-radius: 24px;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.21);
+  background-color: #f8a12a;
 }
