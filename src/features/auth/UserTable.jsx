@@ -2,7 +2,9 @@ import React from "react";
 import { Table, Checkbox } from "semantic-ui-react";
 
 const UserTable = (props) => {
-  console.log("date ", props.users);
+  const setSeller = (user) => {
+    props.createSeller(user);
+  };
 
   return (
     <Table celled compact definition>
@@ -21,7 +23,7 @@ const UserTable = (props) => {
         {props.users.map((user) => (
           <Table.Row id={user.email}>
             <Table.Cell collapsing>
-              <Checkbox slider />
+              <Checkbox slider onClick={() => setSeller(user)} />
             </Table.Cell>
             <Table.Cell>
               {user.displayName

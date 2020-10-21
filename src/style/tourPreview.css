@@ -73,6 +73,17 @@
   margin: 8%;
 }
 
+.subHeaderStop {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 90%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
 .iconItem {
   display: flex;
   align-items: center;

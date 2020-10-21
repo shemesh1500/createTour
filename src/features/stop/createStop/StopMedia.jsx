@@ -77,7 +77,9 @@ const StopMedia = (props) => {
   };
 
   const deleteFile = async (file) => {
-    if (
+    if (file.type.includes("video")) {
+      await generalDeleteFile(file, stop.id, "stopMedia");
+    } else if (
       file.type.includes("image") ||
       file.type.includes("audio") ||
       file.type.includes("video")
@@ -93,8 +95,14 @@ const StopMedia = (props) => {
     saveChanges(update_stop);
   };
 
-  const uploadFile = async (file) => {
-    let new_media = await generalUploadFile(file, stop.id, "stop");
+  const uploadFile = async (file, fileTitle = "file", poster = {}) => {
+    let new_media = await generalUploadFile(
+      file,
+      stop.id,
+      "stop",
+      fileTitle,
+      poster
+    );
     new_media = {
       ...new_media,
       order: all_media ? all_media.length : 0,

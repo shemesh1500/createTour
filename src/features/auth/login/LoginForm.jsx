@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Label } from "semantic-ui-react";
 import { Field, reduxForm } from "redux-form";
 import TextInput from "../../../app/common/form/textInput";
-import { login, socialLogin } from "../authActions";
+import { login, socialLoginFunc } from "../authActions";
 import { connect } from "react-redux";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import logo from "../../../images/loginLogo.svg";
@@ -11,14 +11,14 @@ import style from "../../../style/form.css";
 
 const actions = {
   login,
-  socialLogin,
+  socialLoginFunc,
 };
 
 const LoginForm = ({
   login,
   handleSubmit,
   error,
-  socialLogin,
+  socialLoginFunc,
   changeState,
 }) => {
   return (
@@ -65,7 +65,7 @@ const LoginForm = ({
             </a>
           </div>
 
-          <SocialLogin socialLogin={socialLogin} />
+          <SocialLogin socialLogin={socialLoginFunc} />
         </Form>
       </div>
     </div>

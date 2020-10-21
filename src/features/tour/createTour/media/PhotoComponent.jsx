@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import DropzoneInput from "../../../stop/media/DropzoneInput";
 import CropperInput from "../../../stop/media/CropperInput";
-import { uploadFile } from "../../../media/mediaActions";
+import { uploadFile, generalUploadFile } from "../../../media/mediaActions";
 import { setMainPhoto } from "../../tourAction";
 import { toastr } from "react-redux-toastr";
 import { connect } from "react-redux";
@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 const actions = {
   setMainPhoto,
   uploadFile,
+  generalUploadFile,
 };
 
 const PhotoComponent = (props) => {
@@ -30,6 +31,7 @@ const PhotoComponent = (props) => {
     onClose,
     objectId,
     all_media,
+    generalUploadFile,
   } = props;
 
   const [files, setFiles] = useState([]);
@@ -80,10 +82,12 @@ const PhotoComponent = (props) => {
           <Grid.Column width={4}>
             <Header sub color="teal" content="Step 2 - Resize image" />
             {files.length > 0 && (
-              <CropperInput
-                setImage={setImage}
-                imagePreview={files[0].preview}
-              />
+              <div className="cropPic">
+                <CropperInput
+                  setImage={setImage}
+                  imagePreview={files[0].preview}
+                />
+              </div>
             )}
           </Grid.Column>
           <Grid.Column width={1} />
@@ -93,6 +97,7 @@ const PhotoComponent = (props) => {
               <Fragment>
                 <div
                   className="img-preview"
+                  sma
                   style={{ minWidth: 200, minHeight: 200, overflow: "hidden" }}
                 />
                 <Button.Group>

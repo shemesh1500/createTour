@@ -4,6 +4,7 @@ import TourModalInstraction from "./TourModalInstraction";
 import { useEffect } from "react";
 import BusinessModalInstraction from "./BusinessModalInstraction";
 import FirstTourForm from "./FirstTourForm";
+import TourMediaInstraction from "./TourMediaInstraction";
 
 const InstractionController = (props) => {
   const { showInstraction, data, setShow, setShowInstraction } = props;
@@ -23,7 +24,15 @@ const InstractionController = (props) => {
 
   useEffect(() => {
     wanted_instraction = showInstraction;
-    setInstractionStep(1);
+    if (wanted_instraction === "firstForm") {
+      setInstractionStep(1);
+    } else if (wanted_instraction === "tourInstraction") {
+      setInstractionStep(10);
+    } else if (wanted_instraction === "tourMediaInstraction") {
+      setInstractionStep(20);
+    } else {
+      onHide();
+    }
   }, [showInstraction]);
 
   let showArrow = false;
@@ -38,7 +47,7 @@ const InstractionController = (props) => {
           onPrevious={onPrevious}
         />
       )}
-      {wanted_instraction === "tourFirst" && (
+      {wanted_instraction === "tourInstraction" && (
         <TourModalInstraction
           show={showInstraction}
           data={instractionStep}
@@ -47,8 +56,8 @@ const InstractionController = (props) => {
           onPrevious={onPrevious}
         />
       )}
-      {wanted_instraction === "tourInstraction" && (
-        <TourModalInstraction
+      {wanted_instraction === "tourMediaInstraction" && (
+        <TourMediaInstraction
           show={showInstraction}
           data={instractionStep}
           onHide={onHide}

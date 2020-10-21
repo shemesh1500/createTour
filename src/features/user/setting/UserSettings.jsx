@@ -9,6 +9,8 @@ import PersonalQuestion from "./PersonalQuestion";
 import { uploadProfileImage } from "../../user/userActions";
 import { toastr } from "react-redux-toastr";
 import { reduxForm } from "redux-form";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const actions = {
   updatePassword,
@@ -16,11 +18,32 @@ const actions = {
   uploadProfileImage,
 };
 
-const mapState = (state) => ({
-  providerId: state.firebase.auth.providerData[0].providerId,
-  user: state.firebase.profile,
-  // initialValues: state.form.userProfile ? state.form.userProfile.values : []
-});
+const query = (props) => {
+  if (props.profile.email) {
+    return [
+      { collection: "users", where: ["email", "==", props.profile.email] },
+    ];
+  } else {
+    return [];
+  }
+};
+
+const mapState = (state) => {
+  let fetch_user = {};
+  if (state.firestore.ordered.users) {
+    fetch_user = state.firestore.ordered.users[0];
+  } else {
+    fetch_user = state.firebase.profile;
+  }
+
+  return {
+    providerId: state.firebase.auth.providerData[0].providerId,
+    profile: state.firebase.profile,
+    user: fetch_user,
+
+    // initialValues: state.form.userProfile ? state.form.userProfile.values : []
+  };
+};
 
 const UserSettings = ({ user, uploadProfileImage, updateProfile }) => {
   const [ActiveTab, setActiveTab] = useState("personal details");
@@ -35,7 +58,6 @@ const UserSettings = ({ user, uploadProfileImage, updateProfile }) => {
   }, [profileImg]);
 
   const chooseImg = (e) => {
-    console.log("NEW IMAGEEEEEEEEE");
     if (e.target.files.length) {
       setprofileImg({
         //preview: URL.createObjectURL(e.target.files[0]),
@@ -44,9 +66,12 @@ const UserSettings = ({ user, uploadProfileImage, updateProfile }) => {
       uploadProfileImage(e.target.files[0], user);
     }
   };
+  const updateUser = (data) => {
+    console.log("data", data);
+    console.log("user", user);
+  };
 
   const switchContent = (activeTab) => {
-    console.log("user", user);
     switch (activeTab) {
       case "personal details":
         return <BasicPage initialValues={user} updateProfile={updateProfile} />;
@@ -107,9 +132,24 @@ const UserSettings = ({ user, uploadProfileImage, updateProfile }) => {
   );
 };
 
+export default compose(
+  connect(mapState, actions),
+  firestoreConnect((props) => query(props)),
+  reduxForm({
+    form: "userProfile",
+    enableReinitialize: true,
+    destroyOnUnmount: false,
+    forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
+  })
+)(UserSettings);
+
+/*
+
+
 export default reduxForm({
   form: "userProfile",
   enableReinitialize: true,
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,
 })(connect(mapState, actions)(UserSettings));
+*/

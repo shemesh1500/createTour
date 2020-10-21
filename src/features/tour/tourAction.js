@@ -265,6 +265,27 @@ export const setMainPhoto = (photo, tour) => async (
   }
 };
 
+const addTourToUser = async (tourId, user, firebase, firestore) => {
+  var userRef = await firebase
+    .firestore()
+    .collection("users")
+    .where("email", "==", user.email)
+    .get()
+    .then(async (querySnapshot) => {
+      const the_user = querySnapshot.docs[0].data();
+      const old_tours = the_user.tours ? the_user.tours : [];
+      const update_user = {
+        ...the_user,
+        tours: [...old_tours, tourId],
+      };
+      await firestore.set(
+        `users/${the_user.uid}`,
+        { ...update_user },
+        { merge: true }
+      );
+    });
+};
+
 export const createTour = (tour) => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore();
@@ -273,6 +294,7 @@ export const createTour = (tour) => {
     const newTour = createNewTour(user, tour);
     try {
       let createdTour = await firestore.add("tours", newTour);
+      await addTourToUser(createdTour.id, user, firebase, firestore);
       toastr.success("Success!", "Tour has been created");
       return createdTour;
     } catch (error) {
@@ -285,14 +307,16 @@ export const createTour = (tour) => {
 export const updateTour = (tour) => {
   return async (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
-    let image = "";
-    if (tour.all_media) {
-      image = tour.all_media.find((media) => media.type.includes("image"));
-    }
+    let image = undefined;
+    //if (tour.all_media) {
+    //  image = tour.all_media.find((media) => media.type.includes("image"));
+    //}
+
     let update_tour = {
       ...tour,
       last_update: new Date(),
-      tour_image: image.url,
+      tour_image: tour.tour_image ? tour.tour_image : "",
+      //tour_image: image ? image.url : "",
     };
     try {
       dispatch(asyncActionStart());
@@ -331,15 +355,6 @@ export const cancelToggle = (cancelled, tourId) => async (
   } catch (error) {
     console.log(error);
   }
-};
-
-export const deleteTour = (tourId) => {
-  return {
-    type: DELETE_TOUR,
-    payload: {
-      tourId,
-    },
-  };
 };
 
 export const loadTour = () => {
@@ -385,5 +400,42 @@ export const approveTour = (tour) => async (
     console.log(error);
     toastr.error("Oops", "Somthing went wrong!");
     dispatch(asyncActionError());
+  }
+};
+
+export const unApproveTour = (tourID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  const firestore = getFirestore();
+
+  try {
+    firestore.delete(`approval_tours/${tourID}`);
+    toastr.success("Success", "The tour is removed from approval tour (APP)");
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "someting went wrong!");
+  }
+};
+
+export const deleteTour = (tour) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  const firestore = getFirestore();
+
+  try {
+    console.log("delelt approve", `approval_tours/${tour.id}`);
+    firestore.delete(`approval_tours/${tour.id}`);
+    console.log("set", `delete_tour/${tour.id}`, tour);
+    firestore.set(`delete_tour/${tour.id}`, tour);
+    console.log("delete", `tours/${tour.id}`);
+    firestore.delete(`tours/${tour.id}`);
+    toastr.success("Success", "The tour is removed from approval tour (APP)");
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "someting went wrong!");
   }
 };

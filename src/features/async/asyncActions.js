@@ -1,22 +1,24 @@
-import { ASYNC_ACTION_START, ASYNC_ACTION_FINISH, ASYNC_ACTION_ERROR } from "./asyncConstants"
+import {
+  ASYNC_ACTION_START,
+  ASYNC_ACTION_FINISH,
+  ASYNC_ACTION_ERROR,
+} from "./asyncConstants";
 
-export const asyncActionStart = () => {
-    
-    return {
-        type : ASYNC_ACTION_START
-    }
-}
-
+export const asyncActionStart = (payload) => {
+  return {
+    type: ASYNC_ACTION_START,
+    payload: payload,
+  };
+};
 
 export const asyncActionFinish = () => {
-    return {
-        type : ASYNC_ACTION_FINISH
-    }
-}
-
+  return {
+    type: ASYNC_ACTION_FINISH,
+  };
+};
 
 export const asyncActionError = () => {
-    return {
-        type : ASYNC_ACTION_ERROR
-    }
-}
+  return {
+    type: ASYNC_ACTION_ERROR,
+  };
+};

@@ -67,19 +67,17 @@
   padding: 10px;
   border-radius: 15px;
   width: 430px;
-  height: 190px;
+  height: 210px;
 }
 
 .fourthModal {
   position: absolute;
   top: 3%;
-  right: 37%;
-  bottom: 72%;
   left: 40%;
   padding: 10px;
   border-radius: 15px;
   width: 480px;
-  height: 280px;
+  height: 290px;
 }
 
 .fifthModal {
@@ -105,60 +103,82 @@
 }
 
 .locationFieldModal {
-  top: 18%;
+  top: 17.5%;
 }
 
 .priceFieldModal {
-  top: 27%;
+  top: 1%;
+  height: 280px;
+  width: 599px;
+}
+
+.languageFieldModal {
+  top: 24%;
+  width: 420px;
 }
 
 .langFieldModal {
-  top: 34%;
+  top: 30%;
 }
 
 .difcFieldModal {
-  top: 43%;
+  /*top: 39%;*/
+  top: 15%;
+  width: 460px;
+  height: 210px;
 }
 
 .hourFieldModal {
-  top: 49%;
+  top: 23%;
 }
 
 .audFieldModal {
-  top: 55%;
+  top: 30%;
+  height: 200px;
 }
 
 .equFieldModal {
-  top: 63%;
+  top: 36.5%;
+  height: 200px;
 }
 
 .typeFieldModal {
-  top: 70%;
+  top: 47%;
 }
 
 .mainSentFieldModal {
-  top: 75%;
+  top: 50%;
+  height: 225px;
 }
 
 .fullDescFieldModal {
-  top: 85%;
+  top: 57%;
+  height: 235px;
 }
 
 .notesFieldModal {
-  top: 105%;
+  top: 81%;
+  height: 223px;
 }
 
 .saveFieldModal {
-  top: 122%;
+  top: 98%;
+  height: 210px;
+}
+
+.nextFieldModal {
+  top: 1%;
+  height: 170px;
 }
 
 .saveFirstForm {
   top: 32%;
+  width: 420px;
 }
 
 .stepToSecondForm {
   top: 12%;
-  left: 40%;
+  left: 47%;
 }
 
 .textContent {
@@ -253,7 +273,7 @@
 
 .subNavArr3 {
   top: 12%;
-  left: 34.5% !important;
+  left: 35.5% !important;
   width: 100px !important;
   height: 90px;
   transform: rotate(-90deg);
@@ -280,52 +300,59 @@
 }
 
 .tourLocationArrow {
-  top: 36.5%;
+  top: 36%;
 }
 
 .tourPriceArrow {
-  top: 45%;
+  top: 42%;
 }
 
 .tourLangArrow {
-  top: 52%;
+  top: 44%;
 }
 
 .tourDifcArrow {
-  top: 60%;
+  top: 57.5%;
 }
 
 .tourHourArrow {
-  top: 67%;
+  top: 41.5%;
 }
 
 .tourAudArrow {
-  top: 74%;
+  top: 49%;
 }
 
 .tourEquArrow {
-  top: 82%;
+  top: 57%;
 }
 
 .tourTypeArrow {
-  top: 90%;
+  top: 65%;
 }
 
 .tourMainSentArrow {
-  top: 98%;
+  top: 73%;
 }
 
 .tourFullDescArrow {
-  top: 109%;
+  top: 84%;
 }
 
 .tourNotesArrow {
-  top: 130%;
+  top: 105%;
 }
 
 .tourSaveArrow {
-  top: 145%;
-  transform: rotate(-45deg);
+  top: 122%;
+  left: 41%;
+  transform: rotate(-35deg);
+}
+
+.stepThirdForm {
+  top: 24%;
+  left: 36%;
+  transform: rotate(60deg);
 }
 
 .saveFirstArrow {
@@ -338,4 +365,66 @@
   top: 24%;
   left: 29%;
   transform: rotate(60deg);
+}
+
+/*media*/
+
+.mediaTypeInst {
+  position: absolute;
+  top: 4%;
+  left: 42%;
+  width: 420px;
+  height: 260px;
+  border-radius: 15px;
+}
+
+.mediaPhotoInst {
+  position: absolute;
+  top: 9%;
+  left: 42%;
+  width: 420px;
+  height: 190px;
+  border-radius: 15px;
+}
+
+.mediaListInst {
+  position: absolute;
+  top: 9%;
+  left: 42%;
+  width: 420px;
+  height: 210px;
+  border-radius: 15px;
+}
+
+.mediaListInst {
+  position: absolute;
+  top: 15%;
+  left: 42%;
+  width: 420px;
+  height: 210px;
+  border-radius: 15px;
+}
+
+.topMediaArr1 {
+  top: 33%;
+  left: 36%;
+  transform: rotate(60deg);
+}
+
+.topMediaArr2 {
+  top: 33%;
+  left: 26%;
+  transform: rotate(90deg);
+}
+
+.topMediaArr3 {
+  top: 33%;
+  left: 16%;
+  transform: rotate(120deg);
+}
+
+.mediaListArr {
+  top: 28%;
+  left: 13%;
+  transform: rotate(-130deg);
 }

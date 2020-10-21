@@ -28,9 +28,10 @@ export const updateBusiness = (business) => {
     const firestore = getFirestore();
     const firebase = getFirebase();
     const user = firebase.auth().currentUser;
-
+    console.log("BUSINESS USER", user);
     try {
-      await firestore.set(`business/${business.id}`, business);
+      const save_business = { ...business, last_update: new Date() };
+      await firestore.set(`business/${business.id}`, save_business);
       toastr.success("Success!", "Tour has been updated");
     } catch (error) {
       console.log(error);

@@ -87,7 +87,7 @@ const PeakLocation = (props) => {
         longitude: clickLocation.lng,
       };
       props.change("stop_location", newLocation);
-      props.change("location", "custom");
+      props.change("location", "");
     }
   }, [clickLocation]);
 
@@ -127,8 +127,7 @@ const PeakLocation = (props) => {
     );
     new_media = {
       ...new_media,
-      order:
-        initialValues.loc_pics.lenght === 0 ? initialValues.loc_pics.lenght : 0,
+      order: initialValues.loc_pics.lenght ? initialValues.loc_pics.lenght : 0,
     };
     let new_all_media = [...initialValues.loc_pics, new_media];
     let update_stop = {
@@ -149,19 +148,40 @@ const PeakLocation = (props) => {
       console.log(error);
     }
   };
+
+  const cancleManual = () => {
+    console.log("calncle peak", clickLocation);
+    setClickLocation(null);
+    console.log("calncle peak", clickLocation);
+  };
+
   return (
     <div className="allLocationForm">
       <Form onSubmit={handleSubmit(saveChanges)}>
         <div className="innerLocatioForm">
           <div className="locationInput">
-            <div className="inputLocationHeader">Address</div>
-            <Field
-              component={placeInput}
-              className="locationInput"
-              onSelect={handleAddress}
-              name="location"
-              placeholder="Stop location"
-            />
+            {clickLocation === null ? (
+              <div>
+                <div className="inputLocationHeader">Address</div>
+                <Field
+                  component={placeInput}
+                  className="locationInput"
+                  onSelect={handleAddress}
+                  name="location"
+                  placeholder="Stop location"
+                />
+              </div>
+            ) : (
+              <div>
+                <div className="inputLocationHeader">Address</div>
+                <Field
+                  component={TextInput}
+                  className="locationInput"
+                  placeholder="Stop location"
+                  name="location"
+                />
+              </div>
+            )}
           </div>
           <div className="textLocation">
             <div className="inputLocationHeader">Diractions by words</div>
@@ -177,7 +197,7 @@ const PeakLocation = (props) => {
           <div className="photoLocation">
             <div className="inputLocationHeader">Picture of the location</div>
             <button className="addButton" onClick={() => setPhotoModal(true)}>
-              {initialValues.loc_pics.lenght === 0
+              {initialValues.loc_pics && initialValues.loc_pics.lenght === 0
                 ? "Add stop picture"
                 : "Add more pictures"}
             </button>
@@ -203,6 +223,7 @@ const PeakLocation = (props) => {
                   className="cordInput"
                   placeholder="Latitude"
                   name="stop_location.latitude"
+                  type="number"
                 />
               </div>
               <div className="cordInput">
@@ -212,6 +233,7 @@ const PeakLocation = (props) => {
                   className="cordInput"
                   placeholder="Longitude"
                   name="stop_location.longitude"
+                  type="number"
                 />
               </div>
             </div>

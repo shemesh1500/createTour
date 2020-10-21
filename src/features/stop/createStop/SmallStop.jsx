@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import SmallStopMedia from "./SmallStopMedia";
 import { generalUploadFile } from "../../media/mediaActions";
+import MediaSmallStop from "./MediaSmallStop";
 
 const actions = {
   createStop,
@@ -72,6 +73,10 @@ const SmallStop = ({
       let new_stop = {
         ...values,
         type: "smallStop",
+        stop_location: {
+          latitude: parseFloat(values.stop_location.latitude),
+          longitude: parseFloat(values.stop_location.longitude),
+        },
         //all_media: values.all_media ? values.all_media : []
       };
       let current_stopId = await updateStop(new_stop);
@@ -82,8 +87,13 @@ const SmallStop = ({
     }
   };
 
-  const uploadFile = async (file) => {
-    let new_media = await generalUploadFile(file, initialValues.id, "stop");
+  const uploadFile = async (file, title = "file") => {
+    let new_media = await generalUploadFile(
+      file,
+      initialValues.id,
+      "stop",
+      title
+    );
     new_media = {
       ...new_media,
       order: initialValues.all_media ? initialValues.all_media.length : 0,
@@ -130,14 +140,24 @@ const SmallStop = ({
           return <div>Please add location first</div>;
         }
         return (
-          <SmallStopMedia
+          {
+            /* <SmallStopMedia
             saveChanges={handleSubmit}
             tourId={tourId}
             stopId={stopId}
             initialValues={initialValues}
             uploadFile={uploadFile}
             uploadWithoutFile={uploadWithoutFile}
-          />
+          /> */
+          },
+          (
+            <MediaSmallStop
+              saveChanges={handleSubmit}
+              stopId={stopId}
+              initialValues={initialValues}
+              uploadFile={uploadFile}
+            />
+          )
         );
       default:
         break;
@@ -146,6 +166,7 @@ const SmallStop = ({
 
   return (
     <div>
+      <div style={{ marginLeft: "2%" }}>Small stop</div>
       <SmallStopNav activeTab={tabName} handleTabChange={settabName} />
       <Segment attached="bottom">{switchRenderFunction()}</Segment>
     </div>

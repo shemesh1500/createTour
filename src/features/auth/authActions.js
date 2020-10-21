@@ -3,20 +3,6 @@ import { closeModal } from "../modals/modalActions";
 import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
 
-const createUser = (user) => {
-  let new_user = {
-    email: user.email,
-    creationTime: user.date,
-    first_name: user.displayName,
-    last_name: user.displayName,
-    imageUrl: user.profile.avatarUrl,
-    lastSignIn: "",
-    locale: "",
-    token: "",
-  };
-  return new_user;
-};
-
 export const login = (creds) => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -76,7 +62,7 @@ export const registerUser = (user) => async (
   }
 };
 
-export const socialLogin = (selectedProvider) => async (
+export const socialLoginFunc = (selectedProvider) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -85,22 +71,28 @@ export const socialLogin = (selectedProvider) => async (
   const firestore = getFirestore();
   try {
     //dispatch(closeModal());
+
     let user = await firebase.login({
       provider: selectedProvider,
       type: "popup",
     });
-    console.log("social", user, user.getIdToken(true));
+    console.log(
+      "social",
+      user,
+      user.additionalUserInfo.isNewUser,
+      user.user.uid
+    );
     if (user.additionalUserInfo.isNewUser) {
-      await firestore.set(`users/${user.user.uid}`, {
+      const new_user = {
         displayName: user.user.displayName,
-        imageUrl: user.profile.avatarUrl,
+        //imageUrl: user.profile.avatarUrl,
         creationTime: firestore.FieldValue.serverTimestamp(),
         email: user.additionalUserInfo.profile.email,
         rating: {
           total: 0,
           votes: 0,
         },
-        fisrtname: user.additionalUserInfo.profile.given_name,
+        firstname: user.additionalUserInfo.profile.given_name,
         lastname: user.additionalUserInfo.profile.family_name,
         imageUrl: user.additionalUserInfo.profile.picture,
         isNewUser: false,
@@ -109,7 +101,11 @@ export const socialLogin = (selectedProvider) => async (
         lastSignIn: firestore.FieldValue.serverTimestamp(),
         uid: user.user.uid,
         userType: "guide",
-      });
+        questionAndAnswer: [],
+      };
+      await firestore.set(`users/${user.user.uid}`, new_user);
+    } else {
+      console.log("OLD USER");
     }
   } catch (error) {
     console.log(error);

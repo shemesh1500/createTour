@@ -9,14 +9,17 @@ import BusinessList from "../../business/businessList/BusinessList";
 import TourList from "../tourList/TourList";
 
 const query = (props) => {
+  console.log("TOUR DASHBOADR", props);
   return [
     {
       collection: "tours",
-      where: ["tour_guide.id", "==", props.auth.uid],
+      //where: ["tour_guide.id", "==", props.auth.uid],
+      where: ["tour_guide.email", "==", props.auth.email],
     },
     {
       collection: "business",
-      where: ["tourOwner", "==", props.auth.uid],
+      //where: ["tourOwner", "==", props.auth.uid],
+      where: ["owner.email", "==", props.auth.email],
     },
   ];
 };

@@ -1,17 +1,40 @@
 import React from "react";
-import { withFirebase } from "react-redux-firebase";
+import { withFirebase, firestoreConnect } from "react-redux-firebase";
 import { connect } from "react-redux";
 import newTourIcon from "../../images/addNewTourIcon.svg";
 import newBusinessIcon from "../../images/addNewBusinessIcon.svg";
 import allAssetsIcon from "../../images/allAssetsIcon.svg";
 import personalDetailsIcon from "../../images/prsonalDetails.svg";
 import "../../style/mainPage.css";
+import { compose } from "redux";
 
-const mapState = (state) => ({
-  profile: state.firebase.profile,
-});
+const query = (props) => {
+  if (props.profile.email) {
+    return [
+      { collection: "users", where: ["email", "==", props.profile.email] },
+    ];
+  } else {
+    return [];
+  }
+};
 
-const MainPage = ({ profile }) => {
+const mapState = (state) => {
+  let user = {};
+  if (state.firestore.ordered.users) {
+    user = state.firestore.ordered.users[0];
+  }
+
+  // let test_user = state.firebase.auth().currentUser;
+  // console.log("CURRENT_USER", test_user);
+  // console.log("GET_TOKEN", test_user.getToken());
+
+  return {
+    profile: state.firebase.profile,
+    user: user,
+  };
+};
+
+const MainPage = ({ profile, user }) => {
   return (
     <div className="mainZone">
       <div className="headers">
@@ -27,7 +50,7 @@ const MainPage = ({ profile }) => {
         <div className="buttonText">Create new tour</div>
         <div></div>
       </a>
-      <a href="/tourControl" className="mainZoneButtun">
+      <a href="/businessCreation" className="mainZoneButtun">
         <img className="icon" src={newBusinessIcon} />
         <div className="buttonText">Create new business stop</div>
         <div></div>
@@ -46,4 +69,7 @@ const MainPage = ({ profile }) => {
   );
 };
 
-export default withFirebase(connect(mapState)(MainPage));
+export default compose(
+  connect(mapState),
+  firestoreConnect((props) => query(props))
+)(MainPage);

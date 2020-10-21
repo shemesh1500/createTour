@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { createTour, updateTour, deleteTour, approveTour } from "../tourAction";
-import LoadingCompanent from "../../layout/LoadingCompanent";
+import {
+  createTour,
+  updateTour,
+  deleteTour,
+  approveTour,
+  unApproveTour,
+} from "../tourAction";
+import { createSeller } from "../../user/userActions";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import BusinessList from "../../business/businessList/BusinessList";
@@ -42,6 +48,8 @@ const actions = {
   deleteTour,
   approveTour,
   approveBusiness,
+  unApproveTour,
+  createSeller,
 };
 const ManageTours = (props) => {
   return (
@@ -54,6 +62,8 @@ const ManageTours = (props) => {
               tours={props.tours}
               doApprov={true}
               approveTour={props.approveTour}
+              unApproveTour={props.unApproveTour}
+              deleteTour={props.deleteTour}
             />
           )}
         </Grid.Column>
@@ -67,7 +77,9 @@ const ManageTours = (props) => {
           )}
         </Grid.Column>
       </Grid>
-      {props.users && <UserTable users={props.users} />}
+      {props.users && (
+        <UserTable users={props.users} createSeller={props.createSeller} />
+      )}
     </div>
   );
 };

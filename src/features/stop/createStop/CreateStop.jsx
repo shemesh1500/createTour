@@ -49,6 +49,10 @@ const CreateStop = (props) => {
     try {
       let newStop = {
         ...values,
+        stop_location: {
+          latitude: parseFloat(values.stop_location.latitude),
+          longitude: parseFloat(values.stop_location.longitude),
+        },
         type: "bigStop",
       };
 

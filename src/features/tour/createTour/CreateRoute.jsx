@@ -94,30 +94,6 @@ const CreateRoute = (props) => {
     setRouteStatus("Stops List");
   };
 
-  const saveChangesOld = async () => {
-    const tmp = [...all_stops];
-    /*firebase.firestore().collection('tours').doc(tourId).collection("stops").get().then((doc) => {
-                doc.docs.map(docu => console.log("DOC", docu.id));
-                if (doc.exists) {
-            } else {
-                console.log("No such document!");
-            }
-        })*/
-    tmp.map((stop) => updateStop(tourId, stop));
-    let markerStops = [];
-    all_stops.sort((a, b) => a.order > b.order);
-    await checkStartingPoint(all_stops[0].stop_location);
-    //if (initialValues.first_stop && initialValues.first_stop !== all_stops[0].stop_location)
-    all_stops.map(
-      (stop) =>
-        (markerStops = [
-          ...markerStops,
-          { location: stop.stop_location, order: stop.order },
-        ])
-    );
-    setMarkerList(markerStops);
-  };
-
   const saveChanges = async () => {
     await updateAllStops(all_stops);
     await all_stops.sort((a, b) => a.order > b.order);
@@ -141,10 +117,15 @@ const CreateRoute = (props) => {
       <div className="stopCard">
         <div>
           <h4>{item.order + 1}</h4>
+          <div>{item.type.includes("bigStop") && <p>Big stop</p>}</div>
+          <div>{item.type.includes("smallStop") && <p>Small stop</p>}</div>
+          <div>{item.type.includes("business") && <p>Business</p>}</div>
         </div>
-        <div>
-          <h4>{item.location}</h4>
+
+        <div className="stopCardTitle">
+          <p>{item.s_title ? item.s_title : "Add name for this stop"}</p>
         </div>
+
         <div>
           <Button.Group>
             <Button onClick={() => deleteStopFromRoute(item)}>Delete</Button>
@@ -293,7 +274,7 @@ const CreateRoute = (props) => {
       <div className="createHeader">
         <div className="createText">
           <div className="mainHeader">Route creation</div>
-          <div className="subHeader">
+          <div className="subHeaderStop">
             Here you can build all the points of the tour and arage it as you
             wish
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Divider } from "semantic-ui-react";
+import { Form, Divider, Header } from "semantic-ui-react";
 import placeInput from "../../../app/common/form/placeInput";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import { Field, reduxForm } from "redux-form";
@@ -68,15 +68,39 @@ const PeakLocationGeneric = (props) => {
     <div className="allLocationForm">
       <Form onSubmit={handleSubmit(saveChanges)}>
         <div className="innerLocatioForm">
-          <div className="locationInput">
-            <Field
-              component={placeInput}
-              className="locationInput"
-              onSelect={handleAddress}
-              name="location"
-              placeholder="Stop location"
-            />
-          </div>
+          {clickLocation === null ? (
+            <div>
+              <Header size="small" content="Location" />
+              <div className="locationInput">
+                <Field
+                  component={placeInput}
+                  className="locationInput"
+                  onSelect={handleAddress}
+                  name="location"
+                  placeholder="Stop location"
+                />
+              </div>
+              <div className="locationInput">
+                <Header size="small" content="Stop name" />
+                <Field
+                  component={TextInput}
+                  className="locationInput"
+                  onSelect={handleAddress}
+                  name="s_title"
+                  placeholder="Stop name"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="locationInput">
+              <Field
+                component={TextInput}
+                className="locationInput"
+                placeholder="Stop location"
+                name="location"
+              />
+            </div>
+          )}
           <div>
             <Divider horizontal>Or</Divider>
             <div className="locationFooter">
@@ -88,6 +112,7 @@ const PeakLocationGeneric = (props) => {
                   //value={stopLocation.lat}
                   placeholder="Latitude"
                   name="stop_location.latitude"
+                  type="number"
                 />
               </div>
               <div className="cordInput">
@@ -98,6 +123,7 @@ const PeakLocationGeneric = (props) => {
                   //value={stopLocation.lng}
                   placeholder="Longitude"
                   name="stop_location.longitude"
+                  type="number"
                 />
               </div>
             </div>

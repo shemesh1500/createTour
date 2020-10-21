@@ -68,18 +68,22 @@ const TourMedia = (props) => {
     props.change("all_media", updatedList);
   };
 
+  if (!initialValues.id) {
+    return <Fragment>Please fill all the details first</Fragment>;
+  }
+
   return (
     <Fragment>
       <button className="addButton" onClick={() => setPhotoModal(true)}>
         + Photo
       </button>
-      <button className="addButton" onClick={() => setVideoModal(true)}>
+      {/* <button className="addButton" onClick={() => setVideoModal(true)}>
         + Video
       </button>
       <button className="addButton" onClick={() => setAudioModal(true)}>
         + Audio
       </button>
-
+ */}
       <PhotoComponent
         loading={loading}
         objectId={initialValues.id}

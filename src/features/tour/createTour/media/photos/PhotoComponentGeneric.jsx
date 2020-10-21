@@ -7,34 +7,22 @@ import {
   Card,
   Image,
   Modal,
-  Form,
 } from "semantic-ui-react";
-import DropzoneInput from "../../stop/media/DropzoneInput";
-import CropperInput from "../../stop/media/CropperInput";
-//import { uploadStopFile } from "../../media/mediaActions";
-import { setMainPhoto } from "../../tour/tourAction";
-import { toastr } from "react-redux-toastr";
-import { connect } from "react-redux";
-import squarePic from "../../../images/square.png";
-import verticalPic from "../../../images/vertical.png";
-import horizontalPic from "../../../images/horizontal.png";
-
-const actions = {
-  setMainPhoto,
-  //uploadStopFile,
-};
+import DropzoneInput from "./DropzoneInput";
+import CropperInput from "./CropperInput";
+import squarePic from "../../../../../images/square.png";
+import verticalPic from "../../../../../images/vertical.png";
+import horizontalPic from "../../../../../images/horizontal.png";
 
 const PhotoComponent = (props) => {
   const {
-    setMainPhoto,
     loading,
     handleDeletePhoto,
     open,
     onClose,
-    objectId,
     all_media,
-
     generalUploadFile,
+    constAspectRation,
   } = props;
 
   const [files, setFiles] = useState([]);
@@ -61,25 +49,6 @@ const PhotoComponent = (props) => {
     }
   }, [cropState]);
 
-  /* const handleUploadImageOld = async () => {
-    try {
-      console.log("handle stop", all_media, objectId, tourId);
-      await uploadStopFile(
-        image,
-        `${objectId}/stopMedia/`,
-        objectId,
-        all_media,
-        "stops",
-        tourId
-      );
-      all_picture = all_media.filter((media) => media.type.includes("image"));
-      handleCancleCrop();
-    } catch (error) {
-      console.log(error);
-      toastr.error("Oops", "Something went wrong");
-    }
-  };
- */
   const handleUploadImage = () => {
     generalUploadFile(image, title);
   };
@@ -100,6 +69,7 @@ const PhotoComponent = (props) => {
     height: "50px",
     margin: "7px",
   };
+
   return (
     <Modal size="large" open={open} onClose={onClose}>
       <Modal.Header>Your Photos</Modal.Header>
@@ -122,27 +92,45 @@ const PhotoComponent = (props) => {
                 />
                 <div className="selectCropState">
                   <button>
-                    <img
+                    <input
+                      type="image"
                       src={squarePic}
                       alt="square"
                       onClick={() => setCropState("square")}
                       style={style}
+                      disabled={
+                        constAspectRation
+                          ? constAspectRation !== "square"
+                          : true
+                      }
                     />
                   </button>
                   <button>
-                    <img
+                    <input
+                      type="image"
                       src={horizontalPic}
                       alt="horizontal"
                       onClick={() => setCropState("horizontal")}
                       style={style}
+                      disabled={
+                        constAspectRation
+                          ? constAspectRation !== "horizontal"
+                          : true
+                      }
                     />
                   </button>
                   <button>
-                    <img
+                    <input
+                      type="image"
                       src={verticalPic}
                       alt="vertical"
                       onClick={() => setCropState("vertical")}
                       style={style}
+                      disabled={
+                        constAspectRation
+                          ? constAspectRation !== "vertical"
+                          : true
+                      }
                     />
                   </button>
                 </div>
@@ -200,21 +188,12 @@ const PhotoComponent = (props) => {
             all_picture.map((photo) => (
               <Card key={photo.name}>
                 <Image src={photo.url} />
-                <div className="ui two buttons">
-                  <Button
-                    onClick={() => setMainPhoto(photo)}
-                    basic
-                    color="green"
-                  >
-                    Main
-                  </Button>
-                  <Button
-                    onClick={() => handleDeletePhoto(photo)}
-                    basic
-                    icon="trash"
-                    color="red"
-                  />
-                </div>
+                <Button
+                  onClick={() => handleDeletePhoto(photo)}
+                  basic
+                  icon="trash"
+                  color="red"
+                />
               </Card>
             ))}
         </Card.Group>
@@ -223,4 +202,4 @@ const PhotoComponent = (props) => {
   );
 };
 
-export default connect(null, actions)(PhotoComponent);
+export default PhotoComponent;

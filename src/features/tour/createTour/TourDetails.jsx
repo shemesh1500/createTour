@@ -3,8 +3,14 @@ import { Menu, Segment } from "semantic-ui-react";
 import TourForm from "./TourForm";
 import TourMedia from "./TourMedia";
 import TourFirstForm from "./TourFirstForm";
+import PeakProfilePic from "./PeakProfilePic";
 
-const TourDetails = ({ onFormSubmit, ActiveTab, setActiveTab }) => {
+const TourDetails = ({
+  onFormSubmit,
+  ActiveTab,
+  setActiveTab,
+  displayMedia,
+}) => {
   const switchContent = (ActiveTab) => {
     switch (ActiveTab) {
       case "First details":
@@ -13,6 +19,10 @@ const TourDetails = ({ onFormSubmit, ActiveTab, setActiveTab }) => {
         return <TourForm onFormSubmit={onFormSubmit} />;
       case "General content":
         return <TourMedia saveChanges={onFormSubmit} />;
+      case "Tour profile picture":
+        return (
+          <PeakProfilePic saveChanges={onFormSubmit} fileType={"tour_image"} />
+        );
       default:
         break;
     }
@@ -30,6 +40,11 @@ const TourDetails = ({ onFormSubmit, ActiveTab, setActiveTab }) => {
           name="General details"
           active={ActiveTab === "General details"}
           onClick={() => setActiveTab("General details")}
+        />
+        <Menu.Item
+          name="Tour profile files"
+          active={ActiveTab === "Tour profile picture"}
+          onClick={() => setActiveTab("Tour profile picture")}
         />
         <Menu.Item
           name="General content"

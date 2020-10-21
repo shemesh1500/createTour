@@ -16,6 +16,7 @@ export const createNewTour = (user, tour) => {
       id: user.uid,
       full_name: user.displayName,
       profile_image: user.photoURL,
+      email: user.email,
     },
     hostedBy: user.displayName,
     created_date: new Date(),
@@ -37,9 +38,15 @@ export const createNewBusiness = (user, business) => {
   return {
     ...business,
     tourOwner: user.uid,
+    owner: {
+      uid: user.uid,
+      full_name: user.displayName,
+      profile_image: user.photoURL,
+      email: user.email,
+    },
     hostedBy: user.displayName,
     created_date: new Date(),
-    id: cuid(),
+    //id: cuid(),
     all_media: [],
     loc_pics: [],
   };

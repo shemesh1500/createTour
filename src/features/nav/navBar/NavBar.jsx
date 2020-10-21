@@ -52,12 +52,15 @@ const NavBar = (props) => {
                   {auth.email ? auth.email : "fix@it.com"}
                 </div>
                 <div className="logoutMenu">
-                  <a
-                    onClick={() => handleSignOut()}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Log out
-                  </a>
+                  <span>
+                    <a
+                      href="1"
+                      onClick={() => handleSignOut()}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Log out
+                    </a>
+                  </span>
                 </div>
               </div>
             </div>
@@ -70,7 +73,7 @@ const NavBar = (props) => {
             active={activeItem === "Home page"}
             onClick={handleItemClick}
           >
-            <img className="menuIcon" src={homeIcon} />
+            <img alt="home" className="menuIcon" src={homeIcon} />
             Home
           </Menu.Item>
 
@@ -82,7 +85,7 @@ const NavBar = (props) => {
             active={activeItem === "My tours"}
             onClick={handleItemClick}
           >
-            <img className="menuIcon" src={assetsIcon} />
+            <img alt="assets" className="menuIcon" src={assetsIcon} />
             My assets
           </Menu.Item>
 
@@ -94,7 +97,7 @@ const NavBar = (props) => {
             active={activeItem === "Create tour"}
             onClick={handleItemClick}
           >
-            <img className="menuIcon" src={tourIcon} />
+            <img alt="create tour" className="menuIcon" src={tourIcon} />
             Create tour
           </Menu.Item>
 
@@ -106,7 +109,7 @@ const NavBar = (props) => {
             active={activeItem === "Create Business point"}
             onClick={handleItemClick}
           >
-            <img className="menuIcon" src={businessIcon} />
+            <img alt="business stop" className="menuIcon" src={businessIcon} />
             Create business stop
           </Menu.Item>
 
@@ -122,7 +125,7 @@ const NavBar = (props) => {
             Cash register
           </Menu.Item>
 
-          {props.profile.userType == "rootGuide" && (
+          {props.profile.userType === "rootGuide" && (
             <Menu.Item
               as={NavLink}
               exact

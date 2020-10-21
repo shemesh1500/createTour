@@ -78,14 +78,14 @@ const TourPreview = (props) => {
                 .map((media) => {
                   if (media.type.includes("image")) {
                     return (
-                      <Slide right>
+                      <Slide right id={`${media.name}`}>
                         <img className="img" src={media.url} alt="airbaloon" />
                       </Slide>
                     );
                   }
                   if (media.type.includes("video")) {
                     return (
-                      <Slide right>
+                      <Slide right id={`${media.name}`}>
                         <video
                           poster={media.poster_url}
                           width="100%"

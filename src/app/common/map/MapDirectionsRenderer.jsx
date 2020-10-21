@@ -9,7 +9,6 @@ export function MapDirectionsRenderer(props) {
   useEffect(() => {
     const { places, travelMode } = props;
     places.sort((a, b) => a.order > b.order);
-    console.log("Places", places);
     const waypoints = places.map((p) => ({
       location: { lat: p.location.latitude, lng: p.location.longitude },
       stopover: true,
@@ -38,7 +37,6 @@ export function MapDirectionsRenderer(props) {
         } else {
           setError(result);
         }
-        console.log("MapDirectionsRenderer", waypoints, travelMode, status);
         if (result && result.routes[0].legs) {
           let totalDistance = 0;
           let totalDuration = 0;
@@ -47,7 +45,13 @@ export function MapDirectionsRenderer(props) {
             totalDistance += legs[i].distance.value;
             totalDuration += legs[i].duration.value;
           }
+          for (var i = 0; i < legs.length; ++i) {
+            new google.maps.Marker({
+              position: legs[i].start_location,
 
+              title: "title",
+            });
+          }
           props.setDistance(totalDistance);
           props.setDuration(totalDuration);
         }
@@ -59,5 +63,15 @@ export function MapDirectionsRenderer(props) {
   if (error) {
     return <h1>{error}</h1>;
   }
-  return directions && <DirectionsRenderer directions={directions} />;
+  var rendererOptions = {
+    suppressMarkers: true,
+  };
+  return (
+    directions && (
+      <DirectionsRenderer
+        defaultOptions={rendererOptions}
+        directions={directions}
+      />
+    )
+  );
 }

@@ -7,6 +7,7 @@ import {
   Card,
   Image,
   Modal,
+  Progress,
 } from "semantic-ui-react";
 import DropzoneInput from "./DropzoneInput";
 import { setMainPhoto } from "../../tourAction";
@@ -22,6 +23,7 @@ const actions = {
 const mapState = (state) => ({
   //initialValiues: state.form.stopForm.values,
   loading: state.async.loading,
+  complete_precent: state.async.complete_precent,
   //stop: state.firestore.ordered[0],
   //all_media: state.form.stopForm.values.all_media
 });
@@ -29,7 +31,6 @@ const mapState = (state) => ({
 const VideoComponenet = (props) => {
   const {
     uploadVideo,
-    deleteFile,
     setMainPhoto,
     loading,
     all_media,
@@ -38,6 +39,7 @@ const VideoComponenet = (props) => {
     objectId,
     collectionName,
     handleDeleteFile,
+    profileVideo,
   } = props;
   const [files, setFiles] = useState([]);
   const [poster, setPoster] = useState(null);
@@ -54,16 +56,18 @@ const VideoComponenet = (props) => {
 
   const handleUploadVideo = async () => {
     try {
-      console.log("all_media", all_media);
-      await uploadVideo(
+      console.log("handleUploadVideo", `${objectId}/${collectionName}Media/`);
+      const new_media = await uploadVideo(
         files[0].file,
         `${objectId}/${collectionName}Media/`,
         objectId,
         all_media,
         poster[0].file,
-        collectionName
+        collectionName,
+        profileVideo
       );
       all_video = all_media.filter((media) => media.type.includes("video"));
+
       handleCancleCrop();
       toastr.success("Success", "Photo has been uploaded");
     } catch (error) {
@@ -84,7 +88,7 @@ const VideoComponenet = (props) => {
       toastr.error("Oops", error.message);
     }
   };
-  console.log("VIDEO COMPONENT");
+  console.log("VIDEO COMPONENT", props.complete_precent);
   return (
     <Modal size="large" open={open} onClose={onClose}>
       <Modal.Header>Video Zone</Modal.Header>
@@ -131,6 +135,9 @@ const VideoComponenet = (props) => {
                         icon="close"
                       />
                     </Button.Group>
+                    {props.complete_precent > 0 && (
+                      <Progress percent={props.complete_precent} progress />
+                    )}
                   </Fragment>
                 ) : (
                   <DropzoneInput setFiles={setPoster} acceptedFile="image/*" />
@@ -141,10 +148,11 @@ const VideoComponenet = (props) => {
         </Grid>
         <Divider />
         <Card.Group itemsPerRow={5}>
-          {all_video &&
-            all_video.map((video) => (
+          {!profileVideo &&
+            all_video &&
+            all_video.map((video, index) => (
               <Fragment>
-                <Card key={video.name}>
+                <Card key={index}>
                   <video
                     poster={video.poster_url}
                     width="260"

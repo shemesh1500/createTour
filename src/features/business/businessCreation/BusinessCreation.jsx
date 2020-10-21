@@ -13,6 +13,7 @@ import PeakLocation from "./PeakLocation";
 import "../../../style/businessCreation.css";
 import Background from "../../../images/mapBG.png";
 import InstractionController from "../../instractions/InstractionController";
+import { toastr } from "react-redux-toastr";
 
 const query = (props) => {
   let businessId;
@@ -92,10 +93,12 @@ const BusinessCreation = (props) => {
 
   const onFormSubmit = async (values) => {
     try {
+      console.log("onFormSubmit", values);
       if (values.id) {
         props.updateBusiness(values);
       } else {
         let createdBusiness = await props.createBusiness(values);
+        console.log("AFTER bus create", createdBusiness.id);
         props.change("id", createdBusiness.id);
       }
     } catch (error) {
@@ -104,16 +107,46 @@ const BusinessCreation = (props) => {
   };
 
   const switchContext = () => {
+    const toastrType = "info";
+    const toastrOptions = {
+      icon: toastrType,
+      status: toastrType,
+      position: "top-center",
+      timeOut: 3000,
+    };
+
     switch (StatusNav) {
       case "Peak Location":
         return <PeakLocation onFormSubmit={onFormSubmit} />;
       case "General Info":
         if (!props.businessId) {
+          toastr.light(
+            "Peak location",
+            "Please peak and save the location of your business and continue to the next step",
+            toastrOptions
+          );
+          return <PeakLocation onFormSubmit={onFormSubmit} />;
         }
         return <GeneralInfoForm onFormSubmit={onFormSubmit} />;
       case "Offer Details":
+        if (!props.businessId) {
+          toastr.light(
+            "Peak location",
+            "Please peak and save the location of your business and continue to the next step",
+            toastrOptions
+          );
+          return <PeakLocation onFormSubmit={onFormSubmit} />;
+        }
         return <OfferForm onFormSubmit={onFormSubmit} />;
       case "Business Content":
+        if (!props.businessId) {
+          toastr.light(
+            "Peak location",
+            "Please peak and save the location of your business and continue to the next step",
+            toastrOptions
+          );
+          return <PeakLocation onFormSubmit={onFormSubmit} />;
+        }
         return <BusinessMedia saveChanges={onFormSubmit} />;
       default:
         break;

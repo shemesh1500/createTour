@@ -53,8 +53,6 @@ const SmallStopMedia = (props) => {
     setMainPhoto,
     tourId,
     all_media,
-    deleteStopText,
-    removeQuestion,
   } = props;
 
   const [photoOpen, setPhotoModal] = useState(false);

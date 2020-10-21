@@ -28,24 +28,51 @@ const TourList = (props) => {
                 </div>
 
                 <div className="itemType">
+                  Created at:{" "}
+                  {tour.created_date && tour.created_date.toDate().toString()}
+                </div>
+                <div className="itemType">
                   Last update:{" "}
-                  {tour.last_update && Date(tour.last_update.toString())}
+                  {tour.last_update && tour.last_update.toDate().toString()}
                 </div>
                 <div className="itemType">
                   Approval date:{" "}
-                  {tour.approval_date && Date(tour.last_update.toString())}
+                  {tour.approval_date && tour.last_update.toDate().toString()}
+                </div>
+                <div className="itemType">
+                  Owner:{" "}
+                  {tour.tour_guide && tour.tour_guide.email
+                    ? tour.tour_guide.email
+                    : tour.tour_guide.id}
+                  {tour.tour_guide && tour.tour_guide.full_name
+                    ? " " + tour.tour_guide.full_name
+                    : " "}
                 </div>
 
                 <Link to={`/tourControl/${tour.id}`}>
                   <button className="editButton">Edit</button>
                 </Link>
                 {props.doApprov && (
-                  <button
-                    onClick={() => props.approveTour(tour)}
-                    className="editButton"
-                  >
-                    Approve
-                  </button>
+                  <div>
+                    <button
+                      onClick={() => props.approveTour(tour)}
+                      className="editButton"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => props.unApproveTour(tour.id)}
+                      className="editButton"
+                    >
+                      Un approve
+                    </button>
+                    <button
+                      onClick={() => props.deleteTour(tour)}
+                      className="editButton"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 )}
               </div>
             ))}

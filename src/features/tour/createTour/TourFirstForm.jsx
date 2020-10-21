@@ -134,7 +134,6 @@ const TourFirstForm = (props) => {
         <button
           className="saveFormButton"
           disabled={invalid || submitting}
-          positive
           type="submit"
         >
           Save & Continue

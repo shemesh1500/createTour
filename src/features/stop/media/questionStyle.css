@@ -1,0 +1,14 @@
+.questionContent {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputHeader {
+    margin: 5px;
+    width: 120px;
+}
+
+.questionInput {
+    margin: 10px;
+}

@@ -1,9 +1,10 @@
 import React, { useState, Fragment } from "react";
-import { Divider, Button, Card, Modal } from "semantic-ui-react";
+import { Divider, Button, Card, Modal, Header } from "semantic-ui-react";
 import { addQuestion } from "../../media/mediaActions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
+import "./questionStyle.css";
 
 const actions = {
   addQuestion,
@@ -78,9 +79,10 @@ const QuestionComponent = (props) => {
       <Modal.Header>Question</Modal.Header>
       <Modal.Content>
         <form onSubmit={handleSubmit}>
-          <div className="form-group col-sm-12">
-            <Fragment key={`question`}>
-              <label htmlFor="qustion">Your Question</label>
+          <div className="questionContent">
+            <div className="questionInput" key={`question`}>
+              <label className="inputHeader1" htmlFor="qustion"></label>
+              <Header size="small" content="Your Question" />
               <input
                 type="text"
                 className="question"
@@ -89,62 +91,69 @@ const QuestionComponent = (props) => {
                 value={question}
                 onChange={handleQuestionChange}
               />
-            </Fragment>
-          </div>
-          {answers &&
-            answers.map((answer, index) => (
-              <Fragment key={`${answer}~${index}`}>
-                <label htmlFor="Answer1">Answer</label>
-                <input
-                  type="text"
-                  name={`option-${index}`}
-                  data-idx={index}
-                  id={`option-${index}`}
-                  className="option"
-                  value={answers[index].option}
-                  onChange={handleOptionChange}
-                />
-                <input
-                  type="checkbox"
-                  name={`isAnswer-${index}`}
-                  data-idx={index}
-                  id={`isAnswer-${index}`}
-                  className="isAnswer"
-                  value={answers[index].isAnswer}
-                  onChange={handleOptionChange}
-                />
-                <button
-                  className="btn btn-link"
-                  type="button"
-                  onClick={() => handleRemoveFields(index)}
-                >
-                  -
-                </button>
-                <button
-                  className="btn btn-link"
-                  type="button"
-                  onClick={() => handleAddFields()}
-                >
-                  +
-                </button>
-              </Fragment>
-            ))}
+            </div>
 
-          <Button
-            loading={loading}
-            type="submit"
-            onSubmit={handleSubmit}
-            style={{ width: "100px" }}
-            positive
-            icon="check"
-          />
+            {answers &&
+              answers.map((answer, index) => (
+                <div className="questionInput1" key={`${answer}~${index}`}>
+                  <label className="inputHeader" htmlFor="Answer1"></label>
+                  <Header size="small" content="Answer" />
+
+                  <input
+                    type="text"
+                    name={`option-${index}`}
+                    data-idx={index}
+                    id={`option-${index}`}
+                    className="option"
+                    value={answers[index].option}
+                    onChange={handleOptionChange}
+                  />
+                  <input
+                    type="checkbox"
+                    name={`isAnswer-${index}`}
+                    data-idx={index}
+                    id={`isAnswer-${index}`}
+                    className="isAnswer"
+                    value={answers[index].isAnswer}
+                    onChange={handleOptionChange}
+                  />
+                  <div className="addRemoveQuestion">
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      onClick={() => handleRemoveFields(index)}
+                    >
+                      -
+                    </button>
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      onClick={() => handleAddFields()}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+          </div>
+          <div className="buttonArea">
+            <Button
+              loading={loading}
+              type="submit"
+              onSubmit={handleSubmit}
+              style={{ width: "100px", height: "30px", margin: "5px" }}
+              positive
+              icon="check"
+            />
+          </div>
         </form>
         <Button
           disabled={loading}
           onClick={handleCancleCrop}
-          style={{ width: "100px" }}
+          style={{ width: "100px", height: "30px", margin: "5px" }}
           icon="close"
         />
+
         <Divider />
       </Modal.Content>
     </Modal>

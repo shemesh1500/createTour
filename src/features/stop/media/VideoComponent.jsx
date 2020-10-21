@@ -1,162 +1,226 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Segment, Header, Divider, Grid, Button, Card, Image, Modal } from 'semantic-ui-react';
-import DropzoneInput from './DropzoneInput';
-import { setMainPhoto } from '../../tour/tourAction';
-import { connect } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
-import { reduxForm } from 'redux-form';
-import { uploadStopVideo } from '../../media/mediaActions'
+import React, { useState, useEffect, Fragment } from "react";
+import {
+  Segment,
+  Header,
+  Divider,
+  Grid,
+  Button,
+  Card,
+  Image,
+  Modal,
+  Progress,
+} from "semantic-ui-react";
+import DropzoneInput from "./DropzoneInput";
+import { setMainPhoto } from "../../tour/tourAction";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { reduxForm } from "redux-form";
+import { uploadStopVideo } from "../../media/mediaActions";
 
 const actions = {
-    setMainPhoto,
-    uploadStopVideo
-}
+  setMainPhoto,
+  uploadStopVideo,
+};
 
-const mapState = (state) => (
-    {
-        //initialValiues: state.form.stopForm.values,
-        loading: state.async.loading,
-        //stop: state.firestore.ordered[0],
-        //all_media: state.form.stopForm.values.all_media
-    }
-)
+const mapState = (state) => ({
+  //initialValiues: state.form.stopForm.values,
+  loading: state.async.loading,
+  complete_precent: state.async.complete_precent,
+  //stop: state.firestore.ordered[0],
+  //all_media: state.form.stopForm.values.all_media
+});
 
 const VideoComponenet = (props) => {
-    const {
-        uploadStopVideo,
-        setMainPhoto,
-        loading,
-        all_media,
-        open,
-        onClose,
+  const {
+    uploadStopVideo,
+    setMainPhoto,
+    loading,
+    all_media,
+    open,
+    onClose,
+    objectId,
+    collectionName,
+    handleDeleteFile,
+    tourId,
+    generalUploadFile,
+  } = props;
+  const [files, setFiles] = useState([]);
+  const [poster, setPoster] = useState(null);
+
+  let all_video = all_media
+    ? all_media.filter((media) => media.type.includes("video"))
+    : [];
+
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
+
+  const handleUploadVideoOld = async () => {
+    try {
+      await uploadStopVideo(
+        files[0].file,
+        `${objectId}/${collectionName}Media/`,
         objectId,
+        all_media,
+        poster[0].file,
         collectionName,
-        handleDeleteFile, 
-        tourId,
-        generalUploadFile
-    } = props
-    const [files, setFiles] = useState([]);
-    const [poster, setPoster] = useState(null);
-
-    let all_video = all_media ? all_media.filter(media => media.type.includes('video')) : []
-
-    useEffect(() => {
-        return () => {
-            files.forEach(file => URL.revokeObjectURL(file.preview))
-        }
-    }, [files])
-
-    const handleUploadVideoOld = async () => {
-        try {
-            await uploadStopVideo(files[0].file, 
-                `${objectId}/${collectionName}Media/`,
-                 objectId, 
-                 all_media, 
-                 poster[0].file, 
-                 collectionName, 
-                 tourId)
-            all_video = all_media.filter(media => media.type.includes('video'))
-            handleCancleCrop();
-            toastr.success('Success', 'Photo has been uploaded');
-        } catch (error) {
-            console.log(error)
-            toastr.error('Oops', 'Something went wrong')
-        }
+        tourId
+      );
+      all_video = all_media.filter((media) => media.type.includes("video"));
+      handleCancleCrop();
+      toastr.success("Success", "Photo has been uploaded");
+    } catch (error) {
+      console.log(error);
+      toastr.error("Oops", "Something went wrong");
     }
+  };
 
-    const handleUploadVideo = async () => {
-        generalUploadFile(files[0].file)
+  const handleUploadVideo = async () => {
+    generalUploadFile(files[0].file, title, poster[0].file);
+  };
+
+  const [title, setTitle] = useState("");
+  const handleTitle = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleCancleCrop = () => {
+    setFiles([]);
+    setPoster(null);
+    setTitle("");
+  };
+
+  const handleSetMainPhoto = async (photo, stop) => {
+    try {
+      await setMainPhoto(photo, stop);
+    } catch (error) {
+      toastr.error("Oops", error.message);
     }
+  };
+  return (
+    <Modal size="large" open={open} onClose={onClose}>
+      <Modal.Header>Video Zone</Modal.Header>
+      <Modal.Content>
+        <Grid>
+          <Grid.Row />
+          <Grid.Column width={4}>
+            <Header color="teal" sub content="Step 1 - Add Video" />
+            <DropzoneInput setFiles={setFiles} acceptedFile="video/*" />
+          </Grid.Column>
+          <Grid.Column width={1} />
+          <Grid.Column width={6}>
+            <Header sub color="teal" content="Step 2 - Preview video" />
+            {files.length > 0 && (
+              <video width="320" height="240" controls>
+                <source src={files[0].preview} type={files[0].type} />
+              </video>
+            )}
+          </Grid.Column>
+          <Grid.Column width={1} />
+          <Grid.Column width={4}>
+            <Header
+              sub
+              color="teal"
+              content="Step 3 - Upload a poster picture for the video"
+            />
+            {files.length > 0 && (
+              <Fragment>
+                {poster && poster.length > 0 ? (
+                  <Fragment>
+                    <Image src={poster[0].preview} />
+                  </Fragment>
+                ) : (
+                  <DropzoneInput setFiles={setPoster} acceptedFile="image/*" />
+                )}
+              </Fragment>
+            )}
+          </Grid.Column>
+          <Grid.Column width={4}>
+            <Header sub color="teal" content="Step 4 - Set title & Upload" />
+            {files.length > 0 && (
+              <Fragment>
+                <input
+                  placeholder="Photo title"
+                  onChange={(e) => handleTitle(e)}
+                  type="text"
+                  style={{
+                    width: "200px",
+                    height: "30px",
+                    marginBottom: "8px",
+                  }}
+                />
+                <Button.Group>
+                  <Button
+                    loading={loading}
+                    onClick={() => handleUploadVideo()}
+                    style={{ width: "100px" }}
+                    positive
+                    icon="check"
+                  />
+                  <Button
+                    disabled={loading}
+                    onClick={handleCancleCrop}
+                    style={{ width: "100px" }}
+                    icon="close"
+                  />
+                </Button.Group>
+                {props.complete_precent > 0 && (
+                  <div style={{ margin: "5px" }}>
+                    <Progress percent={props.complete_precent} progress />
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </Grid.Column>
+        </Grid>
+        <Divider />
+        <Card.Group itemsPerRow={5}>
+          {all_video &&
+            all_video.map((video) => (
+              <Fragment>
+                <Card key={video.name}>
+                  <video
+                    poster={video.poster_url}
+                    width="260"
+                    hight="180"
+                    controls
+                  >
+                    <source src={video.url} type={video.type} />
+                  </video>
+                  <div className="ui two buttons">
+                    <Button
+                      onClick={() => handleSetMainPhoto(video)}
+                      basic
+                      color="green"
+                    >
+                      Main
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteFile(video)}
+                      basic
+                      icon="trash"
+                      color="red"
+                    />
+                  </div>
+                </Card>
+              </Fragment>
+            ))}
+        </Card.Group>
+      </Modal.Content>
+    </Modal>
+  );
+};
 
-    const handleCancleCrop = () => {
-        setFiles([]);
-        setPoster(null);
-    }
-
-    const handleSetMainPhoto = async (photo, stop) => {
-        try {
-            await setMainPhoto(photo, stop);
-        } catch (error) {
-            toastr.error('Oops', error.message);
-        }
-    }
-    return (
-        <Modal size='large' open={open} onClose={onClose}>
-            <Modal.Header>
-                Video Zone
-                </Modal.Header>
-            <Modal.Content>
-                <Grid>
-                    <Grid.Row />
-                    <Grid.Column width={4}>
-                        <Header color='teal' sub content='Step 1 - Add Video' />
-                        <DropzoneInput setFiles={setFiles} acceptedFile='video/*' />
-                    </Grid.Column>
-                    <Grid.Column width={1} />
-                    <Grid.Column width={6}>
-                        <Header sub color='teal' content='Step 2 - Preview video' />
-                        {files.length > 0 &&
-                            <video width="320" height="240" controls  >
-                                <source src={files[0].preview} type={files[0].type} />
-                            </video>
-                        }
-                    </Grid.Column>
-                    <Grid.Column width={1} />
-                    <Grid.Column width={4}>
-                        <Header sub color='teal' content='Step 3 - Upload a poster picture for the video' />
-                        {files.length > 0 && (
-                            <Fragment>
-                                {poster && poster.length > 0 ?
-                                    <Fragment>
-                                        <Image src={poster[0].preview} />
-                                        <Button.Group>
-                                            <Button
-                                                loading={loading}
-                                                onClick={() => handleUploadVideo()}
-                                                style={{ width: '100px' }}
-                                                positive
-                                                icon='check'
-                                            />
-                                            <Button
-                                                disabled={loading}
-                                                onClick={handleCancleCrop}
-                                                style={{ width: '100px' }}
-                                                icon='close'
-                                            />
-                                        </Button.Group>
-                                    </Fragment>
-                                    : <DropzoneInput setFiles={setPoster} acceptedFile='image/*' />}
-                            </Fragment>
-                        )}
-                    </Grid.Column>
-                </Grid>
-                <Divider />
-                <Card.Group itemsPerRow={5}>
-                    {all_video && all_video.map(video => (
-                        <Fragment>
-                            <Card key={video.name}>
-                                <video poster={video.poster_url} width="260" hight="180" controls>
-                                    <source src={video.url} type={video.type} />
-                                </video>
-                                <div className='ui two buttons'>
-                                    <Button onClick={() => handleSetMainPhoto(video)} basic color='green'>Main</Button>
-                                    <Button onClick={() => handleDeleteFile(video)} basic icon='trash' color='red' />
-                                </div>
-                            </Card>
-                        </Fragment>
-                    ))}
-
-                </Card.Group>
-            </Modal.Content>
-        </Modal>
-    );
-
-}
-
-export default connect(mapState, actions)
-    /*(reduxForm({
+export default connect(
+  mapState,
+  actions
+)(
+  /*(reduxForm({
         form: 'stopForm',
         enableReinitialize: true,
         destroyOnUnmount: false,
         forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-    })*/(VideoComponenet);
+    })*/ VideoComponenet
+);

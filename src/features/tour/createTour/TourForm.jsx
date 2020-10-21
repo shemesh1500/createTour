@@ -76,7 +76,7 @@ const equipment = [
 
 const tourType = [
   { key: "Culinary", text: "Culinary", value: "Culinary" },
-  { key: "Religen", text: "Religen", value: "Religen" },
+  { key: "Religion", text: "Religion", value: "Religion" },
   { key: "Historic", text: "Historic", value: "Historic" },
   { key: "Artistic", text: "Artistic", value: "Artistic" },
   { key: "Nightlife", text: "Nightlife", value: "Nightlife" },

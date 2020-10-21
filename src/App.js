@@ -21,6 +21,7 @@ import HelperComponent from "./HelperComponent";
 import ManageTours from "./features/tour/tourDashboard/ManageTours";
 import SalesPage from "./features/user/SalesPage";
 import CandT from "./features/auth/CandT";
+import TestComponent from "./features/testerea/testComponent";
 
 const mapState = (state, props) => {
   return {
@@ -45,7 +46,7 @@ class App extends Component {
           path="/(.+)"
           render={() => (
             <div className="mainApp">
-              <NavBar />
+              {TandC === false && <NavBar />}
               <div className="switchContext">
                 <Switch key={this.props.location.key}>
                   <Route path="/settings" component={UserSettings} />
@@ -84,6 +85,7 @@ class App extends Component {
                   />
 
                   <Route path={"/stops"} component={StopList} />
+                  <Route path={"/test"} component={TestComponent} />
 
                   <HelperComponent
                     path="/manage"

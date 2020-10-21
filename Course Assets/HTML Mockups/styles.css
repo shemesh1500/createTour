@@ -5,12 +5,7 @@ body {
 }
 
 .masthead {
-  background-image: linear-gradient(
-    135deg,
-    rgb(24, 42, 115) 0%,
-    rgb(33, 138, 174) 69%,
-    rgb(32, 167, 172) 89%
-  ) !important;
+  background-image: linear-gradient( 135deg, rgb(24, 42, 115) 0%, rgb(33, 138, 174) 69%, rgb(32, 167, 172) 89%) !important;
 }
 
 .masthead.segment {
@@ -18,8 +13,7 @@ body {
   padding: 1em 0 !important;
 }
 
-.masthead .ui.menu .ui.button,
-.ui.menu a.ui.inverted.button {
+.masthead .ui.menu .ui.button, .ui.menu a.ui.inverted.button {
   margin-left: 0.5em;
 }
 
@@ -43,8 +37,7 @@ body {
   font-size: 2em;
 }
 
-.ui.vertical.stripe .button + h3,
-.ui.vertical.stripe p + h3 {
+.ui.vertical.stripe .button+h3, .ui.vertical.stripe p+h3 {
   margin-top: 3em;
 }
 
@@ -84,16 +77,10 @@ body {
 }
 
 .ui.fixed.menu {
-  background-image: linear-gradient(
-    135deg,
-    rgb(24, 42, 115) 0%,
-    rgb(33, 138, 174) 69%,
-    rgb(32, 167, 172) 89%
-  ) !important;
+  background-image: linear-gradient( 135deg, rgb(24, 42, 115) 0%, rgb(33, 138, 174) 69%, rgb(32, 167, 172) 89%) !important;
 }
 
-.main.container,
-.main.segment {
+.main.container, .main.segment {
   margin-top: 2em;
 }
 
@@ -102,8 +89,10 @@ body {
 }
 
 /* allow inline equal width labels for semantic  */
+
 .equal-width label {
-  min-width: 100px; /* set this to max width of your label text */
+  min-width: 100px;
+  /* set this to max width of your label text */
 }
 
 /* sticky footer */
@@ -128,8 +117,8 @@ body {
 } */
 
 .event-image {
-    filter: brightness(30%);
-  }
+  filter: brightness(30%);
+}
 
 .event-image-text {
   position: absolute;
@@ -141,6 +130,7 @@ body {
 }
 
 /* remove border from inverted segments */
+
 .ui.inverted.attached.segment {
-    border: none;
+  border: none;
 }

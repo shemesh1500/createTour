@@ -15,8 +15,9 @@ import TourPreview from "./TourPreview";
 import RoutePreview from "./RoutePreview";
 import "../../../style/tourControl.css";
 import InstractionController from "../../instractions/InstractionController";
+import PeakProfilePic from "./PeakProfilePic";
 
-const query = (props) => {
+/* const query = (props) => {
   let tourId;
   if (props.tourId) {
     tourId = props.tourId;
@@ -34,7 +35,7 @@ const query = (props) => {
     return [{ collection: "tours" }];
   }
 };
-
+ */
 const actions = {
   createTour,
   updateTour,
@@ -63,6 +64,13 @@ const mapState = (state, ownProps) => {
       stops.sort((a, b) => a.order > b.order);
     }
   }
+  let user = {};
+  if (state.firestore.ordered.user) {
+    user =
+      state.firestore.ordered.users.filter(
+        (user) => user.email === state.firebase.auth.email
+      )[0] || {};
+  }
   return {
     stops: stops,
     initialValues: tour,
@@ -90,6 +98,8 @@ const TourControl = (props) => {
 
   const [businessMarker, setbusinessMarker] = useState([]);
   const [SelectedBusiness, setSelectedBusiness] = useState();
+
+  //props.addTourToUser(tourId);
 
   /* useEffect functions */
   async function setListener(firestore) {
@@ -154,7 +164,7 @@ const TourControl = (props) => {
       initialValues.stops = initialValues.stops.map((stop) =>
         stop.id === update_stop.id ? update_stop : stop
       );
-      console.log("WANTED STOP", initialValues);
+
       await props.updateTour(initialValues);
     } else {
       update_stop = {
@@ -200,6 +210,18 @@ const TourControl = (props) => {
     await props.updateTour(initialValues);
   };
 
+  const displayMedia = () => {
+    console.log("display media", initialValues);
+    return (
+     /*  <PeakProfilePic
+        all_media={initialValues.all_media}
+        tourID={initialValues.id}
+        updateTour={props.updateTour}
+        tour={initialValues}
+      /> */
+    );
+  };
+
   /* Rendering the main area of the cteation of the tour */
   const renderMainNav = () => {
     switch (mainNavActive) {
@@ -218,6 +240,16 @@ const TourControl = (props) => {
             onFormSubmit={onFormSubmit}
             ActiveTab={ActiveDetailsTab}
             setActiveTab={setActiveDetailsTab}
+            displayMedia={displayMedia}
+          />
+        );
+      case "Tour profile picture":
+        return (
+          <PeakProfilePic
+            all_media={initialValues.all_media}
+            tourID={initialValues.id}
+            updateTour={props.updateTour}
+            tour={initialValues}
           />
         );
       case "Create Route":
@@ -275,7 +307,6 @@ const TourControl = (props) => {
     try {
       if (props.initialValues.id) {
         props.updateTour(values);
-        props.handleEditStat(false);
       } else {
         let createdTour = await props.createTour(values);
         props.change("id", createdTour.id);
@@ -316,7 +347,6 @@ const TourControl = (props) => {
       initialValues.duration = Duration;
       doUpdate = true;
     }
-    console.log("DoUpload", doUpdate);
     if (doUpdate === true) {
       await props.updateTour(initialValues);
     }
@@ -370,15 +400,10 @@ const TourControl = (props) => {
   };
 
   /*Start Instraction modal */
-  const [showInstraction, setShowInstraction] = useState("");
-  const [instractionStep, setInstractionStep] = useState(1);
-  const renderInstraction1 = () => {
-    if (mainNavActive === "Tour Summary") {
-      return setShowInstraction("tourInstraction");
-    }
-  };
+  const [showInstraction, setShowInstraction] = useState(false);
 
   const renderInstraction = () => {
+    console.log("RENDER INSTRACTION");
     switch (mainNavActive) {
       case "Tour Summary":
         switch (ActiveDetailsTab) {
@@ -387,10 +412,15 @@ const TourControl = (props) => {
           case "General details":
             return setShowInstraction("tourInstraction");
           case "General content":
-            return setShowInstraction("tourInstraction");
+            return setShowInstraction("tourMediaInstraction");
         }
     }
   };
+  useEffect(() => {
+    if (showInstraction != false) {
+      renderInstraction();
+    }
+  }, [mainNavActive, ActiveDetailsTab]);
   /*End Instraction modal */
 
   return (
@@ -398,12 +428,7 @@ const TourControl = (props) => {
       <div className="contextArea">
         <div className="mainTourHeader">Tour Details</div>
         <div className="subTourHeader">Here you start to build your tour</div>
-        <div
-          className="getInstraction"
-          onClick={() =>
-            /*(setInstractionStep(1), setShowInstraction(true))*/ renderInstraction()
-          }
-        >
+        <div className="getInstraction" onClick={() => renderInstraction()}>
           Get some help
         </div>
         <TourMainNav

@@ -14,7 +14,13 @@ const mapState = (state) => ({
 })
 */
 
-const BasicPage = ({ pristine, submitting, handleSubmit, updateProfile }) => {
+const BasicPage = ({
+  pristine,
+  submitting,
+  handleSubmit,
+  updateProfile,
+  initialValues,
+}) => {
   return (
     <Segment>
       <Form onSubmit={handleSubmit(updateProfile)}>

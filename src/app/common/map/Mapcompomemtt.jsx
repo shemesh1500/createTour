@@ -224,7 +224,19 @@ const Map = withScriptjs(
             lng: marker.location.longitude,
             strokeColor: marker.color ? marker.color : "red",
           };
-          return <Marker key={index} position={position} />;
+          let defaultLabel = {
+            color: "#ffffff",
+            fontWeight: "bold",
+            fontSize: "14px",
+            text: (index + 1).toString(),
+          };
+          return (
+            <Marker
+              key={index}
+              position={position}
+              defaultLabel={defaultLabel}
+            />
+          );
         }
       })}
       {props.clickLocation && (
@@ -293,7 +305,13 @@ const AppMap = (props) => {
       (stop) => (
         (cast_place = [
           ...cast_place,
-          { location: stop.stop_location, order: stop.order },
+          {
+            location: {
+              latitude: parseFloat(stop.location.latitude),
+              longitude: parseFloat(stop.location.longitude),
+            },
+            order: stop.order,
+          },
         ]),
         (defaultCenter = stop.location),
         (defaultZoom = 12)
