@@ -129,6 +129,7 @@ const StopMedia = (props) => {
 
     saveChanges(update_stop);
   };
+  
 
   return (
     <Fragment>

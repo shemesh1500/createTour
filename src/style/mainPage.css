@@ -17,7 +17,8 @@
 }
 
 .mainZoneButtun {
-    width: 571px;
+    /* width: 571px; */
+    width: 85%;
     height: 81px;
     border-radius: 8px;
     box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.1);

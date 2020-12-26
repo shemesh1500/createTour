@@ -24,6 +24,7 @@ const mapState = (state, props) => {
       stop = props.all_stops.filter((stop) => stop.id === stopId)[0];
     }
   }
+
   return {
     initialValues: stop,
     tourId: tourId,
@@ -58,7 +59,6 @@ const CreateStop = (props) => {
 
       let stop_id = await updateStop(newStop);
       setStopId(stop_id);
-      console.log("HandleSybmit");
       setCurrentStop(newStop);
       /*if (values.id) {
                 await updateStop(tourId, values)
@@ -72,7 +72,7 @@ const CreateStop = (props) => {
       console.log(error);
     }
   };
-
+ 
   const switchRenderFunction = () => {
     switch (tabName) {
       case "Location":
@@ -101,7 +101,7 @@ const CreateStop = (props) => {
             saveChanges={handleSubmit}
             tourId={tourId}
             all_stops={all_stops}
-            stop={props.initialValues}
+            stop={props.initialValues} 
           />
         );
       default:

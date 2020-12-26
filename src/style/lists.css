@@ -1,5 +1,5 @@
 .listItem {
-    width: 500px;
+    /* width: 500px; */
     border-radius: 5px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
     background-color: #ffffff;
@@ -54,7 +54,8 @@
 
 .allList {
     place-items: center;
-    width: 746px;
+    /* width: 746px; */
+    width: 100%;
     border-radius: 5px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
     background-color: #ffffff;
@@ -63,9 +64,21 @@
 }
 
 .allItmList {
-    width: 607px;
+    /* width: 607px; */
+    width: 100%;
     border-radius: 8px;
     background-color: #bfbdc7;
     padding: 3%;
     margin:auto;
+}
+
+.allAssets{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.tourAssets{
+    width: 47%;
+    margin-left: 2%;
 }

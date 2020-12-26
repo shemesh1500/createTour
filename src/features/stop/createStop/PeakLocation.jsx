@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Form, Divider } from "semantic-ui-react";
+import { Form, Divider, Card, Image } from "semantic-ui-react";
 import placeInput from "../../../app/common/form/placeInput";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
-import { Field, reduxForm } from "redux-form";
+import { Field, initialize, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import TextInput from "../../../app/common/form/textInput";
 import { combineValidators, isRequired } from "revalidate";
 import { createStop, updateStop } from "../stopAction";
 import textAreaInput from "../../../app/common/form/textAreaInput";
-import DropzoneInput from "../../stop/media/DropzoneInput";
 import { generalUploadFile, generalDeleteFile } from "../../media/mediaActions";
 import PhotoComponent from "../media/PhotoComponent";
 //import '../../../style/stopCreation.css'
@@ -57,6 +56,7 @@ const PeakLocation = (props) => {
   } = props;
 
   const [photoOpen, setPhotoModal] = useState(false);
+  const [origLocation, setOrigLocation] = useState(initialValues.stop_location.latitude ? initialValues.stop_location : undefined)
   const [files, setFiles] = useState([]);
   useEffect(() => {
     return () => {
@@ -127,9 +127,15 @@ const PeakLocation = (props) => {
     );
     new_media = {
       ...new_media,
-      order: initialValues.loc_pics.lenght ? initialValues.loc_pics.lenght : 0,
+      order:
+        initialValues.loc_pics && initialValues.loc_pics.lenght
+          ? initialValues.loc_pics.lenght
+          : 0,
     };
-    let new_all_media = [...initialValues.loc_pics, new_media];
+    let new_all_media = initialValues.loc_pics
+      ? [...initialValues.loc_pics, new_media]
+      : [new_media];
+
     let update_stop = {
       ...initialValues,
       loc_pics: new_all_media,
@@ -151,10 +157,12 @@ const PeakLocation = (props) => {
 
   const cancleManual = () => {
     console.log("calncle peak", clickLocation);
+    props.change("stop_location", origLocation);
     setClickLocation(null);
+
     console.log("calncle peak", clickLocation);
   };
-
+  console.log("loc_pics", initialValues.loc_pics);
   return (
     <div className="allLocationForm">
       <Form onSubmit={handleSubmit(saveChanges)}>
@@ -183,38 +191,7 @@ const PeakLocation = (props) => {
               </div>
             )}
           </div>
-          <div className="textLocation">
-            <div className="inputLocationHeader">Diractions by words</div>
-            <Field
-              name="diraction_text"
-              type="textarea"
-              component={textAreaInput}
-              placeholder="Diraction in text"
-              rows={2}
-              className="locationInput"
-            />
-          </div>
-          <div className="photoLocation">
-            <div className="inputLocationHeader">Picture of the location</div>
-            <button className="addButton" onClick={() => setPhotoModal(true)}>
-              {initialValues.loc_pics && initialValues.loc_pics.lenght === 0
-                ? "Add stop picture"
-                : "Add more pictures"}
-            </button>
-
-            <PhotoComponent
-              loading={loading}
-              objectId={initialValues.id}
-              all_media={initialValues.loc_pics}
-              //handleSetMainFile={handleSetMainFile}
-              handleDeletePhoto={deleteFile}
-              open={photoOpen}
-              onClose={() => setPhotoModal(false)}
-              generalUploadFile={uploadFile}
-            />
-          </div>
-          <div>
-            <Divider horizontal>Or</Divider>
+          <div className='latLngArea'>
             <div className="locationFooter">
               <div className="cordInput">
                 <h4>Latitude</h4>
@@ -237,9 +214,73 @@ const PeakLocation = (props) => {
                 />
               </div>
             </div>
+            {clickLocation && <div className='locationButtons'>
+              <button
+              className="saveLocationButton"
+              disabled={props.invalid}
+              positive
+              type="submit"
+            >
+              Update location
+            </button>
+            <button
+              className="cancleLocationButton"
+              disabled={props.invalid}
+              positive
+              onClick={()=>cancleManual()}
+            >
+              Cancle manual peak
+            </button>
+            </div>}
           </div>
+          <hr />
+          <div className='diractionArea'>
+          <div className="photoLocation">
+            <div className="inputLocationHeader">Picture of the location</div>
+            <div className='locPicArea'>
+              <div>
+            <Card.Group itemsPerRow={4}>
+            {initialValues.loc_pics && initialValues.loc_pics.length > 0 &&
+            initialValues.loc_pics.map(photo => (
+              <Card key={photo.name}>
+                <Image src={photo.url} />
+                </Card>
+            ))}
+            </Card.Group>
+            </div>
+            <button className="addButton" onClick={() => setPhotoModal(true)}>
+              {initialValues.loc_pics && initialValues.loc_pics.length === 0
+                ? "Add stop picture"
+                : "Add more pictures"}
+            </button>
+
+            <PhotoComponent
+              loading={loading}
+              objectId={initialValues.id}
+              all_media={initialValues.loc_pics}
+              //handleSetMainFile={handleSetMainFile}
+              handleDeletePhoto={deleteFile}
+              open={photoOpen}
+              onClose={() => setPhotoModal(false)}
+              generalUploadFile={uploadFile}
+            />
+          </div>
+          </div>
+          <div className="textLocation">
+            <div className="inputLocationHeader">Diractions by words</div>
+            <Field
+              name="direction_text"
+              type="textarea"
+              component={textAreaInput}
+              placeholder="Diraction in text"
+              rows={1}
+              className="locationInput"
+            />
+          </div>
+          </div>
+          
         </div>
-        <div>
+        <div className='saveNcancleButton'>
           <button
             className="saveButton"
             onClick={() => setRouteStatus("Stops List")}

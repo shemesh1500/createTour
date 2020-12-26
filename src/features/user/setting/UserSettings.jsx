@@ -7,7 +7,6 @@ import "../../../style/settings.css";
 import BasicPage from "./BasicPage";
 import PersonalQuestion from "./PersonalQuestion";
 import { uploadProfileImage } from "../../user/userActions";
-import { toastr } from "react-redux-toastr";
 import { reduxForm } from "redux-form";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -66,10 +65,6 @@ const UserSettings = ({ user, uploadProfileImage, updateProfile }) => {
       uploadProfileImage(e.target.files[0], user);
     }
   };
-  const updateUser = (data) => {
-    console.log("data", data);
-    console.log("user", user);
-  };
 
   const switchContent = (activeTab) => {
     switch (activeTab) {
@@ -88,7 +83,7 @@ const UserSettings = ({ user, uploadProfileImage, updateProfile }) => {
   };
   return (
     <div className="generalArea">
-      <div className="contextArea">
+      <div className="contextSettingsArea">
         <div className="settingHeader">
           <div>
             <h2 className="header">

@@ -7,7 +7,7 @@ import FirstTourForm from "./FirstTourForm";
 import TourMediaInstraction from "./TourMediaInstraction";
 
 const InstractionController = (props) => {
-  const { showInstraction, data, setShow, setShowInstraction } = props;
+  const { showInstraction, setShowInstraction } = props;
   let wanted_instraction = showInstraction;
 
   const [instractionStep, setInstractionStep] = useState(1);

@@ -87,7 +87,7 @@ const PeakLocation = (props) => {
           <div className="textLocation">
             <div className="inputLocationHeader">Diractions by words</div>
             <Field
-              name="diraction_text"
+              name="direction_text"
               type="textarea"
               component={textAreaInput}
               placeholder="Diraction in text"

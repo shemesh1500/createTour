@@ -2,8 +2,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import "../../../style/lists.css";
 
-const TourList = (props) => {
-  console.log("tours", props.tours);
+const TourList = (props) => { 
 
   return (
     <Fragment>

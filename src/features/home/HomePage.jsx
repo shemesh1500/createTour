@@ -4,7 +4,7 @@ import LoginForm from '../auth/login/LoginForm'
 import RegisterForm from '../auth/register/RegisterForm';
 import { connect } from 'react-redux';
 import { withFirebase } from 'react-redux-firebase';
-import Index from './Index';
+import Index from './index.jsx';
 
 const mapState = (state) => ({
     auth: state.firebase.auth,

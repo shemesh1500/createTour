@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
 import {
-  Segment,
   Header,
   Divider,
   Grid,
@@ -14,7 +13,6 @@ import DropzoneInput from "./DropzoneInput";
 import { setMainPhoto } from "../../tour/tourAction";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import { reduxForm } from "redux-form";
 import { uploadStopVideo } from "../../media/mediaActions";
 
 const actions = {
@@ -56,26 +54,6 @@ const VideoComponenet = (props) => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, [files]);
-
-  const handleUploadVideoOld = async () => {
-    try {
-      await uploadStopVideo(
-        files[0].file,
-        `${objectId}/${collectionName}Media/`,
-        objectId,
-        all_media,
-        poster[0].file,
-        collectionName,
-        tourId
-      );
-      all_video = all_media.filter((media) => media.type.includes("video"));
-      handleCancleCrop();
-      toastr.success("Success", "Photo has been uploaded");
-    } catch (error) {
-      console.log(error);
-      toastr.error("Oops", "Something went wrong");
-    }
-  };
 
   const handleUploadVideo = async () => {
     generalUploadFile(files[0].file, title, poster[0].file);

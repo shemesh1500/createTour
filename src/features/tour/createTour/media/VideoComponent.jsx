@@ -21,7 +21,7 @@ const actions = {
 };
 
 const mapState = (state) => ({
-  //initialValiues: state.form.stopForm.values,
+  //initialValiues: state.form.stopForm.values, 
   loading: state.async.loading,
   complete_precent: state.async.complete_precent,
   //stop: state.firestore.ordered[0],
@@ -57,7 +57,7 @@ const VideoComponenet = (props) => {
   const handleUploadVideo = async () => {
     try {
       console.log("handleUploadVideo", `${objectId}/${collectionName}Media/`);
-      const new_media = await uploadVideo(
+      /* const new_media =  */await uploadVideo(
         files[0].file,
         `${objectId}/${collectionName}Media/`,
         objectId,
@@ -88,7 +88,7 @@ const VideoComponenet = (props) => {
       toastr.error("Oops", error.message);
     }
   };
-  console.log("VIDEO COMPONENT", props.complete_precent);
+
   return (
     <Modal size="large" open={open} onClose={onClose}>
       <Modal.Header>Video Zone</Modal.Header>
@@ -116,7 +116,7 @@ const VideoComponenet = (props) => {
               content="Step 3 - Upload a poster picture for the video"
             />
             {files.length > 0 && (
-              <Fragment>
+              <Fragment >
                 {poster && poster.length > 0 ? (
                   <Fragment>
                     <Image src={poster[0].preview} />

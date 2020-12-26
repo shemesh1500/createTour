@@ -38,7 +38,7 @@ const SmallStop = ({setRouteStatus , all_stops, tourId, updateStop, createStop ,
                 await updateStop(tourId, values)
             }
             else {
-                let created_stop_id = await createStop(values, tourId, all_stops.length, 'smallStop')
+                /* let created_stop_id = */ await createStop(values, tourId, all_stops.length, 'smallStop')
                 //props.change('id', created_stop_id)
                 //await updateStop(tourId, values)
             }

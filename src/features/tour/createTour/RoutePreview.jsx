@@ -1,10 +1,13 @@
 /*global google*/
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Mapcomponent from "../../../app/common/map/Mapcompomemtt";
 import "../../../style/routePreview.css";
 import StopPreview from "./StopPreview";
+//import SmallStopPreview from "./SmallStopPreview";
 import { FixedSizeList as List } from "react-window";
 import MediaModal from "../../../app/common/modal/MediaModal";
+import defaultProfile from '../../../images/default-profile.png'
+//import { useSelector } from 'react-redux'
 
 const RoutePreview = (props) => {
   const {
@@ -17,10 +20,14 @@ const RoutePreview = (props) => {
     currentStop,
     clickLocation,
     setClickLocation,
+    tabStatus
   } = props;
 
   const [previewState, setPreviewState] = useState(false);
   const [previewUrl, setPreviewUrl] = useState();
+
+ // const tabStatus = useSelector(state => state.async.asyncTabStatus)
+  
 
   const getPreview = (data) => {
     const obj = {
@@ -33,6 +40,35 @@ const RoutePreview = (props) => {
   const hideModal = () => {
     setPreviewState(false);
   };
+
+  const renderStop = (stop) => {
+    if(stop.type.includes('big') || stop.type.includes('business')){
+      console.log("LOC_PICS", stop.loc_pics );
+      return(
+        <div className='bigStopSqure'>
+          <div className='stopDetails'>
+            <div className='tourName'>{stop.s_title ? stop.s_title : 'Title'}</div>
+            <div className='tourType'>{stop.tags ? stop.tags.map(tag=> tag ) : 'Type'}</div>
+            <div className='tourClock'>1.0k</div>
+          </div>
+          <div className='stopPic'>
+            <img className='stopImg' src={stop.loc_pics && stop.loc_pics[0] ? stop.loc_pics[0].url : defaultProfile} alt='stopPicture'/>
+          </div>
+        </div>
+      )
+    }
+    if(stop.type.includes('small')){
+      return(
+        <div className='smallStopSqure'>
+          <div className='smallStopDetails'>
+            <div className='tourName'>{stop.s_title ? stop.s_title : 'Title'}</div>
+            <div className='tourType'>{stop.tags ? stop.tags.map(tag=> tag + " " ) : 'Type'}</div>
+            <div className='tourClock'>1.0k</div>
+          </div>
+        </div>
+      )
+    }
+  }
 
   return (
     <div>
@@ -51,14 +87,18 @@ const RoutePreview = (props) => {
       )}
 
       <div className="previewArea">
-        {tour && (
+    
+       { tour && (
           <div className="routePreview">
+         {places && currentStop && (!currentStop.type.includes('smallStop') && !tabStatus.includes('Location') ) ? 
+          <StopPreview stop={currentStop} getPreview={getPreview} /> :
+            <Fragment>
             <div className="mapRoute">
               <MediaModal
                 show={previewState}
                 onHide={hideModal}
                 data={previewUrl}
-              />
+              />       
               <Mapcomponent
                 places={places}
                 businessPlaces={businessPlaces}
@@ -71,17 +111,41 @@ const RoutePreview = (props) => {
               />
             </div>
             <div className="buttomRoute">
-              <div className="stopsList">
+              <div className='stopsArea'>
+                {tour.stops && 
+                <List  
+                direction="horizontal"
+                height={165} 
+                itemCount={tour.stops.length}
+                itemSize={320}
+                width={400}
+              >
+                 {({ key, index, style }) => (
+              <div
+              // className={index % 2 ? "ListItemOdd" : "ListItemEven"}
+                key={key}
+                style={style}
+              >
+                {renderStop(tour.stops[index])}
+               
+              </div>
+            )}
+                </List> }
+              </div>
+            {/*  <div className="stopsList">
                 {places && currentStop ? (
-                  <StopPreview stop={currentStop} getPreview={getPreview} />
+                  
+                   <SmallStopPreview stop={currentStop} getPreview={getPreview} />
                 ) : (
+                  <div className='allStopsButtom'>
+                    <div>
                   <List
                     className="List"
                     direction="horizontal"
                     height={55}
                     itemCount={places.length}
-                    itemSize={50}
-                    width={200}
+                    itemSize={40}
+                    width={170}
                   >
                     {({ key, index, style }) => (
                       <div
@@ -93,17 +157,21 @@ const RoutePreview = (props) => {
                       </div>
                     )}
                   </List>
+                  </div>
+                  <div className="routeDetails">
+                  <div>
+                    Distance: {Number((tour.distance / 1600).toFixed(2))}km
+                  </div>
+                  <div>
+                    Duration: {Number((tour.duration / 60).toFixed(1))}min
+                  </div>
+                </div>
+                </div>
                 )}
-              </div>
-              <div className="routeDetails">
-                <div>
-                  Distance: {Number((tour.distance / 1600).toFixed(2))}km
-                </div>
-                <div>
-                  Duration: {Number((tour.duration / 60).toFixed(1))}min
-                </div>
-              </div>
+                    </div>*/}
             </div>
+            </Fragment>
+}
           </div>
         )}
       </div>

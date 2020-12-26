@@ -7,13 +7,11 @@ import {
   Card,
   Image,
   Modal,
-  Form,
 } from "semantic-ui-react";
 import DropzoneInput from "../../stop/media/DropzoneInput";
 import CropperInput from "../../stop/media/CropperInput";
 //import { uploadStopFile } from "../../media/mediaActions";
 import { setMainPhoto } from "../../tour/tourAction";
-import { toastr } from "react-redux-toastr";
 import { connect } from "react-redux";
 import squarePic from "../../../images/square.png";
 import verticalPic from "../../../images/vertical.png";
@@ -31,9 +29,7 @@ const PhotoComponent = (props) => {
     handleDeletePhoto,
     open,
     onClose,
-    objectId,
     all_media,
-
     generalUploadFile,
   } = props;
 

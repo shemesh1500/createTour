@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Form, Label } from "semantic-ui-react";
 import { Field, reduxForm } from "redux-form";
 import TextInput from "../../../app/common/form/textInput";
@@ -8,6 +8,7 @@ import SocialLogin from "../SocialLogin/SocialLogin";
 import logo from "../../../images/loginLogo.svg";
 import "../../../style/form.css";
 import style from "../../../style/form.css";
+import TandCWeb from '../../../images/TandCWeb.pdf'
 
 const actions = {
   login,
@@ -21,6 +22,11 @@ const LoginForm = ({
   socialLoginFunc,
   changeState,
 }) => {
+  const [agree, setAgree] = useState(false);
+  const checkboxHandler = () => {
+    setAgree(!agree);
+    // Don't miss the exclamation mark
+  }
   return (
     <div>
       <div className="form-bg">
@@ -52,7 +58,19 @@ const LoginForm = ({
           {/*<Button fluid size="large" color="teal">
             Login
           </Button>*/}
-          <button type="submit" className="submitButton">
+          <div className='agreeTAC'>
+           <input type="checkbox" className="agree" onChange={checkboxHandler} />
+          <div className='agreeText' htmlFor="agree"> I agree to 
+          <a
+              /* onClick={() => changeState("register")} */
+              style={{ cursor: "pointer" }}
+              href={TandCWeb}
+              without rel="noopener noreferrer" target="_blank"
+            >
+              terms and condition
+            </a></div>
+          </div>
+          <button type="submit" className="submitButton" disabled={!agree}>
             login
           </button>
           <div className="goToRegister">
@@ -60,12 +78,13 @@ const LoginForm = ({
             <a
               onClick={() => changeState("register")}
               style={{ cursor: "pointer" }}
+              href="#"
             >
               Register here
             </a>
           </div>
 
-          <SocialLogin socialLogin={socialLoginFunc} />
+          <SocialLogin socialLogin={socialLoginFunc} agree={agree}/>
         </Form>
       </div>
     </div>

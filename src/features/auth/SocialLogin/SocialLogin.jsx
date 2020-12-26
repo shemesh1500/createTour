@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Icon } from "semantic-ui-react";
 import "../../../style/form.css";
 
-const SocialLogin = ({ socialLogin }) => {
+const SocialLogin = ({ socialLogin, agree }) => {
   return (
     <div className="socialLogin">
       <Button
@@ -11,6 +11,7 @@ const SocialLogin = ({ socialLogin }) => {
         style={{ marginBottom: "10px", backgroundColor: "#4267B2" }}
         fluid
         color="facebook"
+        disabled={!agree}
       >
         <Icon name="facebook" /> Login with Facebook
       </Button>
@@ -21,6 +22,7 @@ const SocialLogin = ({ socialLogin }) => {
         style={{ marginBottom: "10px", backgroundColor: "#D84E46" }}
         fluid
         color="google plus"
+        disabled={!agree}
       >
         <Icon name="google plus" />
         Login with Google

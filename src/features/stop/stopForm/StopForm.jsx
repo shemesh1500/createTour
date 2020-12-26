@@ -17,7 +17,6 @@ const mapState = (state, props) => {
     if (state.form.stopForm) {
         formValues = state.form.stopForm.values;
     }else if (props.stop){
-        console.log("PROPS>STOP", props.stop);
         
         formValues = props.stop;
     }
@@ -47,7 +46,7 @@ const tags = [
 
 //class StopForm extends Component {
 const StopForm = (props) => {
-    const { handleSubmit, pristine, reset, submitting, saveChanges } = props
+    const { handleSubmit, /*pristine, reset, submitting,*/ saveChanges } = props
 
 
     return (

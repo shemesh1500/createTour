@@ -1,12 +1,10 @@
-import React, { Component } from "react";
-import { Segment, Form, Header, Divider, Button } from "semantic-ui-react";
+import React from "react";
+import { Segment, Form, Header, Divider } from "semantic-ui-react";
 import { Field, reduxForm } from "redux-form";
 import DateInput from "../../../app/common/form/dateInput";
-import PlaceInput from "../../../app/common/form/placeInput";
 import TextInput from "../../../app/common/form/textInput";
 import RadioInput from "../../../app/common/form/RadioInput";
 import { addYears } from "date-fns";
-import { connect } from "react-redux";
 
 /*
 const mapState = (state) => ({
@@ -21,6 +19,7 @@ const BasicPage = ({
   updateProfile,
   initialValues,
 }) => {
+  console.log("PHONE", initialValues);
   return (
     <Segment>
       <Form onSubmit={handleSubmit(updateProfile)}>

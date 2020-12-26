@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled, { css } from "styled-components";
 import makeCarousel from "react-reveal/makeCarousel";
 import Slide from "react-reveal/Slide";
@@ -6,20 +6,26 @@ import locationIcon from "../../../images/location.png";
 import durationIcon from "../../../images/duration.png";
 import distanceIcon from "../../../images/distance.png";
 import rangeIcon from "../../../images/range.png";
+import userIcon from "../../../images/userIcon.jpg"
 import { FixedSizeList as List } from "react-window";
-import { Rating } from "semantic-ui-react";
+import {  Rating } from "semantic-ui-react";
 import "../../../style/tourPreview.css";
 import { connect } from "react-redux";
 
 const mapState = (state, props) => {
+  let user = {};
+  if (state.firestore.ordered.users) {
+    user = state.firestore.ordered.users[0];
+  }
   return {
     //tourId: props.tourId,
     tour: state.form.tourForm.values,
+    user:user
   };
 };
 
 const TourPreview = (props) => {
-  const { tour } = props;
+  const { tour, user } = props;
   const width = "300px",
     height = "150px";
 
@@ -27,10 +33,11 @@ const TourPreview = (props) => {
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 35%;
+    height: 400px !important;
+     
   `;
   const Children = styled.div`
-    position: relative;
+    position: center;
   `;
   const Dot = styled.span`
     font-size: 2.5em;
@@ -58,7 +65,7 @@ const TourPreview = (props) => {
       <Dots>
         {Array(...Array(total)).map((val, index) => (
           <Dot key={index} onClick={handleClick} data-position={index}>
-            {index === position ? "● " : "○ "}
+            {index === position ? "● " : "○"}
           </Dot>
         ))}
       </Dots>
@@ -66,9 +73,22 @@ const TourPreview = (props) => {
   );
   const Carousel = makeCarousel(CarouselUI);
 
-  const renderLive = (index) => {
+  const renderLive = (index, style, user) => {
     switch (index) {
       case 0:
+        const trailer = tour.all_media ? tour.all_media.find(media => media.type.includes("video")) : null
+        if(trailer){
+          return(
+            <video
+            poster={trailer.poster_url}
+            width="100%"
+            hight="100%"
+            controls>
+            <source src={trailer.url} type={trailer.type} />
+          </video>
+          )
+        }
+        if(false){
         return (
           <Carousel defaultWait={0} /*wait for 1000 milliseconds*/>
             {tour.all_media &&
@@ -99,7 +119,8 @@ const TourPreview = (props) => {
                   }
                 })}
           </Carousel>
-        );
+
+        );}
       case 1:
         return (
           <div className="topHeader">
@@ -118,6 +139,8 @@ const TourPreview = (props) => {
                 {tour.rating && tour.rating.votes}{" "}
               </div>
               <div className="tourName">{tour.title && tour.title}</div>
+              
+          <div className='tourMainSentense'>{tour.main_sentense && tour.main_sentense}</div>
             </div>
             <div>
               <div className="tourType">
@@ -129,6 +152,7 @@ const TourPreview = (props) => {
         );
       case 2:
         return (
+          <div className="DetailNguide">
           <div className="subHeader">
             <div className="iconItem">
               <img src={locationIcon} alt="Location" />
@@ -159,20 +183,77 @@ const TourPreview = (props) => {
               </div>
             </div>
           </div>
+          <div className="guideArea">
+            <div className="guidePreview">
+              <div className="guideInfo">
+                <div className='guidePic'>
+                  <img src={userIcon} alt='guidePic' />
+                </div>
+                <div className='guideName'>{user.displayName ? user.displayName : 'Your name'}</div>
+                <div className='viewProfile'>Profile page </div>
+              </div>
+              <div className="guideRate">
+                <Rating
+                    icon="star"
+                    defaultRating={4.5}
+                    maxRating={5}
+                    disabled
+                    size="large"
+                    className="ratingStar"
+                  />
+                  </div>
+            </div>
+            <div className="goProfile"></div>
+          </div>
+          </div>
         );
-      case 3:
+      case 2:
+        //NOT SHOWN IN THE PREVIEW
         return (
           <div className="guideArea">
             <div className="guidePreview">
-              <div className="guideInfo"></div>
-              <div className="guideRate"></div>
+              <div className="guideInfo">
+                <div className='guidePic'>
+                  <img src={userIcon} alt='guidePic' />
+                </div>
+                <div className='guideName'>{user.displayName ? user.displayName : 'Your name'}</div>
+                <div className='viewProfile'>Profile page </div>
+              </div>
+              <div className="guideRate">
+                <Rating
+                    icon="star"
+                    defaultRating={4.5}
+                    maxRating={5}
+                    disabled
+                    size="large"
+                    className="ratingStar"
+                  />
+                  </div>
             </div>
             <div className="goProfile"></div>
           </div>
         );
+      case 3:
+        return(
+          <div className='imgCarousel'>
+          <Carousel defaultWait={0} /*wait for 1000 milliseconds*/>
+            {tour.all_media &&
+              tour.all_media
+                .slice(0)
+                .reverse()
+                .map((media) => {
+                  if (media.type.includes("image")) {
+                    return (
+                      <Slide right id={`${media.name}`}>
+                        <img className="tourImg" src={media.url} alt="airbaloon" />
+                      </Slide>
+                    );
+                  }
+                })}
+          </Carousel>
+          </div>
+        )
       case 4:
-        return <div className="guideSection"></div>;
-      case 5:
         return (
           <div className="tourDescription">
             <div className="descHeader">Tour Dscription</div>
@@ -181,19 +262,40 @@ const TourPreview = (props) => {
             </div>
           </div>
         );
-      case 6:
+      case 5:
         return (
           <div className="tourNotes">
             <div className="notesHeader">Important Notes</div>
-            <div className="tourNotes">{tour.notes && tour.notes}</div>
+            <div className="tourNote">{tour.notes && tour.notes}</div>
           </div>
         );
-      case 7:
+      case 6:
         return <div className="pruchaseButton">Pruchase</div>;
       default:
         return null;
     }
   };
+
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    /* return {
+      width,
+      height
+    }; */
+    return height
+  }
+
+  /* const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); */
+  
 
   return (
     <div className="previewArea">
@@ -201,10 +303,10 @@ const TourPreview = (props) => {
         <div className="tourPreview">
           <List
             //className="List"
-            height={730}
-            itemCount={8}
-            itemSize={150}
-            width={420}
+            height={getWindowDimensions()/1.7}
+            itemCount={7} 
+            itemSize={220}
+            width={'100%'}
           >
             {
               ({ key, index, style }) =>
@@ -213,7 +315,7 @@ const TourPreview = (props) => {
                 // key={key}
                 // style={style}
                 // >
-                renderLive(index)
+                <div style={{...style }}> {renderLive(index, style, user)}</div>
               //</div>
             }
           </List>

@@ -8,19 +8,19 @@ import authReducer from "../../features/auth/authReducer";
 import asyncReducer from "../../features/async/asyncReducer";
 import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore";
-import userReducer from "../../features/user/userReducer";
+/* import userReducer from "../../features/user/userReducer"; */
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   test: testReducer,
   tours: tourReducer,
-  form: FormRedux,
+  form: FormRedux, 
   modals: modalReducer,
   auth: authReducer,
   async: asyncReducer,
   toastr: ToasterReducer,
-  /* user: userReducer, */
+  /*  user: userReducer,  */
 });
 
 export default rootReducer;

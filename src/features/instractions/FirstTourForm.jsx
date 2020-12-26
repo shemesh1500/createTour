@@ -125,7 +125,6 @@ const FirstTourForm = (props) => {
       return "generalMarkerN mainHeadersN";
     }
   };
-  const [showArrowLocation, setShowArrowLocation] = useState(true);
   const renderArrowCss = () => {
     if (data === 4) {
       let arrowStyle = ["topNavArr1", "topNavArr2"];
@@ -157,7 +156,7 @@ const FirstTourForm = (props) => {
   const renderArrowTemplate = (style) => {
     return (
       <div className="arrowTEST">
-        <img src={disArrow} className={`instractionArrow ${style}`} />
+        <img src={disArrow} className={`instractionArrow ${style}`} alt='instractionArrow' />
       </div>
     );
   };

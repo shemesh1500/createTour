@@ -1,7 +1,20 @@
-import React, { Fragment } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Menu } from "semantic-ui-react";
+import { updateTabStatus, asyncTabStatus} from '../../async/asyncActions';
+import { connect, useDispatch } from "react-redux";
 
-const StopCreationNav = ({ activeTab, handleTabChange }) => {
+const StopCreationNav = ({ activeTab, handleTabChange, updateTabStatus }) => {
+ // const dispatch = useDispatch()
+ //const [state, dispatch] = useReducer(reducer, initialState);
+
+useEffect(() => {
+  updateTabStatus(activeTab);
+},[activeTab])
+
+   const clickHandle =  (tagName) => {
+    updateTabStatus(tagName);
+    handleTabChange(tagName);
+  }
   return (
     <div>
       <Menu attached="top" tabular>
@@ -13,7 +26,7 @@ const StopCreationNav = ({ activeTab, handleTabChange }) => {
         <Menu.Item
           name="General Info"
           active={activeTab === "General Info"}
-          onClick={() => handleTabChange("General Info")}
+          onClick={() =>  handleTabChange("General Info")}
         />
         <Menu.Item
           name="Media"
@@ -26,4 +39,6 @@ const StopCreationNav = ({ activeTab, handleTabChange }) => {
   );
   //  }
 };
-export default StopCreationNav;
+const action = {updateTabStatus}
+
+export default connect(null, action) (StopCreationNav);

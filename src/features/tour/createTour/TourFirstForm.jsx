@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { Button, Form, Header } from "semantic-ui-react";
+import { Form, Header } from "semantic-ui-react";
 import { createTour, updateTour, cancelToggle } from "../tourAction";
 import TextInput from "../../../app/common/form/textInput";
 import {
@@ -11,12 +11,12 @@ import {
   composeValidators,
   hasLengthGreaterThan,
 } from "revalidate";
-import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import SelectInput from "../../../app/common/form/selectInput";
 import { withFirestore } from "react-redux-firebase";
 import "../../../style/form.css";
 import "react-input-range/lib/css/index.css";
 import placeInput from "../../../app/common/form/placeInput";
+import PeakProfilePic from "./PeakProfilePic";
 
 const actions = {
   createTour,
@@ -54,13 +54,13 @@ const validate = combineValidators({
   house_number: isRequired("House number"),
 });
 
-const audience = [
+/* const audience = [
   { key: "Singles", text: "Singles", value: "Singles" },
   { key: "Couples", text: "Couples", value: "Couples" },
   { key: "Kids friendly", text: "Kids friendly", value: "Kids friendly" },
   { key: "Above 18", text: "Above 18", value: "Above 18" },
   { key: "Pet friendly", text: "Pet friendly", value: "Pet friendly" },
-];
+]; */
 const language = [
   { key: "English", text: "English", value: "English" },
   { key: "Hebrew", text: "Hebrew", value: "Hebrew" },
@@ -68,7 +68,7 @@ const language = [
 ];
 
 const TourFirstForm = (props) => {
-  const [difficulty, setDifficulty] = useState(
+ /*  const [difficulty, setDifficulty] = useState(
     props.initialValues.difficulty
       ? props.initialValues.difficulty
       : { min: 1, max: 9 }
@@ -77,14 +77,14 @@ const TourFirstForm = (props) => {
     props.initialValues.hours_range
       ? props.initialValues.hours_range
       : { min: 21600, max: 64800 }
-  );
+  ); */
 
-  const formatLabel = (secs) => {
+ /*  const formatLabel = (secs) => {
     if (secs === 86400) secs = 86360;
     var minutes = Math.floor(secs / 60);
     var hours = Math.floor(minutes / 60);
     minutes = minutes % 60;
-    /*
+    //
     var amPm = hours > 11 ? "PM" : "AM";
     if (secs < 3600) {
       hours = 12;
@@ -92,15 +92,15 @@ const TourFirstForm = (props) => {
       hours -= 12;
     }
     return `${hours}:${("0" + minutes).slice(-2)} ${amPm}`;
-    */
+    //
     return `${hours}:${("0" + minutes).slice(-2)}`;
-  };
+  }; */
 
   const handleAddress = (address) => {
     props.change("location", address);
   };
 
-  const { invalid, submitting, initialValues, cancelToggle } = props;
+  const { invalid, submitting/* , initialValues, cancelToggle  */} = props;
   return (
     <div className="allForm">
       <Form onSubmit={props.handleSubmit(props.onFormSubmit)}>
@@ -130,7 +130,7 @@ const TourFirstForm = (props) => {
             placeholder="Language"
           />
         </div>
-
+        <PeakProfilePic saveChanges={props.onFormSubmit} fileType={"tour_image"} />
         <button
           className="saveFormButton"
           disabled={invalid || submitting}
@@ -140,8 +140,8 @@ const TourFirstForm = (props) => {
         </button>
       </Form>
     </div>
-  );
-};
+  )
+}
 
 export default withFirestore(
   connect(

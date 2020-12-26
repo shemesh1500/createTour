@@ -33,14 +33,23 @@ const query = (props) => {
   ];
 };
 
-const mapState = (state) => ({
+const mapState = (state) => {
+  const allow_user = ['shemesh1500@gmail.com', 'idand93@gmail.com']
+  const check_user = allow_user.find(user => user === state.firebase.auth.email)
+  let isAllowed = false
+  if(check_user){
+    isAllowed = true
+  }
+
+  return {
   tours: state.firestore.ordered.tours,
   business: state.firestore.ordered.business,
   loading: state.async.loading,
   profile: state.firebase.profile,
   auth: state.firebase.auth,
   users: state.firestore.ordered.users,
-});
+  isAllowed : isAllowed
+}};
 
 const actions = {
   createTour,
@@ -53,8 +62,9 @@ const actions = {
 };
 const ManageTours = (props) => {
   return (
-    <div>
+   <div>
       {" "}
+      {props.isAllowed &&<div>
       <Grid>
         <Grid.Column width={8}>
           {props.tours && (
@@ -80,6 +90,7 @@ const ManageTours = (props) => {
       {props.users && (
         <UserTable users={props.users} createSeller={props.createSeller} />
       )}
+      </div>}
     </div>
   );
 };

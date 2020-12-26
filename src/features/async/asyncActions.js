@@ -2,6 +2,7 @@ import {
   ASYNC_ACTION_START,
   ASYNC_ACTION_FINISH,
   ASYNC_ACTION_ERROR,
+  ASYNC_TAB_STATUS
 } from "./asyncConstants";
 
 export const asyncActionStart = (payload) => {
@@ -22,3 +23,21 @@ export const asyncActionError = () => {
     type: ASYNC_ACTION_ERROR,
   };
 };
+
+export const asyncTabStatus = (payload) => {
+  console.log("asyncTabStatus", payload);
+  return{
+    type:ASYNC_TAB_STATUS,
+    payload:payload
+  }
+}
+
+export const updateTabStatus = (tabName) =>  (
+  dispatch,
+  getState,
+  {}
+) => {
+  console.log("BEFORE");
+  dispatch(asyncTabStatus(tabName))
+  console.log("AFTER ");
+}

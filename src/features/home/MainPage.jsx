@@ -7,6 +7,7 @@ import allAssetsIcon from "../../images/allAssetsIcon.svg";
 import personalDetailsIcon from "../../images/prsonalDetails.svg";
 import "../../style/mainPage.css";
 import { compose } from "redux";
+import {reset} from 'redux-form';
 
 const query = (props) => {
   if (props.profile.email) {
@@ -27,14 +28,15 @@ const mapState = (state) => {
   // let test_user = state.firebase.auth().currentUser;
   // console.log("CURRENT_USER", test_user);
   // console.log("GET_TOKEN", test_user.getToken());
-
   return {
     profile: state.firebase.profile,
     user: user,
   };
 };
 
-const MainPage = ({ profile, user }) => {
+const MainPage = (props) => {
+  const { profile, user} = props
+  //props.dispatch(reset('tourForm')); 
   return (
     <div className="mainZone">
       <div className="headers">

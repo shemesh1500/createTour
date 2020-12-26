@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "../../../style/lists.css";
 
 const BusinessList = (props) => {
-  console.log(props.business);
   return (
     <Fragment>
       <div className="allList">

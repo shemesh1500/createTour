@@ -16,7 +16,7 @@ import "./style/homePage.css";
 import UserSettings from "./features/user/setting/UserSettings";
 import MainPage from "./features/home/MainPage";
 import BusinessCreation from "./features/business/businessCreation/BusinessCreation";
-import Index from "./features/home/Index";
+import Index from "./features/home/index.jsx";
 import HelperComponent from "./HelperComponent";
 import ManageTours from "./features/tour/tourDashboard/ManageTours";
 import SalesPage from "./features/user/SalesPage";
@@ -37,7 +37,7 @@ class App extends Component {
     return (
       <Fragment>
         <ModalManager />
-        {TandC ? ((<Redirect to="/TandC" />), (authenticated = true)) : null}
+        {TandC ? ((<Redirect to="/TandC" />), (authenticated = true)) : null} 
         <Route exact path={"/TandC"} component={CandT} />
         {!authenticated ? <Redirect to="/" /> : null}
         <Route exact path="/" component={HomePage} />

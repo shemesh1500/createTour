@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Menu, Segment } from "semantic-ui-react";
 import TourForm from "./TourForm";
 import TourMedia from "./TourMedia";
@@ -29,7 +29,7 @@ const TourDetails = ({
   };
 
   return (
-    <div>
+    <div style={{width:'100%'}}>
       <Menu attached="top" tabular>
         <Menu.Item
           name="First details"
@@ -41,13 +41,13 @@ const TourDetails = ({
           active={ActiveTab === "General details"}
           onClick={() => setActiveTab("General details")}
         />
-        <Menu.Item
+       {/*  <Menu.Item
           name="Tour profile files"
           active={ActiveTab === "Tour profile picture"}
           onClick={() => setActiveTab("Tour profile picture")}
-        />
+        /> */}
         <Menu.Item
-          name="General content"
+          name="Pictures from the tour"
           active={ActiveTab === "General content"}
           onClick={() => setActiveTab("General content")}
         />

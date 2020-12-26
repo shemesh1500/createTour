@@ -1,5 +1,6 @@
 .controlArea {
-  width: 85vw;
+  /* width: 85vw; */
+  width: 100%; 
   background-color: #f8f8f5;
   height: 100vh;
   display: flex;
@@ -8,7 +9,8 @@
 }
 
 .contextArea {
-  width: 40vw;
+  /* width: 40vw; */
+  width: 60%;
   padding: 2% !important;
 }
 

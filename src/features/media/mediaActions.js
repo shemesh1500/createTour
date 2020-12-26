@@ -66,10 +66,10 @@ export const generalUploadFile = (
 ) => async (dispatch, setState, { getFirebase }) => {
   const firebase = getFirebase();
   const fileName = cuid();
-  const options = {
+  /* const options = {
     name: fileName,
     generation: ownerId,
-  };
+  }; */
   let new_media = {};
   try {
     dispatch(asyncActionStart({ complete_precent: 1 }));
@@ -327,9 +327,9 @@ export const uploadVideo = (
   const firebase = getFirebase();
   const firestore = getFirestore();
   const videoName = cuid();
-  const videoOptions = {
+  /* const videoOptions = {
     name: videoName,
-  };
+  }; */
   const posterName = cuid();
   const posterOptions = {
     name: posterName,
@@ -359,7 +359,7 @@ export const uploadVideo = (
     // 2. Error observer, called on failure
     // 3. Completion observer, called on successful completion
 
-    var observ = await uploadTask.on(
+    /* var observ =  */await uploadTask.on(
       "state_changed",
       async function (snapshot) {
         // Observe state change events such as progress, pause, and resume
@@ -402,6 +402,7 @@ export const uploadVideo = (
             };
             let updated_media = [...all_media, new_media];
             console.log("BRFORE SET FIREBASE", updated_media);
+            console.log("BRFORE SET FIREBASE1",`${collectionName}/${objectId}`) ;
             await firestore.set(
               `${collectionName}/${objectId}`,
               { all_media: updated_media },

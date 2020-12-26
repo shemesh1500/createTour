@@ -3,12 +3,14 @@ import {
   ASYNC_ACTION_START,
   ASYNC_ACTION_FINISH,
   ASYNC_ACTION_ERROR,
+  ASYNC_TAB_STATUS
 } from "./asyncConstants";
 
 const initialState = {
   loading: false,
   elementName: null,
   complete_precent: 0,
+  tab_name:''
 };
 
 const asyncActionStarted = (state, payload = { complete_precent: 0 }) => {
@@ -36,8 +38,16 @@ const asyncActionError = (state) => {
   };
 };
 
+const asyncTabStatus = (state,payload) =>{
+  return{
+    ...state,
+    tab_name: payload
+  }
+}
+
 export default createReducer(initialState, {
   [ASYNC_ACTION_START]: asyncActionStarted,
   [ASYNC_ACTION_FINISH]: asyncActionFinished,
   [ASYNC_ACTION_ERROR]: asyncActionError,
+  [ASYNC_TAB_STATUS] : asyncTabStatus,
 });

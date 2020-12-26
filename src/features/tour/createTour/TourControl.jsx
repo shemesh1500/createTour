@@ -64,17 +64,18 @@ const mapState = (state, ownProps) => {
       stops.sort((a, b) => a.order > b.order);
     }
   }
-  let user = {};
+/*   let user = {};
   if (state.firestore.ordered.user) {
     user =
       state.firestore.ordered.users.filter(
         (user) => user.email === state.firebase.auth.email
       )[0] || {};
-  }
+  } */
   return {
     stops: stops,
     initialValues: tour,
     tourId: tourId,
+    tabStatus:  state.async.tab_name
   };
 };
 
@@ -144,7 +145,7 @@ const TourControl = (props) => {
       checkStartingPoint(initialValues.stops[0].stop_location);
       renderRoute();
     }
-  }, [props.stops]);
+  }, [props.stops,initialValues.stops ]);
   /* useEffect end*/
 
   /*block user from continue without create tour object first */
@@ -197,12 +198,13 @@ const TourControl = (props) => {
 
   const renderRoute = () => {
     let markerStops = [];
-    props.stops.map((stop) => {
+    props.stops.forEach((stop) => {
       if (stop.stop_location) {
         markerStops.push({ location: stop.stop_location, order: stop.order });
       }
     });
     setMarkerList(markerStops);
+    return
   };
 
   const updateAllStops = async (all_stops) => {
@@ -212,14 +214,14 @@ const TourControl = (props) => {
 
   const displayMedia = () => {
     console.log("display media", initialValues);
-    return (
-     /*  <PeakProfilePic
+    /*return (
+       <PeakProfilePic
         all_media={initialValues.all_media}
         tourID={initialValues.id}
         updateTour={props.updateTour}
         tour={initialValues}
-      /> */
-    );
+      /> 
+    );*/
   };
 
   /* Rendering the main area of the cteation of the tour */
@@ -295,7 +297,6 @@ const TourControl = (props) => {
       } else {
         let tour = await props.createTour(values);
         props.history.push(`/tourControl/${tour.id}`);
-        // setMarkerList({ location: values.main_location , order: 100 })
         props.change("id", tour.id);
       }
     } catch (error) {
@@ -343,8 +344,8 @@ const TourControl = (props) => {
       initialValues.distance = Distance;
       doUpdate = true;
     }
-    if (initialValues.duration !== Duration && Duration !== 0) {
-      initialValues.duration = Duration;
+    if (initialValues.durationCalc !== Duration && Duration !== 0) {
+      initialValues.durationCalc = Duration;
       doUpdate = true;
     }
     if (doUpdate === true) {
@@ -372,7 +373,7 @@ const TourControl = (props) => {
       case "Tour Summary":
         return <TourPreview /*tour={initialValues}*/ />;
       case "Create Route":
-        return (
+        return ( 
           <RoutePreview
             tour={initialValues}
             places={markerList}
@@ -383,6 +384,7 @@ const TourControl = (props) => {
             currentStop={workingStop}
             clickLocation={clickLocation}
             setClickLocation={setClickLocation}
+            tabStatus={props.tabStatus}
           />
         );
       default:
@@ -413,11 +415,15 @@ const TourControl = (props) => {
             return setShowInstraction("tourInstraction");
           case "General content":
             return setShowInstraction("tourMediaInstraction");
+          default:
+            return;
         }
+      default:
+        return setShowInstraction("firstForm");
     }
   };
   useEffect(() => {
-    if (showInstraction != false) {
+    if (showInstraction !== false) {
       renderInstraction();
     }
   }, [mainNavActive, ActiveDetailsTab]);

@@ -2,20 +2,27 @@
   display: flex;
   justify-content: center;
   justify-items: center;
-  margin: auto;
+  margin: 15%;
+  margin-left: 5%;
+
+  width: 60%;
 }
 
 .tourPreview {
-  width: 30vw !important;
+  /* width: 30vw !important; */
+  /* width: 40%; */
   height: 120vh;
   background-image: url("../images/blankPhoto.png");
   background-repeat: no-repeat;
   padding: 3%;
-  padding-top: 80px;
+  padding-top: 65px;
   overflow-x: scroll;
   overflow-y: hidden;
   overflow: hidden;
   margin-left: 50px;
+  background-size: 100% auto;
+  width: 100%;
+  margin-top: 50px;
 }
 
 .img {
@@ -23,11 +30,17 @@
   height: auto;
 }
 
+.tourImg{
+  height:100%;
+}
+
 .topHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 3%;
+  height: 400px !important;
+  margin-bottom: 50px !important;
 }
 
 .tourName {
@@ -71,6 +84,7 @@
   flex-wrap: wrap;
   width: 90%;
   margin: 8%;
+  height: 80px !important;
 }
 
 .subHeaderStop {
@@ -79,7 +93,7 @@
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  width: 90%;
+  width: 97%;
   margin-top: 2%;
   margin-bottom: 2%;
 }
@@ -89,12 +103,13 @@
   align-items: center;
   margin-right: 10px;
   padding: 4%;
-  width: 160px;
+  width: 45%;
 }
 
 .iconItem img {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
+  margin-right: 2px;
 }
 
 .descHeader .notesHeade {
@@ -115,10 +130,13 @@
 }
 
 .tourDescription {
+  margin-top: 240px;
   padding: 3%;
 }
 
 .tourNotes {
+  margin-top: 340px;
+  height: 150px;
   padding: 3%;
 }
 
@@ -137,7 +155,7 @@
 }
 
 .pruchaseButton {
-  width: 313px;
+  width: 90%;
   height: 48px;
   border-radius: 24px;
   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.21);
@@ -151,4 +169,62 @@
   text-align: center;
   color: #ffffff;
   margin: auto;
+  margin-top: 220px;
+}
+
+.guideInfo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 35px;
+}
+
+.guideName{
+  margin: 1px;
+  width: 99px;
+  height: 24px;
+  font-family: PloniDL1.1AAA;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.05px;
+  text-align: right;
+  color: #434040;
+}
+
+.guidePic img{
+  width: 35px;
+  height: 35px;
+}
+
+.guideRate{
+  margin-left: 42px;
+  margin-top: 13px;
+}
+
+.viewProfile{
+  width: 98px;
+  height: 24px;
+  font-family: PloniDL1.1AAA;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.05px;
+  text-align: right;
+  color: #ff8900;
+  margin-left: 12%;
+}
+
+.imgCarousel{
+  height: 400px !important;
+  margin-bottom: 550px !important;
+  margin-top: 50px !important;
+}
+
+.DetailNguide{
+  margin-top: 60px;
 }

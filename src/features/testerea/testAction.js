@@ -35,3 +35,13 @@ export const decramentAsync = (name) => {
         dispatch(asyncActionFinish())
     }
 }
+
+export const changeURL = (stopId, fileName) =>
+    async (dispatch, ownState, {getFirebase, getFirestore}) => {
+        const firebase = getFirebase()
+       /*  const firestore = getFirestore() */
+        //let url = await firebase.storage().ref('ckgnyu13q000b3a5s8v62g02o/stopMedia/ckgqfclcm00042464d233guw5_compress.mp4').getDownloadURL();
+        let url = await firebase.storage().ref(`${stopId}/stopMedia/${fileName}_compress.mp4`).getDownloadURL();
+        console.log("REF FILE", url);
+    }
+    

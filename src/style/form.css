@@ -36,7 +36,7 @@
     height: 38px;
     border: solid 1.2px var(--white);
     border-radius: 18px;*/
-    width: 366px;
+    width: 336px;
     height: 38px;
     border-radius: 19.2px;
     background-color: #ffffff;
@@ -67,6 +67,34 @@
     color: #ffffff;
     margin: auto;
     margin-top: 10px;
+}
+
+.agreeTAC{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.agree{
+    position:relative !important;
+    left:0px !important;
+    top: 0px !important;
+  width: 20px;
+  height: 20px;
+}
+
+.agreeText{
+    font-size: 15.6px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    
+    
 }
 
 .socialLogin {
@@ -140,7 +168,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin: 3%;
+    margin: 1%;
 }
 
 .formOne .field {
@@ -183,7 +211,7 @@
 }
 
 .allForm {
-    padding: 3%;
+    padding: 1.5%;
 }
 
 .ui.selection.dropdown {

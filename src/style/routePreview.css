@@ -2,7 +2,10 @@
   display: flex;
   justify-content: center;
   justify-items: center;
-  margin: auto;
+  margin: 15%;
+  margin-left: 5%;
+
+  width: 60%;
 }
 
 .routePreview {
@@ -10,16 +13,17 @@
   height: 120vh;
   background-image: url("../images/blankPhoto.png");
   background-repeat: no-repeat;
-  padding-top: 80px;
+  padding-top: 19%;
   overflow-x: scroll;
   overflow-y: hidden;
   overflow: hidden;
+  background-size: 100% auto;
 }
 
 .mapRoute {
   margin-left: 17px;
   width: 90% !important;
-  height: 60%;
+  height: 50%;
 }
 
 /****************STOP Preview************/
@@ -30,8 +34,21 @@
 }
 
 .mediaList {
-  width: 250px;
+  width: 80%;
   height: 78px;
+  border-radius: 16px;
+  box-shadow: 0 2px 35px 0 rgba(212, 212, 212, 0.5), 0 2px 4px 0 rgba(197, 197, 197, 0.5);
+  background-color: #ffffff;
+  display: flex;
+  justify-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  margin-bottom: 500px;
+}
+
+.stopContext{
+  width: 80%;
+  height: 378px;
   border-radius: 16px;
   box-shadow: 0 2px 35px 0 rgba(212, 212, 212, 0.5), 0 2px 4px 0 rgba(197, 197, 197, 0.5);
   background-color: #ffffff;
@@ -42,8 +59,9 @@
   margin-bottom: 200px;
 }
 
+
 .buttomRoute {
-  margin-left: 17px;
+  margin-left: 1%;
   width: 23vw !important;
   height: 10vh;
   display: flex;
@@ -52,10 +70,11 @@
 
 .stopsList {
   display: flex;
-  justify-items: left;
+ /*  justify-items: left; */
   padding: 3px;
   margin: 3px;
   margin-left: 10px;
+  width: 100%;
 }
 
 .stopCircle {
@@ -95,6 +114,8 @@
   flex-direction: column;
   margin: auto;
   font-size: 18px;
+  width: 40%;
+  font-size: 100%;
 }
 
 .List {
@@ -113,4 +134,211 @@
 
 .ListItemEven {
   background-color: #f8f8f0;
+}
+
+.allStopsButtom{
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media only screen and (max-width: 1400px) {
+  .mediaList{
+    width: 55%;
+    height: 60%;
+  }
+  .List {
+    width: 150px;
+    height: 55px;
+    opacity: 0.68;
+    border-radius: 36px;
+    background-color: #ffffff;
+  }
+ /*  .stopCircle{
+    width: 30px;
+  height: 30px;
+  } */
+  
+  .ListItemEven, .ListItemOdd{
+    width: 45px;
+    height: 45px;
+  }
+  .routeDetails{
+    font-size: 85%;
+  }
+  .stopHeader {
+    width: 50%;
+
+  }
+}
+
+.stopMediaList{
+  margin: 0 5%;
+  background-color: #ffffff;
+}
+
+.stopPreviewHeader{
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+.stopPreviewTitle{
+  color:#FF8900;
+  font-size: 26px;
+  letter-spacing: 0.44px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.stopPreviewType{
+  font-size: 16px;
+  letter-spacing: 0.15px;
+}
+
+.stopPreviewInfo{
+  padding-left: 15px;
+}
+
+.stopInfoTitle{
+  font-size:20px;
+  font-weight: bold;
+  letter-spacing: 0.34px;
+  padding-bottom: 8px;
+}
+.stopInfoContent{
+  width: 260px;
+  font-size: 17px;
+  letter-spacing: 0.20px;
+}
+
+.stopPreviewImage{
+  height: 240px;
+  margin-left: 10%;
+}
+
+.stopPreviewAudio {
+  margin: auto;
+  margin-top: 45px;
+  width: 300px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 90px;
+  transform: scale(1.05);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  margin: auto;
+  object-fit: contain;
+  border: solid 1px #9ea3ac;
+  position: absolute;
+    left: 0;
+    bottom: 10px;
+}
+
+.quizTitle{
+  width: 248px;
+  height: 24px;
+  margin: 12px 32px 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: #434040;
+}
+
+.quizAnswer{
+  width: 220px;
+  height: 24px;
+  margin: 15px 26px 15px 9px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #434040;
+}
+
+.checkboxQuiz{
+  width: 25px;
+  height: 25px;
+  padding-top: 8px ;
+  object-fit: contain;
+}
+
+.bigStopSqure{
+  width: 280px;
+  height: 114px;
+  padding-left: 2%;
+  margin: 19px 29px 0 0;
+  border-radius: 20px;
+  box-shadow: 0 0 6px 0 rgba(127, 126, 126, 0.5);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 6%;
+  margin-left: 15px;
+}
+
+.stopPic{
+  width: 130px;
+  height: 110px;
+}
+
+.stopImg{
+  border-radius: 15%;
+  width: 100%;
+  height: 100% ;
+}
+
+.tourName{
+  width: 140px;
+  height: 40px;
+  font-size: 19px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.05;
+  letter-spacing: 0.06px;
+  color: #434040;
+  text-align: left;
+  padding: 4%;
+  
+}
+
+
+.tourType{
+  width: 140px;
+  height: 24px;
+  font-family: PloniDL1.1AAA;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.04px;
+  color: var(--greyish-brown);
+  padding: 4%;
+  
+}
+
+.stopsArea{
+  margin-left: 12px;
+}
+
+.smallStopSqure{
+  width: 160px;
+  height: 114px;
+  margin: 19px 25px 0;
+  margin: 19px auto;
+  object-fit: contain;
+  box-shadow: 0 0 6px 0 rgba(127, 126, 126, 0.5);
+  background-color: #ffffff;
+  border-radius: 20px;
 }

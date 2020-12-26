@@ -133,7 +133,6 @@ const TourModalInstraction = (props) => {
   };
 
   const renderMarkerCss = () => {};
-  const [showArrowLocation, setShowArrowLocation] = useState(true);
   const renderArrowCss = () => {
     if (data === 10) {
       return <div>{renderArrowTemplate(`tourNameArrow`)}</div>;
@@ -163,7 +162,7 @@ const TourModalInstraction = (props) => {
   const renderArrowTemplate = (style) => {
     return (
       <div className="arrowTEST">
-        <img src={disArrow} className={`instractionArrow ${style}`} />
+        <img src={disArrow} className={`instractionArrow ${style}`} alt='instractionArrow'/>
       </div>
     );
   };

@@ -76,7 +76,7 @@ const StopForm = (props) => {
                 
 
                 <div className='formOne'>
-                    <Header size='small' content='Full description' />
+                    <Header size='small' content='Short description' />
                     <Field name="s_smallDesc" type='textarea' component={TextAreaInput} placeholder="Small description about this stop" rows={2} />
                 </div>
 

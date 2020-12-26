@@ -41,7 +41,7 @@ const PeakProfilePic = (props) => {
     generalDeleteFile,
     initialValues,
     saveChanges,
-    fileType,
+    /* fileType, */
     video_profile,
   } = props;
   const [photoModal, setPhotoModal] = useState(false);
@@ -90,37 +90,26 @@ const PeakProfilePic = (props) => {
   };
 
   const uploadFile = async (file, fileTitle = "file", poster = {}) => {
-    let new_media = await generalUploadFile(
-      file,
-      tourID,
-      "tours",
-      fileTitle,
-      poster
-    );
-    new_media = {
-      ...new_media,
-      //    order: all_media ? all_media.length : 0,
-    };
-    //    let new_all_media = [...all_media, new_media];
+    let new_media = await generalUploadFile(file, tourID, "tours", fileTitle);
     let update_tour = {
       ...initialValues,
-      [fileType.toString()]: new_media,
+      tour_image: new_media.url,
     };
+    console.log("UPLOAD IMAGE", update_tour);
     saveChanges(update_tour);
     setPhotoModal(false);
   };
-
-  console.log("profile_video", video_profile);
 
   return (
     <Fragment>
       <div className="profilePicture">
         <div className="profileHeader">Tour profile picture</div>
-        {initialValues.tour_image && initialValues.tour_image.url ? (
+        {initialValues.tour_image ? (
           <div className="profileImgObj">
             <img
               className="profileImg"
-              src={initialValues.tour_image.url}
+              src={initialValues.tour_image}
+              alt='profile image1'
               //style={{ width: "150px", height: "150px" }}
             />
             <button
@@ -135,6 +124,7 @@ const PeakProfilePic = (props) => {
             <img
               className="profileImg"
               src={defaultPic}
+              alt='profile image2'
               //style={{ width: "150px", height: "150px" }}
             />
             <button className="addButton" onClick={() => setPhotoModal(true)}>
@@ -145,7 +135,7 @@ const PeakProfilePic = (props) => {
       </div>
       <hr />
       <div className="profilePicture">
-        <div className="profileHeader">Tour main video</div>
+        <div className="profileHeader">Tour trailer video</div>
         {video_profile && video_profile.url ? (
           <div>
             <video
@@ -168,6 +158,7 @@ const PeakProfilePic = (props) => {
               className="profileImg"
               src={defaultVideo}
               style={{ width: "300px" }}
+              alt='profile image3'
             />
             <button className="addButton" onClick={() => setVideoModal(true)}>
               + Video

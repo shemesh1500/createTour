@@ -155,17 +155,6 @@ const BusinessCreation = (props) => {
 
   /*Start Instraction modal */
   const [showInstraction, setShowInstraction] = useState("");
-  const [instractionStep, setInstractionStep] = useState(1);
-  const onNext = () => {
-    setInstractionStep(instractionStep + 1);
-    //setShowInstraction(true);
-  };
-  const onPrevious = () => {
-    setInstractionStep(instractionStep - 1);
-  };
-  const onHide = () => {
-    setShowInstraction(false);
-  };
 
   const renderInstractions = () => {
     if (StatusNav === "Peak Location") {

@@ -69,8 +69,12 @@ const language = [
   { key: "Spanish", text: "Spanish", value: "Spanish" },
 ];
 const equipment = [
-  { key: "Water", text: "Water", value: "Water" },
+  { key: "full battery", text: "full battery", value: "full battery" },
+  { key: "Comfortable shoes", text: "Comfortable shoes", value: "Comfortable shoes" },
   { key: "Towel", text: "Towel", value: "Towel" },
+  { key: "Swimsuit", text: "Swimsuit", value: "Swimsuit" },
+  { key: "Water", text: "Water", value: "Water" },
+  { key: "Modest clothes", text: "Modest clothes", value: "Modest clothes" },
   { key: "Warm clothing", text: "Warm clothing", value: "Warm clothing" },
 ];
 
@@ -85,17 +89,29 @@ const tourType = [
   { key: "Special event", text: "Special event", value: "Special event" },
 ];
 
+const difficulty =[
+  {key: "Everyone can do it", text: "Everyone can do it", value : "Everyone can do it"},
+  {key: "There is some walking and stairs", text:"There is some walking and stairs", value: "There is some walking and stairs"}, 
+  {key : "It's not that easy", text : "It's not that easy", value: "It's not that easy"},
+  {key : "You need to be a little fit", text : "You need to be a little fit", value: "You need to be a little fit"},
+  {key : "For adventure tourist", text : "For adventure tourist", value: "For adventure tourist"},
+]
+
 const TourForm = (props) => {
-  const [difficulty, setDifficulty] = useState(
+/*   const [difficulty, setDifficulty] = useState(
     props.initialValues.difficulty
       ? props.initialValues.difficulty
       : { min: 1, max: 9 }
-  );
+  ); */
   const [hours, setHours] = useState(
     props.initialValues.hours_range
       ? props.initialValues.hours_range
-      : { min: 21600, max: 64800 }
+      : { min: 21600, max: 79200 }
   );
+  
+  const [duration, setDuration] = useState(
+    props.initialValues.duration &&  props.initialValues.duration < 24 &&  props.initialValues.duration > 0 ? props.initialValues.duration : 3
+  )
 
   const formatLabel = (secs) => {
     if (secs === 86400) secs = 86360;
@@ -134,7 +150,7 @@ const TourForm = (props) => {
 
         <div className="formOne">
           <Header size="small" content="Difficulty meter" />
-          <InputRange
+          {/* <InputRange
             name="difficulty"
             maxValue={10}
             minValue={0}
@@ -143,6 +159,14 @@ const TourForm = (props) => {
             onChange={(value) => (
               setDifficulty(value), props.change("difficulty", value)
             )}
+          /> */}
+          <Field
+            name="difficulty"
+            component={SelectInput}
+            options={difficulty}
+            value="difficulty.text"
+            multiple={false}
+            placeholder="tell us about the difficulty of tour"
           />
         </div>
         <div className="formOne">
@@ -160,7 +184,20 @@ const TourForm = (props) => {
             )}
           />
         </div>
-
+        <div className="formOne">
+          <Header size="small" content="Duration " />
+          <InputRange
+            name="duration"
+            maxValue={24}
+            minValue={0}
+            value={duration}
+            draggableTrack
+            step={0.5}
+            onChange={(value) => (
+              setDuration(value), props.change("duration", value)
+            )}
+          />
+        </div>
         <div className="formOne">
           <Header size="small" content="Recommened audience" />
           <Field
@@ -206,7 +243,7 @@ const TourForm = (props) => {
         </div>
 
         <div className="formOne">
-          <Header size="small" content="Full description" />
+          <Header size="small" content="Tour description" />
           <Field
             name="description"
             type="textarea"

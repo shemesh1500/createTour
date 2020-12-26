@@ -5,7 +5,6 @@ import {
   asyncActionError,
 } from "../async/asyncActions";
 import cuid from "cuid";
-import { CREATE_USER } from "./userConstant";
 
 export const updateProfile = (user) => async (
   dispatch,
@@ -79,8 +78,6 @@ export const updateProfile = (user) => async (
     console.log(error);
   }
 };
-
-const addTourToUser = (tourId) => {};
 
 export const uploadProfileImage = (file, user) => async (
   dispatch,

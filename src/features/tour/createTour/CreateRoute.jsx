@@ -36,8 +36,8 @@ const CreateRoute = (props) => {
     tourId,
     checkStartingPoint,
     updateStop,
-    setMarkerList,
-    mapMarkers,
+   /*  setMarkerList,
+    mapMarkers, */
     deleteStop,
     setbusinessMarker,
     selectedBusiness,
@@ -64,14 +64,14 @@ const CreateRoute = (props) => {
     updated_list.map((stop, index) => (stop.order = index));
   };
 
-  const deleteStopRoute = (stop) => {
+  /* const deleteStopRoute = (stop) => {
     deleteStop(stop);
     all_stops.filter((current_stop) => current_stop.id === stop.id);
     setOrderList(all_stops);
-  };
+  }; */
 
   const deleteStopFromRoute = (stop) => {
-    stop.all_media.map((media) => {
+    stop.all_media.forEach((media) => {
       if (
         media.type.includes("image") ||
         media.type.includes("audio") ||

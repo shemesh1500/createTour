@@ -51,3 +51,4 @@ const createUser = (state, payload) => {
 export default createReducer(initstate, {
   [CREATE_USER]: createUser,
 });
+

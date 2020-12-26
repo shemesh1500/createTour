@@ -21,6 +21,7 @@
 }
 
 .switchContext {
-  margin-left: 15%;
-  width: 100vw;
+  margin-left: 17%;
+  /* width: 100vw; */
+  width: 100%;
 }

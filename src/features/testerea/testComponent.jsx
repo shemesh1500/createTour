@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { incrementAsync, decramentAsync } from "./testAction";
+import { incrementAsync, decramentAsync, changeURL } from "./testAction";
 import { Button } from "semantic-ui-react";
 import { openModal } from "../modals/modalActions";
 
@@ -15,6 +15,7 @@ const actions = {
   incrementAsync,
   decramentAsync,
   openModal,
+  changeURL
 };
 
 class TestComponent extends Component {
@@ -73,6 +74,11 @@ class TestComponent extends Component {
           onClick={() => this.getData()}
           color="teal"
           content="Open Modal"
+        />
+        <Button
+          onClick={() => this.props.changeURL('ckgnyu13q000b3a5s8v62g02o', 'ckgqfclcm00042464d233guw5')}
+          color="teal"
+          content="TEST ref"
         />
       </div>
     );

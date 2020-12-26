@@ -6,8 +6,9 @@ import { Icon } from "semantic-ui-react";
 
 const MediaModal = ({ data, onHide, show }) => {
   const renderModal = () => {
+    
     if (data.type.includes("image")) {
-      return <img className="imgModal" src={data.url} />;
+      return <img className="imgModal" src={data.url} alt='imageMedia'/>;
     } else if (data.type.includes("audio")) {
       return (
         <audio

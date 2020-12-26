@@ -1,4 +1,4 @@
-import { DELETE_TOUR, FETCH_TOUR } from "./tourConstarnts";
+import { /* DELETE_TOUR, */ FETCH_TOUR } from "./tourConstarnts";
 import {
   asyncActionStart,
   asyncActionFinish,
@@ -266,7 +266,7 @@ export const setMainPhoto = (photo, tour) => async (
 };
 
 const addTourToUser = async (tourId, user, firebase, firestore) => {
-  var userRef = await firebase
+  /* var userRef =  */await firebase
     .firestore()
     .collection("users")
     .where("email", "==", user.email)
@@ -307,16 +307,11 @@ export const createTour = (tour) => {
 export const updateTour = (tour) => {
   return async (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
-    let image = undefined;
-    //if (tour.all_media) {
-    //  image = tour.all_media.find((media) => media.type.includes("image"));
-    //}
 
     let update_tour = {
       ...tour,
       last_update: new Date(),
-      tour_image: tour.tour_image ? tour.tour_image : "",
-      //tour_image: image ? image.url : "",
+      tour_image: tour.tour_image ? tour.tour_image : ""
     };
     try {
       dispatch(asyncActionStart());
@@ -371,12 +366,47 @@ export const loadTour = () => {
   };
 };
 
+const updateVideoStop =  async (stop, firebase) => {
+  const results = Promise.all(stop.all_media.map(async (media) => {
+    console.log("STOP ID", stop.id);
+    if(media.type.includes('video') && !media.name.includes('compress')){
+      try{
+        let url = await firebase.storage().ref(`${stop.id}/stopMedia/${media.name}_compress.mp4`).getDownloadURL().then(result => {
+        console.log("BEFORE CHANGE","FILE NAME", media.name, "url", media.url);
+        media.url = result
+        media.name = `${media.name}_compress`
+        console.log("AFTER CHANGE","FILE NAME", media.name, "url", media.url);
+        });
+        
+      }catch(err){
+        console.log("Can't get url", err);
+      }
+    }
+  })
+  )
+return results
+}
+
+
 export const approveTour = (tour) => async (
   dispatch,
   getState,
-  { getFirestore }
+  { getFirebase, getFirestore }
 ) => {
   const firestore = getFirestore();
+  const firebase = getFirebase();
+  let stop_index = 1
+ 
+  tour.stops.map((stop, index)=> {
+    if (!stop.type.includes('smallStop')){
+      let update_stop = {
+        ...stop,
+        stop_index : stop_index
+      }
+      tour.stops[index] = update_stop
+      stop_index++
+    }
+  })
 
   let dateHash = new Date().getMilliseconds() / 100 - 1;
   let update_tour = {
@@ -384,7 +414,49 @@ export const approveTour = (tour) => async (
     approval_time: new Date(),
     approval_index: dateHash,
   };
-  try {
+
+  console.log("BEFORE CHANGE", update_tour);
+
+  const results = Promise.all( update_tour.stops.map(async function(stop) {
+       console.log("SENDING STOP", stop.id);
+       let result =  await updateVideoStop(stop,firebase)
+       
+  })
+  )
+
+  async function output (results) { 
+    console.log("the RESULT$$$$", results)
+    console.log(await results);
+    console.log("the RESUL******", update_tour)
+    try {
+    
+       dispatch(asyncActionStart());
+       //await firestore.add("approval_tours", update_tour);
+       await firestore.set(
+         `approval_tours/${tour.id}`,
+         { ...update_tour }
+         //{ merge: true }
+       );
+   
+       //await firestore.set(`approval_tours/${tour.id}`, update_tour);
+       toastr.success("Success!", "Tour has been updated");
+       dispatch(asyncActionFinish());
+      
+     } catch (error) {
+       console.log(error);
+       toastr.error("Oops", "Somthing went wrong!");
+       dispatch(asyncActionError());
+     }
+  }
+
+  output(results)
+
+
+
+ console.log("AFTER PROMISE###");
+
+ /*  try {
+    
     dispatch(asyncActionStart());
     //await firestore.add("approval_tours", update_tour);
     await firestore.set(
@@ -396,11 +468,12 @@ export const approveTour = (tour) => async (
     //await firestore.set(`approval_tours/${tour.id}`, update_tour);
     toastr.success("Success!", "Tour has been updated");
     dispatch(asyncActionFinish());
+   
   } catch (error) {
     console.log(error);
     toastr.error("Oops", "Somthing went wrong!");
     dispatch(asyncActionError());
-  }
+  } */
 };
 
 export const unApproveTour = (tourID) => async (
@@ -427,11 +500,9 @@ export const deleteTour = (tour) => async (
   const firestore = getFirestore();
 
   try {
-    console.log("delelt approve", `approval_tours/${tour.id}`);
+
     firestore.delete(`approval_tours/${tour.id}`);
-    console.log("set", `delete_tour/${tour.id}`, tour);
     firestore.set(`delete_tour/${tour.id}`, tour);
-    console.log("delete", `tours/${tour.id}`);
     firestore.delete(`tours/${tour.id}`);
     toastr.success("Success", "The tour is removed from approval tour (APP)");
   } catch (error) {

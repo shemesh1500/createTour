@@ -44,7 +44,7 @@ const CreateRoute = (props) => {
     setbusinessMarker,
     selectedBusiness,
     addBusinessStopToRoute,
-    initialValues,
+    /* initialValues, */
   } = props;
 
   const [routeStatus, setRouteStatus] = useState("Stops List");
@@ -57,7 +57,7 @@ const CreateRoute = (props) => {
         setMarkerList([...mapMarkers, stop.stop.location])
       );
     }
-  }, [all_stops]);
+  }, [all_stops, mapMarkers,setMarkerList ]);
 
   const setOrderList = (updated_list) => {
     updated_list.map((stop, index) => (stop.order = index));

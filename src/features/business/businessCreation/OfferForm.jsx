@@ -7,7 +7,6 @@ import TextInput from "../../../app/common/form/textInput";
 import textAreaInput from "../../../app/common/form/textAreaInput";
 import PhotoComponent from "../../stop/media/PhotoComponent";
 import {
-  deleteStopFile,
   generalUploadFile,
   generalDeleteFile,
 } from "../../media/mediaActions";

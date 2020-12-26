@@ -7,7 +7,6 @@ import TextInput from "../../../app/common/form/textInput";
 import SelectInput from "../../../app/common/form/selectInput";
 import InputRange from "react-input-range";
 import textAreaInput from "../../../app/common/form/textAreaInput";
-import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
 const businessType = [
   { key: "Food", text: "Food", value: "Food" },
@@ -101,7 +100,7 @@ const GeneralInfoForm = (props) => {
               minValue={0}
               value={age}
               onChange={(value) => (
-                setAge(value), props.change("age_range", value)
+                setAge(value) && props.change("age_range", value)
               )}
             />
           </div>
@@ -116,7 +115,7 @@ const GeneralInfoForm = (props) => {
               step={1800}
               formatLabel={(value) => formatLabel(value)}
               onChange={(value) => (
-                setHours(value), props.change("hours_range", value)
+                setHours(value) && props.change("hours_range", value)
               )}
             />
           </div>

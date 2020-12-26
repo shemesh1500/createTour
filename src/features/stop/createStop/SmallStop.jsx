@@ -5,14 +5,12 @@ import PeakLocationGeneric from "./PeakLocationGeneric";
 import { createStop } from "../stopAction";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import SmallStopMedia from "./SmallStopMedia";
 import { generalUploadFile } from "../../media/mediaActions";
 import MediaSmallStop from "./MediaSmallStop";
 
 const actions = {
   createStop,
   generalUploadFile,
-  //updateStop
 };
 
 const mapState = (state, props) => {
@@ -47,26 +45,6 @@ const SmallStop = ({
   setCurrentStop,
 }) => {
   const [tabName, settabName] = useState("Location");
-
-  const handleSubmitOld = async (values) => {
-    console.log("add or update stop", values);
-    try {
-      if (stopId) {
-        await updateStop(tourId, values);
-      } else {
-        let created_stop_id = await createStop(
-          values,
-          tourId,
-          all_stops.length,
-          "smallStop"
-        );
-        //props.change('id', created_stop_id)
-        //await updateStop(tourId, values)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleSubmit = async (values) => {
     try {
@@ -107,7 +85,7 @@ const SmallStop = ({
     handleSubmit(update_stop);
   };
 
-  const uploadWithoutFile = (question) => {
+  /* const uploadWithoutFile = (question) => {
     let new_media = {
       ...question,
       order: initialValues.all_media ? initialValues.all_media.length : 0,
@@ -119,7 +97,7 @@ const SmallStop = ({
     };
 
     handleSubmit(update_stop);
-  };
+  }; */
 
   const switchRenderFunction = () => {
     switch (tabName) {

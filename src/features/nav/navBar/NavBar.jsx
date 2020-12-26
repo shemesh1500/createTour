@@ -40,7 +40,7 @@ const NavBar = (props) => {
     : "New Guide";
 
   return (
-    <div className="menuText">
+    <div className="menuText"> 
       <Menu inverted vertical fixed="left">
         <Container>
           <Menu.Item as={NavLink} exact to="/" header>
@@ -121,7 +121,7 @@ const NavBar = (props) => {
             active={activeItem === "Cash register"}
             onClick={handleItemClick}
           >
-            <img className="menuIcon" src={balanceIcon} />
+            <img className="menuIcon" src={balanceIcon}  alt='balanceIcon'/>
             Cash register
           </Menu.Item>
 

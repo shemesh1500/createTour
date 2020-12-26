@@ -136,7 +136,7 @@ const MediaSmallStop = (props) => {
               className="profileImgObj"
               disabled={stopPic && stopPic.url ? true : false}
             >
-              <img className="profileImg" src={defaultAudio} />
+              <img className="profileImg" src={defaultAudio} alt='profileAudio'/>
               <button className="addButton" onClick={() => setAudioOpen(true)}>
                 + Record
               </button>
@@ -147,7 +147,7 @@ const MediaSmallStop = (props) => {
         <div>
           {stopPic && stopPic.url ? (
             <div className="profileImgObj">
-              <img className="profileImg" src={stopPic.url} />
+              <img className="profileImg" src={stopPic.url} alt='profileImg'/>
 
               <button
                 className="profileSave"
@@ -161,7 +161,7 @@ const MediaSmallStop = (props) => {
               className="profileImgObj"
               disabled={stopAud && stopAud.url ? true : false}
             >
-              <img className="profileImg" src={defaultPic} />
+              <img className="profileImg" src={defaultPic} alt='default profile pic'/>
               <button className="addButton" onClick={() => setPhotoOpen(true)}>
                 + Photo
               </button>

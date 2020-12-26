@@ -31,6 +31,7 @@ export const createNewTour = (user, tour) => {
     stops: [],
     last_update: new Date(),
     approval_date: approval_date,
+    all_media : []
   };
 };
 

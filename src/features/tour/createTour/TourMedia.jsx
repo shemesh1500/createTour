@@ -113,7 +113,7 @@ const TourMedia = (props) => {
 
       {initialValues.all_media && (
         <MediaList
-          listItems={initialValues.all_media}
+          listItems={initialValues.all_media.filter(media => media.type.includes('image'))}
           setMediaList={setMediaList}
           deleteFuncSwitch={deleteFile}
         />

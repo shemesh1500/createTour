@@ -13,7 +13,7 @@ const SmallStopNav = ({ activeTab, handleTabChange }) => {
           />
           <Menu.Item
             name="Context"
-            active={activeTab === "Context"}
+            active={activeTab === "Content"}
             onClick={() => handleTabChange("Context")}
           />
           <div style={{ paddingLeft: "52%", paddingTop: "18px" }}>
