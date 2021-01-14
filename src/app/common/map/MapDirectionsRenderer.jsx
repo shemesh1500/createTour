@@ -6,6 +6,7 @@ export function MapDirectionsRenderer(props) {
   const [directions, setDirections] = useState(null);
   const [error, setError] = useState(null);
   let delayFactor = 0;
+  console.log("test");
   useEffect(() => {
     const { places, travelMode } = props;
     places.sort((a, b) => a.order > b.order);
@@ -43,7 +44,7 @@ export function MapDirectionsRenderer(props) {
           let legs = result.routes[0].legs;
           for (var i = 0; i < legs.length; ++i) {
             totalDistance += legs[i].distance.value;
-          //  totalDuration += legs[i].duration.value;
+            //  totalDuration += legs[i].duration.value;
           }
           for (var i = 0; i < legs.length; ++i) {
             new google.maps.Marker({
@@ -53,7 +54,7 @@ export function MapDirectionsRenderer(props) {
             });
           }
           props.setDistance(totalDistance);
-         // props.setDuration(totalDuration);
+          // props.setDuration(totalDuration);
         }
       }
     );

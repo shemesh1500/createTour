@@ -34,7 +34,7 @@ const query = (props) => {
 };
 
 const mapState = (state) => {
-  const allow_user = ['shemesh1500@gmail.com', 'idand93@gmail.com']
+  const allow_user = ['shemesh1500@gmail.com', 'idand93@gmail.com', 'dori.nadav@gmail.com']
   const check_user = allow_user.find(user => user === state.firebase.auth.email)
   let isAllowed = false
   if(check_user){

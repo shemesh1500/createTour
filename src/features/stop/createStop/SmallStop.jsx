@@ -113,7 +113,7 @@ const SmallStop = ({
             setClickLocation={setClickLocation}
           />
         );
-      case "Context":
+      case "Content":
         if (!stopId) {
           return <div>Please add location first</div>;
         }

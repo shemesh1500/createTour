@@ -207,14 +207,14 @@ const Map = withScriptjs(
       defaultCenter={props.defaultCenter}
       zoom={props.defaultZoom}
       onClick={props.onClick}
-      zoom={props.places.length === 1 ? 15 : props.defaultZoom}
+      zoom={props.places.length === 1 ? 10 : props.defaultZoom}
       center={
         props.places.length === 1
           ? {
               lat: props.places[0].location.latitude,
               lng: props.places[0].location.longitude,
             }
-          : props.defaultZoom
+          : props.defaultCenter
       }
     >
       {props.places.map((marker, index) => {
@@ -329,6 +329,7 @@ const AppMap = (props) => {
     const longitude = latLng.lng();
     setClickLocation({ lat: latitude, lng: longitude });
   };
+
   return (
     <Map
       key={calcId()}
@@ -341,8 +342,10 @@ const AppMap = (props) => {
       loadingElement={loadingElement || <div style={{ height: `100%` }} />}
       containerElement={containerElement || <div style={{ height: "100%" }} />}
       mapElement={mapElement || <div style={{ height: `100%` }} />}
-      defaultCenter={defaultCenter || { lat: 32.0654326, lng: 34.7766433 }}
-      defaultZoom={defaultZoom || 8}
+      defaultCenter={
+        defaultCenter ? defaultCenter : { lat: 32.0654326, lng: 34.7766433 }
+      }
+      defaultZoom={defaultZoom ? defaultZoom : 9}
       businessPlaces={businessPlaces}
       setSelectedBusiness={setSelectedBusiness}
       setDistance={setDistance}

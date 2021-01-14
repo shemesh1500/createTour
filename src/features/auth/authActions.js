@@ -20,6 +20,21 @@ export const login = (creds) => {
   };
 };
 
+export const resetPassword = (email) => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    try {
+      await firebase.auth().sendPasswordResetEmail(email);
+      //dispatch(closeModal());
+    } catch (error) {
+      console.log(error);
+      throw new SubmissionError({
+        _error: error.message,
+      });
+    }
+  };
+};
+
 export const registerUser = (user) => async (
   dispatch,
   getState,
@@ -34,7 +49,6 @@ export const registerUser = (user) => async (
     await createdUser.user.updateProfile({
       displayName: user.displayName,
     });
-    console.log("Register USER", user);
     let newUser = {
       displayName: user.displayName,
       creationTime: firestore.FieldValue.serverTimestamp(),
@@ -82,7 +96,20 @@ export const socialLoginFunc = (selectedProvider) => async (
       user.additionalUserInfo.isNewUser,
       user.user.uid
     );
-    if (user.additionalUserInfo.isNewUser) {
+    let isNewUser = false;
+
+    const userRef = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user.profile.uid);
+    userRef.get().then(function (doc) {
+      //console.log("inside get", doc, doc.exists, doc.data());
+      if (user.additionalUserInfo.isNewUser || !doc.exists) {
+        isNewUser = true;
+      }
+    });
+
+    if (isNewUser) {
       const new_user = {
         displayName: user.user.displayName,
         //imageUrl: user.profile.avatarUrl,

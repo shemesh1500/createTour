@@ -5,7 +5,7 @@
   margin: 15%;
   margin-left: 5%;
 
-  width: 60%;
+  width: 62%;
 }
 
 .routePreview {
@@ -25,6 +25,7 @@
   width: 90% !important;
   height: 50%;
 }
+
 
 /****************STOP Preview************/
 
@@ -63,7 +64,8 @@
 .buttomRoute {
   margin-left: 1%;
   width: 23vw !important;
-  height: 10vh;
+  height: 15vh;
+  height: 14%;
   display: flex;
   justify-items: left;
 }
@@ -76,6 +78,41 @@
   margin-left: 10px;
   width: 100%;
 }
+
+@media only screen and (max-width: 1400px) {
+  .previewArea {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    margin: 11%;
+    margin-left: 5%;
+  
+    width: 68%;
+  }
+  .routePreview {
+    width: 100% !important;
+    height: 130vh;
+
+    background-image: url("../images/blankPhoto.png");
+    background-repeat: no-repeat;
+    padding-top: 19%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    overflow: hidden;
+    background-size: 100% auto;
+  }
+
+  .mapRoute {
+    margin-left: 12px;
+    width: 93% !important;
+    height: 48%;
+  }
+  .stopsArea{
+    margin-left: 8px;
+  }
+
+}
+
 
 .stopCircle {
   width: 40px;
@@ -210,6 +247,7 @@
 }
 .stopInfoContent{
   width: 260px;
+  width: 85%;
   font-size: 17px;
   letter-spacing: 0.20px;
 }
@@ -223,6 +261,7 @@
   margin: auto;
   margin-top: 45px;
   width: 300px;
+  width: 75%;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
   border-radius: 90px;
   transform: scale(1.05);
@@ -236,7 +275,6 @@
   border: solid 1px #9ea3ac;
   position: absolute;
     left: 0;
-    bottom: 10px;
 }
 
 .quizTitle{
@@ -274,7 +312,7 @@
 
 .bigStopSqure{
   width: 280px;
-  height: 114px;
+  height: 134px;
   padding-left: 2%;
   margin: 19px 29px 0 0;
   border-radius: 20px;
@@ -341,4 +379,21 @@
   box-shadow: 0 0 6px 0 rgba(127, 126, 126, 0.5);
   background-color: #ffffff;
   border-radius: 20px;
+}
+
+@media only screen and (max-width: 1400px) {
+  .bigStopSqure{
+    width: 280px;
+    height: 104px;
+    padding-left: 2%;
+    margin: 19px 29px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 6px 0 rgba(127, 126, 126, 0.5);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 6%;
+    margin-left: 15px;
+  }
+  
 }

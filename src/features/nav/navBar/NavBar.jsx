@@ -52,15 +52,15 @@ const NavBar = (props) => {
                   {auth.email ? auth.email : "fix@it.com"}
                 </div>
                 <div className="logoutMenu">
-                  <span>
+                  <div>
                     <a
-                      href="1"
+                      
                       onClick={() => handleSignOut()}
                       style={{ cursor: "pointer" }}
                     >
                       Log out
                     </a>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

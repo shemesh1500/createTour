@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Image, Button, Icon } from "semantic-ui-react";
 
-const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
-  listItems.sort((a, b) => a.order - b.order);
+const MediaList = ({
+  all_media,
+  setMediaList,
+  deleteFuncSwitch,
+  setText,
+  setTextModal,
+  setQuestionModal,
+}) => {
+  const [listItems, setListItems] = useState(all_media ? all_media : []);
+  useEffect(() => {
+    setListItems(all_media);
+    listItems.sort((a, b) => a.order - b.order);
+  }, [all_media]);
 
   const grid = 8;
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -49,7 +60,7 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
       result.destination.index
     );
     setMediaList(items);
-    listItems = items;
+    setListItems(items);
   };
 
   const tagByType = (item) => {
@@ -71,9 +82,38 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
           <source src={item.url} type={item.type} />
         </video>
       );
+    } else if (item.type.includes("text")) {
+      return (
+        <button
+          className="saveButton"
+          onClick={() => {
+            setText({
+              title: item.title ? item.title : "",
+              content: item.content ? item.content : "",
+              order: item.order,
+            });
+
+            setTextModal(true);
+          }}
+        >
+          Read & Edit
+        </button>
+      );
+    } else if (item.type.includes("question")) {
+      return (
+        <button
+          className="saveButton"
+          onClick={() => {
+            setText(item);
+            setQuestionModal(true);
+          }}
+        >
+          Read & Edit
+        </button>
+      );
     }
   };
-
+  console.log("MEDIA", listItems);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable12">
@@ -109,14 +149,21 @@ const MediaList = ({ listItems, setMediaList, deleteFuncSwitch }) => {
                           float: "right",
                           marginLeft: "15px",
                         }}
-                        onClick={() => deleteFuncSwitch(item)}
+                        onClick={() =>
+                          window.confirm("Do you want to remove that media?")
+                            ? deleteFuncSwitch(item)
+                            : null
+                        }
                       >
                         <Icon name="close" />
                       </Button>
                       <div className="contentArea">
                         <div className="leftCard">
                           <div>{index + 1}</div>
-                          <div> {item.type}</div>
+                          <div className="cardTitle">
+                            {" "}
+                            {item.title ? item.title : item.type}
+                          </div>
                         </div>
                         <div className="mediaArea">{tagByType(item)}</div>
                       </div>

@@ -36,7 +36,7 @@ const CreateRoute = (props) => {
     tourId,
     checkStartingPoint,
     updateStop,
-   /*  setMarkerList,
+    /*  setMarkerList,
     mapMarkers, */
     deleteStop,
     setbusinessMarker,
@@ -128,7 +128,15 @@ const CreateRoute = (props) => {
 
         <div>
           <Button.Group>
-            <Button onClick={() => deleteStopFromRoute(item)}>Delete</Button>
+            <Button
+              onClick={() =>
+                window.confirm("Do you want to remove that stop?")
+                  ? deleteStopFromRoute(item)
+                  : null
+              }
+            >
+              Delete
+            </Button>
             <Button.Or />
             <Button
               positive
@@ -249,6 +257,7 @@ const CreateRoute = (props) => {
   };
 
   const options = [
+    { key: 4, text: "", value: 4 },
     { key: 1, text: "Add main stop", value: 1 },
     { key: 2, text: "Add business stop", value: 2 },
     { key: 3, text: "Add small stop", value: 3 },

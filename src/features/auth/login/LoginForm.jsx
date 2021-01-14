@@ -82,8 +82,15 @@ const LoginForm = ({
             >
               Register here
             </a>
+           
           </div>
-
+          <a
+              onClick={() => changeState("reset")}
+              style={{ cursor: "pointer" }}
+              href="#"
+            >
+              Reset password
+            </a>
           <SocialLogin socialLogin={socialLoginFunc} agree={agree}/>
         </Form>
       </div>

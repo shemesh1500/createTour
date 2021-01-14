@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Divider, Button, Card, Modal, Header } from "semantic-ui-react";
 import { addQuestion } from "../../media/mediaActions";
 import { connect } from "react-redux";
@@ -15,19 +15,19 @@ const mapState = (state) => ({
 });
 
 const QuestionComponent = (props) => {
-  const {
-    loading,
-    all_media,
-    objectId,
-    open,
-    onClose,
-    tourId,
-    addQuestion,
-    uploadQuestion,
-  } = props;
-
+  const { loading, open, onClose, uploadQuestion, content } = props;
+  console.log("question COntent", content);
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([{ option: "", isAnswer: false }]);
+
+  useEffect(() => {
+    setQuestion(content && content.question_text ? content.question_text : "");
+    setAnswers(
+      content && content.options
+        ? content.options
+        : [{ option: "", isAnswer: false }]
+    );
+  }, [content]);
 
   const handleSubmit = async (event) => {
     try {

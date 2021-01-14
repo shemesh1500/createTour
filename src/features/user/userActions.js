@@ -28,6 +28,12 @@ export const updateProfile = (user) => async (
     }
   });
 */
+
+if(!user.id){
+  toastr.error("Authntication problem", "Please try to logout and login again");
+  throw new Error("Please logout and login again");
+}
+
   const questions = [
     {
       question: "When do you start to guide and why?",
@@ -64,15 +70,13 @@ export const updateProfile = (user) => async (
       answer: user.question8 ? user.question8 : "",
     },
   ];
-  console.log("questions", questions);
   let saveUser = {
     ...user,
-
     questionAndAnswer: questions,
   };
   try {
-    await firebase.updateProfile(saveUser);
-    await firestore.set(`/users/${user.uid}`, saveUser, { merge: true });
+    //await firebase.updateProfile(saveUser);
+    await firestore.set(`/users/${user.id}`, saveUser, { merge: true });
     toastr.success("Success", "Your profile has been updated");
   } catch (error) {
     console.log(error);

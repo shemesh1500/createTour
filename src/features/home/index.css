@@ -516,6 +516,9 @@ html {
     text-align: center;
     color: white;
 }
+.guideSelectionSrc{
+    border-radius: 240px 90px 110px 200px;
+}
 @media
  only screen and (max-width: 600px) {
     #section3{
@@ -535,7 +538,7 @@ html {
     .guideSelectionPic{
         display:none;
         display: none;
-        
+        border-radius: 10px 20px 75px 75px;
     }
 
     .guideLogo{

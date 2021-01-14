@@ -80,6 +80,9 @@ class TestComponent extends Component {
           color="teal"
           content="TEST ref"
         />
+      <Button onClick={() => window.confirm("hello?") ? console.log("Lets do it!") : null}>
+        Open Modal
+      </Button>
       </div>
     );
   }

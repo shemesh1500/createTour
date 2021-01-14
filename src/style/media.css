@@ -25,7 +25,7 @@
     justify-content: space-between;
     align-items: space-between;
     flex-direction: column;
-    width: 9px;
+    width: 150px;
     height: 26px;
     font-family: PloniDL1.1AAA;
     font-size: 21.8px;
@@ -36,6 +36,9 @@
     letter-spacing: normal;
     text-align: center;
     color: #97a50f;
+}
+.cardTitle{
+font-size: 17px;
 }
 
 .mediaArea {

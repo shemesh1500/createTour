@@ -27,17 +27,23 @@ const mapState = (state, props) => {
   return {
     path: props.location.pathname,
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 
 class App extends Component {
   render() {
     const TandC = this.props.path === "/TandC" ? true : false;
-    let authenticated = this.props.auth.isLoaded && !this.props.auth.isEmpty;
+    /*NEED TO CHECK*/
+    let authenticated =
+      this.props.auth.isLoaded &&
+      !this.props.auth.isEmpty &&
+      this.props.profile;
+
     return (
       <Fragment>
         <ModalManager />
-        {TandC ? ((<Redirect to="/TandC" />), (authenticated = true)) : null} 
+        {TandC ? ((<Redirect to="/TandC" />), (authenticated = true)) : null}
         <Route exact path={"/TandC"} component={CandT} />
         {!authenticated ? <Redirect to="/" /> : null}
         <Route exact path="/" component={HomePage} />
@@ -51,6 +57,7 @@ class App extends Component {
                 <Switch key={this.props.location.key}>
                   <Route path="/settings" component={UserSettings} />
                   <Route path="/settingss" component={SettingDashboard} />
+
                   <Route exact path="/main" component={MainPage} />
                   <Route exact path="/tours" component={TourDashboard} />
                   <Route

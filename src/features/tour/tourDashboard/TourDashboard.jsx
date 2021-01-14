@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { createTour, updateTour, deleteTour } from "../tourAction";
+import { createTour, updateTour, deleteTour, applyAproval } from "../tourAction";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import BusinessList from "../../business/businessList/BusinessList";
@@ -9,7 +9,6 @@ import TourList from "../tourList/TourList";
 import "../../../style/lists.css";
 
 const query = (props) => {
-  console.log("TOUR DASHBOADR", props);
   return [
     {
       collection: "tours",
@@ -36,12 +35,13 @@ const actions = {
   createTour,
   updateTour,
   deleteTour,
+  applyAproval
 };
 const TourDashboard = (props) => {
   return (
     <div className='allAssets'> 
       <div className='tourAssets'>
-      {props.tours && <TourList tours={props.tours} />}
+      {props.tours && <TourList tours={props.tours} applyAproval={props.applyAproval} />} 
       </div>
       <div className='tourAssets'>
       {props.business && <BusinessList business={props.business} />}

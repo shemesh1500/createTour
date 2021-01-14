@@ -70,7 +70,11 @@ const language = [
 ];
 const equipment = [
   { key: "full battery", text: "full battery", value: "full battery" },
-  { key: "Comfortable shoes", text: "Comfortable shoes", value: "Comfortable shoes" },
+  {
+    key: "Comfortable shoes",
+    text: "Comfortable shoes",
+    value: "Comfortable shoes",
+  },
   { key: "Towel", text: "Towel", value: "Towel" },
   { key: "Swimsuit", text: "Swimsuit", value: "Swimsuit" },
   { key: "Water", text: "Water", value: "Water" },
@@ -89,16 +93,36 @@ const tourType = [
   { key: "Special event", text: "Special event", value: "Special event" },
 ];
 
-const difficulty =[
-  {key: "Everyone can do it", text: "Everyone can do it", value : "Everyone can do it"},
-  {key: "There is some walking and stairs", text:"There is some walking and stairs", value: "There is some walking and stairs"}, 
-  {key : "It's not that easy", text : "It's not that easy", value: "It's not that easy"},
-  {key : "You need to be a little fit", text : "You need to be a little fit", value: "You need to be a little fit"},
-  {key : "For adventure tourist", text : "For adventure tourist", value: "For adventure tourist"},
-]
+const difficulty = [
+  {
+    key: "Everyone can do it",
+    text: "Everyone can do it",
+    value: "Everyone can do it",
+  },
+  {
+    key: "There is some walking and stairs",
+    text: "There is some walking and stairs",
+    value: "There is some walking and stairs",
+  },
+  {
+    key: "It's not that easy",
+    text: "It's not that easy",
+    value: "It's not that easy",
+  },
+  {
+    key: "You need to be a little fit",
+    text: "You need to be a little fit",
+    value: "You need to be a little fit",
+  },
+  {
+    key: "For adventure tourist",
+    text: "For adventure tourist",
+    value: "For adventure tourist",
+  },
+];
 
 const TourForm = (props) => {
-/*   const [difficulty, setDifficulty] = useState(
+  /*   const [difficulty, setDifficulty] = useState(
     props.initialValues.difficulty
       ? props.initialValues.difficulty
       : { min: 1, max: 9 }
@@ -108,10 +132,14 @@ const TourForm = (props) => {
       ? props.initialValues.hours_range
       : { min: 21600, max: 79200 }
   );
-  
+
   const [duration, setDuration] = useState(
-    props.initialValues.duration &&  props.initialValues.duration < 24 &&  props.initialValues.duration > 0 ? props.initialValues.duration : 3
-  )
+    props.initialValues.duration &&
+      props.initialValues.duration < 24 &&
+      props.initialValues.duration > 0
+      ? props.initialValues.duration
+      : 3
+  );
 
   const formatLabel = (secs) => {
     if (secs === 86400) secs = 86360;

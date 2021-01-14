@@ -138,6 +138,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1.5%;
+}
+
+.stopForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5%;
 }
 
 .changRegister {
@@ -168,6 +176,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
+    justify-content: space-between;
     margin: 1%;
 }
 
@@ -188,7 +197,7 @@
 
 .ui.selection.dropdown {
     padding: 5%;
-    width: 400px !important;
+    width: 400px ;
     height: 55px;
 }
 
@@ -196,23 +205,28 @@
     margin-top: 5%;
     margin-bottom: 5%;
     padding: 5%;
-    width: 400px;
+    width: 400px; 
     height: 155px;
     border-radius: 3px;
     background-color: #f6f6f6;
 }
-
-.ui.form input:not([type]), .ui.form input[type="number"], .ui.form input[type="textarea"] {
-    padding: 5%;
+.ui.form .field{
     width: 400px;
-    height: 55px;
-    border-radius: 3px;
-    background-color: #f6f6f6;
+}
+@media only screen and (max-width: 1400px) {
+    .ui.form textarea {
+        width: 350px;
+    }
+
+    .ui.form .field{
+        width: 320px;
+    }
+    .ui.form input:not([type]){
+        width: 320px;
+    }
 }
 
-.allForm {
-    padding: 1.5%;
-}
+
 
 .ui.selection.dropdown {
     border-radius: 1px;
@@ -223,6 +237,15 @@
 .ui.multiple.dropdown {
     margin: inherit;
 }
+
+.ui.form input:not([type]), .ui.form input[type="number"], .ui.form input[type="textarea"] {
+    padding: 5%;
+    width: 100%;
+    height: 55px;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+}
+
 
 .input-range {
     width: 380px !important;
@@ -371,4 +394,38 @@ div[disabled] {
     height: 250px;
     position: absolute;
     left: 50%;
+}
+
+.resetEmail{
+    margin:6%;
+    width: 350px;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 0 1px 1px 0 var(--black-14);
+}
+
+.resetTitle{
+    width: 316px;
+    height: 38px;
+    font-family: PloniDL1.1AAA;
+    font-size: 28.6px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fefefe;
+    margin: 0 auto;
+}
+
+.resetButton{
+    width: 221px;
+    height: 46px;
+    background-color: #f7a039;
+    border-radius: 50px;
+    font-size: 20px;
+    color: #ffffff;
+    border: none;
+    margin-bottom: 8px;
 }

@@ -64,7 +64,7 @@ const mapState = (state, ownProps) => {
       stops.sort((a, b) => a.order > b.order);
     }
   }
-/*   let user = {};
+  /*   let user = {};
   if (state.firestore.ordered.user) {
     user =
       state.firestore.ordered.users.filter(
@@ -75,7 +75,7 @@ const mapState = (state, ownProps) => {
     stops: stops,
     initialValues: tour,
     tourId: tourId,
-    tabStatus:  state.async.tab_name
+    tabStatus: state.async.tab_name,
   };
 };
 
@@ -145,7 +145,7 @@ const TourControl = (props) => {
       checkStartingPoint(initialValues.stops[0].stop_location);
       renderRoute();
     }
-  }, [props.stops,initialValues.stops ]);
+  }, [props.stops, initialValues.stops]);
   /* useEffect end*/
 
   /*block user from continue without create tour object first */
@@ -204,7 +204,7 @@ const TourControl = (props) => {
       }
     });
     setMarkerList(markerStops);
-    return
+    return;
   };
 
   const updateAllStops = async (all_stops) => {
@@ -227,7 +227,7 @@ const TourControl = (props) => {
   /* Rendering the main area of the cteation of the tour */
   const renderMainNav = () => {
     switch (mainNavActive) {
-      case "Main Location":
+      /* case "Main Location":
         return (
           <PeakMainLocation
             saveChanges={onPeakAddSubmit}
@@ -235,7 +235,7 @@ const TourControl = (props) => {
             setCenter={setCenter}
             setSelectMarker={setClickMarker}
           />
-        );
+        ); */
       case "Tour Summary":
         return (
           <TourDetails
@@ -245,7 +245,7 @@ const TourControl = (props) => {
             displayMedia={displayMedia}
           />
         );
-      case "Tour profile picture":
+      /*  case "Tour profile picture":
         return (
           <PeakProfilePic
             all_media={initialValues.all_media}
@@ -253,7 +253,7 @@ const TourControl = (props) => {
             updateTour={props.updateTour}
             tour={initialValues}
           />
-        );
+        ); */
       case "Create Route":
         if (tourId) {
           return (
@@ -311,6 +311,10 @@ const TourControl = (props) => {
       } else {
         let createdTour = await props.createTour(values);
         props.change("id", createdTour.id);
+        //props.updateTour(values);
+        //console.log("updateTour", );
+        props.history.push(`/tourControl/${createdTour.id}`);
+        console.log("initial after push", props.initialValues);
       }
     } catch (error) {
       console.log(error);
@@ -363,9 +367,9 @@ const TourControl = (props) => {
             travelMode={google.maps.TravelMode.WALKING}
             selectedMarker={clickMarker}
             markerList={markerList}
-            zoom={mapZoom}
+            defaultZoom={mapZoom}
             bounds={bounds}
-            center={mapCenter}
+            defaultCenter={mapCenter}
             setCenter={setCenter}
             handleClickMap={handleClickMap}
           />
@@ -373,7 +377,7 @@ const TourControl = (props) => {
       case "Tour Summary":
         return <TourPreview /*tour={initialValues}*/ />;
       case "Create Route":
-        return ( 
+        return (
           <RoutePreview
             tour={initialValues}
             places={markerList}

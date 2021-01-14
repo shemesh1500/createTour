@@ -19,7 +19,6 @@ const BasicPage = ({
   updateProfile,
   initialValues,
 }) => {
-  console.log("PHONE", initialValues);
   return (
     <Segment>
       <Form onSubmit={handleSubmit(updateProfile)}>

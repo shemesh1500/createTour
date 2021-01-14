@@ -1,9 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../style/lists.css";
 
 const TourList = (props) => { 
-
   return (
     <Fragment>
       <div className="allList">
@@ -51,22 +50,37 @@ const TourList = (props) => {
                 <Link to={`/tourControl/${tour.id}`}>
                   <button className="editButton">Edit</button>
                 </Link>
+                {!props.doApprov && <button
+                      onClick={() => window.confirm("Do you want to approval tour?") ? props.applyAproval(tour) : null }
+                      className="editButton"
+                    >
+                      Apply for approval
+                    </button>}
+                {props.doApprov && tour.applayAproval &&
+               <button
+               disabled='true'
+               onClick={() => props.applyAproval(tour)}
+               className="editButton"
+               style={{backgroundColor : 'red'}}
+             >
+               Waiting for approval
+             </button>}
                 {props.doApprov && (
                   <div>
                     <button
-                      onClick={() => props.approveTour(tour)}
+                      onClick={() =>  window.confirm("Do you want to approve tour?")  ?props.approveTour(tour, tour.tour_guide.id) : null }
                       className="editButton"
                     >
                       Approve
                     </button>
                     <button
-                      onClick={() => props.unApproveTour(tour.id)}
+                      onClick={() => window.confirm("Do you want to unApprove tour?")  ?  props.unApproveTour(tour.id) : null}
                       className="editButton"
                     >
                       Un approve
                     </button>
                     <button
-                      onClick={() => props.deleteTour(tour)}
+                      onClick={() =>  window.confirm("Do you want to delete tour?")  ?  props.deleteTour(tour) : null  }
                       className="editButton"
                     >
                       Delete

@@ -18,6 +18,7 @@ const actions = {
 };
 
 const query = (props) => {
+  //console.log("PROPS", props);
   if (props.profile.email) {
     return [
       { collection: "users", where: ["email", "==", props.profile.email] },
@@ -28,12 +29,13 @@ const query = (props) => {
 };
 
 const mapState = (state) => {
+  //console.log("STATE", state);
   let fetch_user = {};
   if (state.firestore.ordered.users) {
     fetch_user = state.firestore.ordered.users[0];
-  } else {
+  } /* else {
     fetch_user = state.firebase.profile;
-  }
+  } */
 
   return {
     providerId: state.firebase.auth.providerData[0].providerId,

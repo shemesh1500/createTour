@@ -42,6 +42,10 @@ const PeakLocationGeneric = (props) => {
     setClickLocation,
   } = props;
 
+  const [origLocation, setOrigLocation] = useState(initialValues.stop_location ? 
+    initialValues.stop_location.latitude ? initialValues.stop_location : undefined 
+    :  { latitude: 0, longitude: 0 })
+    
   useEffect(() => {
     if (clickLocation) {
       const newLocation = {
@@ -64,12 +68,29 @@ const PeakLocationGeneric = (props) => {
     );
   };
 
+  const cancleManual = () => {
+    props.change("stop_location", origLocation);
+    setClickLocation(null);
+
+  };
+
   return (
     <div className="allLocationForm">
       <Form onSubmit={handleSubmit(saveChanges)}>
         <div className="innerLocatioForm">
           {clickLocation === null ? (
             <div>
+               <div className="locationInput smallNameInput">
+                <Header size="small" content="Stop name" />
+                <Field
+                  component={TextInput}
+                  className="locationInput"
+                  onSelect={handleAddress}
+                  name="s_title"
+                  placeholder="Stop name"
+                />
+                <Divider horizontal />
+              </div>
               <Header size="small" content="Location" />
               <div className="locationInput">
                 <Field
@@ -80,29 +101,7 @@ const PeakLocationGeneric = (props) => {
                   placeholder="Stop location"
                 />
               </div>
-              <div className="locationInput">
-                <Header size="small" content="Stop name" />
-                <Field
-                  component={TextInput}
-                  className="locationInput"
-                  onSelect={handleAddress}
-                  name="s_title"
-                  placeholder="Stop name"
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="locationInput">
-              <Field
-                component={TextInput}
-                className="locationInput"
-                placeholder="Stop location"
-                name="location"
-              />
-            </div>
-          )}
-          <div>
-            <Divider horizontal>Or</Divider>
+              <Divider horizontal>Or</Divider>
             <div className="locationFooter">
               <div className="cordInput">
                 <h4>Latitude</h4>
@@ -127,7 +126,55 @@ const PeakLocationGeneric = (props) => {
                 />
               </div>
             </div>
+             
+            </div>
+          ) : (
+            <div>
+            <div className="smallNameInput">
+               <Header size="small" content="Stop name" />
+                <Field
+                  component={TextInput}
+                  className="locationInput"
+                  onSelect={handleAddress}
+                  name="s_title"
+                  placeholder="Stop name"
+                />
+            </div>
+               <button
+               className="cancleLocationButton"
+               disabled={props.invalid}
+               positive
+               onClick={()=>cancleManual()}
+             >
+               Cancle manual peak
+             </button>
+            <div className="locationFooter">
+            <div className="cordInput">
+              <h4>Latitude</h4>
+              <Field
+                component={TextInput}
+                className="cordInput"
+                //value={stopLocation.lat}
+                placeholder="Latitude"
+                name="stop_location.latitude"
+                type="number"
+              />
+            </div>
+            <div className="cordInput">
+              <h4>Longitude</h4>
+              <Field
+                component={TextInput}
+                className="cordInput"
+                //value={stopLocation.lng}
+                placeholder="Longitude"
+                name="stop_location.longitude"
+                type="number"
+              />
+            </div>
           </div>
+          </div>
+          )}
+         
         </div>
         <div>
           <button

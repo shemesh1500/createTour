@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { initialize, reduxForm } from "redux-form";
 import VideoComponent from "../media/VideoComponent";
 import PhotoComponent from "../media/PhotoComponent";
 import AudioComponent from "../media/AudioComponent";
@@ -61,6 +61,7 @@ const StopMedia = (props) => {
   const [videoOpen, setVideoModal] = useState(false);
   const [audioOpen, setAudioModal] = useState(false);
   const [textOpen, setTextModal] = useState(false);
+  const [textContent, setTextContent] = useState();
   const [questionOpen, setQuestionModal] = useState(false);
 
   const handleSetMainFile = async (photo, stop) => {
@@ -73,6 +74,7 @@ const StopMedia = (props) => {
 
   const setMediaList = (updatedList) => {
     updatedList.map((item, index) => (item.order = index));
+    initialize.all_media = [...updatedList];
     console.log("updated list", updatedList);
   };
 
@@ -117,19 +119,29 @@ const StopMedia = (props) => {
   };
 
   const uploadWithoutFile = (question) => {
-    let new_media = {
-      ...question,
-      order: all_media ? all_media.length : 0,
-    };
-    let new_all_media = [...all_media, new_media];
+    let media = {};
+    let new_all_media = [];
+    if (question.order) {
+      media = {
+        ...question,
+        order: question.order,
+      };
+      new_all_media = [...all_media];
+      new_all_media[question.order] = media;
+    } else {
+      media = {
+        ...question,
+        order: all_media ? all_media.length : 0,
+      };
+      new_all_media = [...all_media, media];
+    }
+
     let update_stop = {
       ...stop,
       all_media: new_all_media,
     };
-
     saveChanges(update_stop);
   };
-  
 
   return (
     <Fragment>
@@ -142,10 +154,22 @@ const StopMedia = (props) => {
       <button className="addButton" onClick={() => setAudioModal(true)}>
         + Audio
       </button>
-      <button className="addButton" onClick={() => setTextModal(true)}>
+      <button
+        className="addButton"
+        onClick={() => {
+          setTextContent({});
+          setTextModal(true);
+        }}
+      >
         + Text
       </button>
-      <button className="addButton" onClick={() => setQuestionModal(true)}>
+      <button
+        className="addButton"
+        onClick={() => {
+          setTextContent({});
+          setQuestionModal(true);
+        }}
+      >
         + Question
       </button>
 
@@ -187,27 +211,31 @@ const StopMedia = (props) => {
         onClose={() => setTextModal(false)}
         objectId={initialValues.id}
         tourId={initialValues.tour_owner}
-        all_media={all_media}
         collectionName={"stops"}
         handleDeleteFile={deleteFile}
         uploadText={uploadWithoutFile}
+        context={textContent}
       />
 
       <QuestionComponent
         open={questionOpen}
         onClose={() => setQuestionModal(false)}
-        objectId={initialValues.id}
+        /*         objectId={initialValues.id}
         tourId={initialValues.tour_owner}
-        all_media={all_media}
-        collectionName={"stops"}
+        all_media={all_media} 
+        collectionName={"stops"}*/
         uploadQuestion={uploadWithoutFile}
+        content={textContent}
       />
 
       {initialValues.all_media && (
         <MediaList
-          listItems={initialValues.all_media}
+          all_media={initialValues.all_media}
           setMediaList={setMediaList}
           deleteFuncSwitch={deleteFile}
+          setText={setTextContent}
+          setTextModal={setTextModal}
+          setQuestionModal={setQuestionModal}
         />
       )}
       <button className="saveButton" onClick={() => saveChanges(initialValues)}>

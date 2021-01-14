@@ -8,6 +8,7 @@ import { fetchSampleData } from "../../app/data/mockApi";
 import { toastr } from "react-redux-toastr";
 import { createNewTour } from "../../app/common/helpers";
 import cuid from "cuid";
+import { updateLanguageServiceSourceFile } from "typescript";
 
 export const uploadImage = (file, fileName, basePath, tour) => async (
   dispatch,
@@ -266,7 +267,7 @@ export const setMainPhoto = (photo, tour) => async (
 };
 
 const addTourToUser = async (tourId, user, firebase, firestore) => {
-  /* var userRef =  */await firebase
+  /* var userRef =  */ await firebase
     .firestore()
     .collection("users")
     .where("email", "==", user.email)
@@ -294,7 +295,17 @@ export const createTour = (tour) => {
     const newTour = createNewTour(user, tour);
     try {
       let createdTour = await firestore.add("tours", newTour);
-      await addTourToUser(createdTour.id, user, firebase, firestore);
+      const tourWithId = {
+        ...tour,
+        id: createdTour.id,
+      };
+      console.log("AFTER ADD func", tourWithId);
+      await firestore.set(
+        `tours/${createdTour.id}`,
+        { ...tourWithId },
+        { merge: true }
+      );
+      // await addTourToUser(createdTour.id, user, firebase, firestore);
       toastr.success("Success!", "Tour has been created");
       return createdTour;
     } catch (error) {
@@ -311,7 +322,7 @@ export const updateTour = (tour) => {
     let update_tour = {
       ...tour,
       last_update: new Date(),
-      tour_image: tour.tour_image ? tour.tour_image : ""
+      tour_image: tour.tour_image ? tour.tour_image : "",
     };
     try {
       dispatch(asyncActionStart());
@@ -326,6 +337,29 @@ export const updateTour = (tour) => {
       console.log(error);
       toastr.error("Oops", "Somthing went wrong!");
       dispatch(asyncActionError());
+    }
+  };
+};
+
+export const applyAproval = (tour) => {
+  return async (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+
+    let update_tour = {
+      ...tour,
+      applayAproval: true,
+    };
+    console.log("applyAproval", update_tour);
+    try {
+      await firestore.set(
+        `tours/${tour.id}`,
+        { ...update_tour },
+        { merge: true }
+      );
+      console.log("AFTER APPLAY");
+    } catch (error) {
+      console.log(error);
+      toastr.error("Oops", "Somthing went wrong!");
     }
   };
 };
@@ -366,47 +400,102 @@ export const loadTour = () => {
   };
 };
 
-const updateVideoStop =  async (stop, firebase) => {
-  const results = Promise.all(stop.all_media.map(async (media) => {
-    console.log("STOP ID", stop.id);
-    if(media.type.includes('video') && !media.name.includes('compress')){
-      try{
-        let url = await firebase.storage().ref(`${stop.id}/stopMedia/${media.name}_compress.mp4`).getDownloadURL().then(result => {
-        console.log("BEFORE CHANGE","FILE NAME", media.name, "url", media.url);
-        media.url = result
-        media.name = `${media.name}_compress`
-        console.log("AFTER CHANGE","FILE NAME", media.name, "url", media.url);
-        });
-        
-      }catch(err){
-        console.log("Can't get url", err);
+const updateVideoStop = async (stop, firebase) => {
+  const results = Promise.all(
+    stop.all_media.map(async (media) => {
+      if (media.type.includes("video") && !media.name.includes("compress")) {
+        try {
+          let url = await firebase
+            .storage()
+            .ref(`${stop.id}/stopMedia/${media.name}_compress.mp4`)
+            .getDownloadURL()
+            .then((result) => {
+              media.url = result;
+              media.name = `${media.name}_compress`;
+            });
+        } catch (err) {
+          console.log("Can't get url", err);
+        }
       }
-    }
-  })
-  )
-return results
-}
+    })
+  );
+  return results;
+};
 
-
-export const approveTour = (tour) => async (
+export const approveTour = (tour, user_id) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   const firestore = getFirestore();
   const firebase = getFirebase();
-  let stop_index = 1
- 
-  tour.stops.map((stop, index)=> {
-    if (!stop.type.includes('smallStop')){
+  let stop_index = 1;
+  /*update trailer to compress video */
+  tour.all_media.map(async (media, index) => {
+    if (media.type.includes("video")) {
+      try {
+        await firebase
+          .storage()
+          .ref(
+            `${tour.id}/toursMedia/${tour.all_media[index].name}_compress.mp4`
+          )
+          .getDownloadURL()
+          .then((result) => {
+            tour.all_media[index].url = result;
+            tour.all_media[
+              index
+            ].name = `${tour.all_media[index].name}_compress`;
+          });
+      } catch (error) {
+        console.log(error);
+        toastr.error("Oops", "Somthing went wrong! trailer problem");
+        dispatch(asyncActionError());
+      }
+    }
+  });
+
+  /* Add this tour id to the obj of the guide  */
+  await addTourToUser(tour.id, tour.tour_guide, firebase, firestore);
+  /* try {
+    const userRef = await firebase
+      .firestore()
+      .collection("users")
+      .doc(tour.tour_guide.id);
+    userRef.get().then(async function (doc) {
+      if (doc.exists) {
+        let userDoc = doc.data();
+        let allTours = userDoc.tours ? userDoc.tours : [];
+        if (!allTours.includes(tour.id)) {
+          allTours.push(tour.id);
+          allTours = Array.from(new Set(allTours));
+          userDoc = {
+            ...userDoc,
+            tours: [...allTours],
+          };
+          await firestore.set(
+            `users/${tour.tour_guide.id}`,
+            { ...userDoc },
+            { merge: true }
+          );
+        }
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Somthing went wrong! user problem");
+    dispatch(asyncActionError());
+  } */
+
+  tour.stops.map((stop, index) => {
+    if (!stop.type.includes("smallStop")) {
       let update_stop = {
         ...stop,
-        stop_index : stop_index
-      }
-      tour.stops[index] = update_stop
-      stop_index++
+        stop_index: stop_index,
+      };
+      tour.stops[index] = update_stop;
+      stop_index++;
     }
-  })
+  });
 
   let dateHash = new Date().getMilliseconds() / 100 - 1;
   let update_tour = {
@@ -415,47 +504,37 @@ export const approveTour = (tour) => async (
     approval_index: dateHash,
   };
 
-  console.log("BEFORE CHANGE", update_tour);
+  const results = Promise.all(
+    update_tour.stops.map(async function (stop) {
+      let result = await updateVideoStop(stop, firebase);
+    })
+  );
 
-  const results = Promise.all( update_tour.stops.map(async function(stop) {
-       console.log("SENDING STOP", stop.id);
-       let result =  await updateVideoStop(stop,firebase)
-       
-  })
-  )
-
-  async function output (results) { 
-    console.log("the RESULT$$$$", results)
+  async function output(results) {
     console.log(await results);
-    console.log("the RESUL******", update_tour)
     try {
-    
-       dispatch(asyncActionStart());
-       //await firestore.add("approval_tours", update_tour);
-       await firestore.set(
-         `approval_tours/${tour.id}`,
-         { ...update_tour }
-         //{ merge: true }
-       );
-   
-       //await firestore.set(`approval_tours/${tour.id}`, update_tour);
-       toastr.success("Success!", "Tour has been updated");
-       dispatch(asyncActionFinish());
-      
-     } catch (error) {
-       console.log(error);
-       toastr.error("Oops", "Somthing went wrong!");
-       dispatch(asyncActionError());
-     }
+      dispatch(asyncActionStart());
+      await firestore.set(
+        `approval_tours/${tour.id}`,
+        { ...update_tour }
+        //{ merge: true }
+      );
+
+      //await firestore.set(`approval_tours/${tour.id}`, update_tour);
+      toastr.success("Success!", "Tour has been updated");
+      dispatch(asyncActionFinish());
+    } catch (error) {
+      console.log(error);
+      toastr.error("Oops", "Somthing went wrong!");
+      dispatch(asyncActionError());
+    }
   }
 
-  output(results)
+  output(results);
 
+  console.log("AFTER PROMISE###");
 
-
- console.log("AFTER PROMISE###");
-
- /*  try {
+  /*  try {
     
     dispatch(asyncActionStart());
     //await firestore.add("approval_tours", update_tour);
@@ -500,7 +579,6 @@ export const deleteTour = (tour) => async (
   const firestore = getFirestore();
 
   try {
-
     firestore.delete(`approval_tours/${tour.id}`);
     firestore.set(`delete_tour/${tour.id}`, tour);
     firestore.delete(`tours/${tour.id}`);

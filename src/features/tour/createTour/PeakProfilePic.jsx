@@ -95,7 +95,7 @@ const PeakProfilePic = (props) => {
       ...initialValues,
       tour_image: new_media.url,
     };
-    console.log("UPLOAD IMAGE", update_tour);
+
     saveChanges(update_tour);
     setPhotoModal(false);
   };
@@ -114,7 +114,7 @@ const PeakProfilePic = (props) => {
             />
             <button
               className="profileSave"
-              onClick={() => deleteFile(initialValues.tour_image)}
+              onClick={() => window.confirm("Do you want to change the picture?") ? deleteFile(initialValues.tour_image) : null }
             >
               Change picture
             </button>
@@ -147,7 +147,7 @@ const PeakProfilePic = (props) => {
             </video>
             <button
               className="saveButton"
-              onClick={() => deleteVideo(video_profile)}
+              onClick={() =>   window.confirm("Do you want to change the video?") ? deleteVideo(video_profile) : null}
             >
               Change video
             </button>

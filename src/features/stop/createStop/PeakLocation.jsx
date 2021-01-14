@@ -56,7 +56,13 @@ const PeakLocation = (props) => {
   } = props;
 
   const [photoOpen, setPhotoModal] = useState(false);
-  const [origLocation, setOrigLocation] = useState(initialValues.stop_location.latitude ? initialValues.stop_location : undefined)
+  const [origLocation, setOrigLocation] = useState(
+    initialValues.stop_location
+      ? initialValues.stop_location.latitude
+        ? initialValues.stop_location
+        : undefined
+      : { latitude: 0, longitude: 0 }
+  );
   const [files, setFiles] = useState([]);
   useEffect(() => {
     return () => {
@@ -96,6 +102,7 @@ const PeakLocation = (props) => {
   };
 
   const deleteFile = async (file) => {
+    console.log("delete file", file);
     if (
       file.type.includes("image") ||
       file.type.includes("audio") ||
@@ -191,7 +198,7 @@ const PeakLocation = (props) => {
               </div>
             )}
           </div>
-          <div className='latLngArea'>
+          <div className="latLngArea">
             <div className="locationFooter">
               <div className="cordInput">
                 <h4>Latitude</h4>
@@ -214,73 +221,100 @@ const PeakLocation = (props) => {
                 />
               </div>
             </div>
-            {clickLocation && <div className='locationButtons'>
-              <button
-              className="saveLocationButton"
-              disabled={props.invalid}
-              positive
-              type="submit"
-            >
-              Update location
-            </button>
-            <button
-              className="cancleLocationButton"
-              disabled={props.invalid}
-              positive
-              onClick={()=>cancleManual()}
-            >
-              Cancle manual peak
-            </button>
-            </div>}
+            {clickLocation && (
+              <div className="locationButtons">
+                <button
+                  className="saveLocationButton"
+                  disabled={props.invalid}
+                  positive
+                  type="submit"
+                >
+                  Update location
+                </button>
+                <button
+                  className="cancleLocationButton"
+                  disabled={props.invalid}
+                  positive
+                  onClick={() => cancleManual()}
+                >
+                  Cancle manual peak
+                </button>
+              </div>
+            )}
           </div>
           <hr />
-          <div className='diractionArea'>
-          <div className="photoLocation">
-            <div className="inputLocationHeader">Picture of the location</div>
-            <div className='locPicArea'>
-              <div>
-            <Card.Group itemsPerRow={4}>
-            {initialValues.loc_pics && initialValues.loc_pics.length > 0 &&
-            initialValues.loc_pics.map(photo => (
-              <Card key={photo.name}>
-                <Image src={photo.url} />
-                </Card>
-            ))}
-            </Card.Group>
-            </div>
-            <button className="addButton" onClick={() => setPhotoModal(true)}>
-              {initialValues.loc_pics && initialValues.loc_pics.length === 0
-                ? "Add stop picture"
-                : "Add more pictures"}
-            </button>
+          <div className="diractionArea">
+            <div className="photoLocation">
+              <div className="inputLocationHeader">Picture of the location</div>
+              <div className="locPicArea">
+                <div>
+                  <Card.Group itemsPerRow={4}>
+                    {initialValues.loc_pics &&
+                      initialValues.loc_pics.length > 0 &&
+                      initialValues.loc_pics.map((photo) => (
+                        <Card key={photo.name}>
+                          <Image src={photo.url} />
+                        </Card>
+                      ))}
+                  </Card.Group>
+                </div>
+                {initialValues.loc_pics &&
+                initialValues.loc_pics.length === 0 ? (
+                  <button
+                    className="addButton"
+                    onClick={() => setPhotoModal(true)}
+                  >
+                    {" "}
+                    Add a picture
+                  </button>
+                ) : (
+                  <button
+                    className="addButton"
+                    onClick={() =>
+                      window.confirm("Do you want to remove location picture?")
+                        ? deleteFile(initialValues.loc_pics[0])
+                        : null
+                    }
+                  >
+                    {" "}
+                    Remove picture
+                  </button>
+                )}
+                {/*  <button
+                  className="addButton"
+                  onClick={() => setPhotoModal(true)}
+                >
+                  {initialValues.loc_pics && initialValues.loc_pics.length === 0
+                    ? "Add stop picture"
+                    : "Add more pictures"}
+                </button> */}
 
-            <PhotoComponent
-              loading={loading}
-              objectId={initialValues.id}
-              all_media={initialValues.loc_pics}
-              //handleSetMainFile={handleSetMainFile}
-              handleDeletePhoto={deleteFile}
-              open={photoOpen}
-              onClose={() => setPhotoModal(false)}
-              generalUploadFile={uploadFile}
-            />
+                <PhotoComponent
+                  loading={loading}
+                  objectId={initialValues.id}
+                  all_media={initialValues.loc_pics}
+                  //handleSetMainFile={handleSetMainFile}
+                  handleDeletePhoto={deleteFile}
+                  open={photoOpen}
+                  onClose={() => setPhotoModal(false)}
+                  generalUploadFile={uploadFile}
+                />
+              </div>
+            </div>
+            <div className="textLocation">
+              <div className="inputLocationHeader">Diractions by words</div>
+              <Field
+                name="diraction_text"
+                type="textarea"
+                component={textAreaInput}
+                placeholder="Diraction in text"
+                rows={1}
+                className="locationInput"
+              />
+            </div>
           </div>
-          </div>
-          <div className="textLocation">
-            <div className="inputLocationHeader">Diractions by words</div>
-            <Field
-              name="direction_text"
-              type="textarea"
-              component={textAreaInput}
-              placeholder="Diraction in text"
-              rows={1}
-              className="locationInput"
-            />
-          </div>
-          </div>
-          
         </div>
-        <div className='saveNcancleButton'>
+        <div className="saveNcancleButton">
           <button
             className="saveButton"
             onClick={() => setRouteStatus("Stops List")}
